@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy-site.sh — Deploy already.wait-what.shop to Cloudflare Pages
+# deploy-site.sh — Deploy alreadykit.com to Cloudflare Pages
 #
 # CF Pages is NOT connected to GitHub (direct upload mode).
 # Run this after every commit that touches landing site files.
@@ -53,5 +53,5 @@ else
   npx wrangler pages deploy "$DEPLOY_DIR" \
     --project-name already \
     --branch main 2>&1
-  echo "✓ Live at https://already.wait-what.shop"
+  echo "✓ Live at https://alreadykit.com"
 fi

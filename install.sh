@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # ─── Already installer ────────────────────────────────────────────────────────
-# Usage: curl -fsSL https://already.wait-what.shop/install.sh | bash
-# Or:    curl -fsSL https://already.wait-what.shop/install.sh | bash -s -- --dir my-saas
+# Usage: curl -fsSL https://alreadykit.com/install.sh | bash
+# Or:    curl -fsSL https://alreadykit.com/install.sh | bash -s -- --dir my-saas
 # ─────────────────────────────────────────────────────────────────────────────
 
 ALREADY_VERSION="1.0"
@@ -21,7 +21,7 @@ step() { echo; echo -e "${BOLD}$*${NC}"; }
 # ─── Banner ───────────────────────────────────────────────────────────────────
 echo
 echo -e "${BOLD}Already${NC} ${DIM}v${ALREADY_VERSION} installer${NC}"
-echo -e "${DIM}Production-ready Next.js SaaS starter · already.wait-what.shop${NC}"
+echo -e "${DIM}Production-ready Next.js SaaS starter · alreadykit.com${NC}"
 echo
 
 # ─── OS check ─────────────────────────────────────────────────────────────────
@@ -158,7 +158,7 @@ echo
 echo -e "  ${BOLD}What to do next:${NC}"
 echo
 echo -e "  ${B}1${NC}  Open ${BOLD}.env.local${NC} and fill in your Supabase + Stripe keys"
-echo -e "     ${DIM}Docs: https://already.wait-what.shop/docs/#env-vars${NC}"
+echo -e "     ${DIM}Docs: https://alreadykit.com/docs/#env-vars${NC}"
 echo
 echo -e "  ${B}2${NC}  Run ${BOLD}pnpm setup${NC}  — validates env, migrates DB, bootstraps Stripe"
 echo
@@ -166,8 +166,8 @@ echo -e "  ${B}3${NC}  Run ${BOLD}pnpm dev${NC}    — starts Next.js + local Su
 echo
 echo -e "  ${B}4${NC}  Open ${BOLD}localhost:3000${NC}"
 echo
-echo -e "  ${DIM}Full quickstart: https://already.wait-what.shop/docs/${NC}"
-echo -e "  ${DIM}Beginner's handbook: https://already.wait-what.shop/guide/${NC}"
+echo -e "  ${DIM}Full quickstart: https://alreadykit.com/docs/${NC}"
+echo -e "  ${DIM}Beginner's handbook: https://alreadykit.com/guide/${NC}"
 echo
 
 cd - > /dev/null
