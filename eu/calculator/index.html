@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Time Saved Calculator — Already EU</title>
+  <meta name="description" content="See exactly how many days and euros Already EU saves you. Select the features you'd build from scratch and get a conservative estimate.">
+  <link rel="canonical" href="https://alreadykit.com/eu/calculator/">
+  <meta property="og:title" content="How much time does Already save you?">
+  <meta property="og:description" content="Conservative estimate: select the features you'd build and see the real cost of doing it yourself.">
+  <meta property="og:url" content="https://alreadykit.com/eu/calculator/">
+  <meta property="og:site_name" content="Already">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://alreadykit.com/eu/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23003399'/><text x='16' y='21' text-anchor='middle' font-family='Inter,Helvetica,Arial,sans-serif' font-weight='800' font-size='14' fill='%23FCFCFA'>EU</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #003399;
+      --green: #16a34a; --green-bg: #f0fdf4;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF;--green:#4ade80;--green-bg:#052e16; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF;--green:#4ade80;--green-bg:#052e16; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#003399;--green:#16a34a;--green-bg:#f0fdf4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    html, body { overflow-x: clip; }
+    body { min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .nav-inner { padding: 0 24px; } }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover { color: var(--ink); }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 64px 40px 96px; }
+    @media (max-width: 640px) { .page { padding: 40px 24px 64px; } }
+
+    .page-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .page-title { font-size: clamp(28px, 4vw, 42px); font-weight: 600; letter-spacing: -0.030em; line-height: 1.15; margin-bottom: 14px; }
+    .page-sub { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); max-width: 560px; margin-bottom: 48px; }
+
+    /* Layout */
+    .calc-layout { display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+    @media (max-width: 900px) { .calc-layout { grid-template-columns: 1fr; } }
+
+    /* Feature list */
+    .features-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .features-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); }
+    .toggle-all { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); background: none; border: 1px solid var(--rule); padding: 4px 10px; cursor: pointer; transition: color 0.12s, border-color 0.12s; }
+    .toggle-all:hover { color: var(--ink); border-color: var(--ink-secondary); }
+
+    .feature-row {
+      display: grid; grid-template-columns: 20px 1fr auto; gap: 14px;
+      align-items: start; padding: 14px 0;
+      border-bottom: 1px solid var(--rule); cursor: pointer;
+      transition: background 0.08s;
+    }
+    .feature-row:first-child { border-top: 1px solid var(--rule); }
+    .feature-row:hover { background: var(--paper-subtle); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+
+    .feature-check {
+      width: 16px; height: 16px; border: 1.5px solid var(--rule);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s;
+    }
+    .feature-row.checked .feature-check { background: var(--ink); border-color: var(--ink); }
+    .feature-row.checked .feature-check::after { content: ''; width: 8px; height: 8px; background: var(--paper); clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); }
+
+    .feature-info { min-width: 0; }
+    .feature-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .feature-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+    .feature-row:not(.checked) .feature-name { color: var(--ink-muted); }
+
+    .feature-time { text-align: right; flex-shrink: 0; }
+    .feature-days { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink-secondary); white-space: nowrap; }
+    .feature-row:not(.checked) .feature-days { color: var(--ink-subtle); text-decoration: line-through; }
+
+    /* Sticky result panel */
+    .result-panel { position: sticky; top: 72px; }
+
+    .result-card { border: 1px solid var(--rule); padding: 28px; background: var(--paper-subtle); }
+
+    .result-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+
+    .result-primary { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .result-big { font-size: 40px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
+    .result-big span { font-size: 22px; }
+    .result-label { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
+
+    .result-secondary { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .result-price { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; color: var(--green); }
+    .result-price-label { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+
+    .rate-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .rate-label { font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+    .rate-input { width: 80px; background: var(--paper); border: 1px solid var(--rule); color: var(--ink); font-family: var(--mono); font-size: 13px; font-weight: 500; padding: 6px 10px; outline: none; text-align: right; transition: border-color 0.12s; }
+    .rate-input:focus { border-color: var(--ink); }
+    .rate-unit { font-size: 12px; color: var(--ink-muted); }
+
+    .result-breakdown { }
+    .breakdown-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; font-size: 12px; }
+    .breakdown-label { color: var(--ink-muted); }
+    .breakdown-val { font-family: var(--mono); font-weight: 500; color: var(--ink-secondary); }
+    .breakdown-none { font-size: 12px; color: var(--ink-subtle); font-style: italic; padding: 8px 0; }
+
+    .result-cta { margin-top: 24px; }
+    .btn-buy { display: block; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 13px 20px; text-decoration: none; transition: background 0.12s; }
+    .btn-buy:hover { background: var(--signal); }
+    .btn-buy-sub { font-size: 11px; color: var(--ink-muted); text-align: center; margin-top: 8px; }
+
+    .footnote { font-size: 11px; color: var(--ink-subtle); line-height: 1.6; margin-top: 48px; max-width: 600px; }
+    .footnote a { color: var(--ink-subtle); }
+        .eu-flag { display: inline-block; font-size: 1.1em; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com/eu/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculator"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">Already EU <span class="eu-flag" aria-hidden="true">🇪🇺</span></a>
+      <div class="nav-right">
+        <a href="/docs" class="nav-link">Docs</a>
+        <a href="/guide" class="nav-link">Handbook</a>
+        <a href="/checklist" class="nav-link">Checklist</a>
+        <a href="/calculator" class="nav-link active">Calculator</a>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language" style="background:transparent;border:1px solid var(--rule);color:var(--ink);font-family:var(--mono);font-size:11px;padding:4px 8px;cursor:pointer;margin-right:8px;"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+        <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy Already EU — €199 →</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="page-eyebrow">ROI calculator</div>
+    <h1 class="page-title">How much time does Already save you?</h1>
+    <p class="page-sub">Select the features you'd build from scratch. Estimates are conservative — based on building production-grade code, not a weekend prototype.</p>
+
+    <div class="calc-layout">
+
+      <!-- Feature checklist -->
+      <div>
+        <div class="features-header">
+          <span class="features-label">Features — check what you'd build</span>
+          <button class="toggle-all" id="toggleAll">Deselect all</button>
+        </div>
+        <div id="featureList"></div>
+        <p class="footnote">
+          Estimates reflect a solo developer building production-quality code: secure, tested, documented.
+          Range = best case (you've done it before, no edge cases) to realistic case (integrations, debugging, polish).
+          Does not include ongoing maintenance. Already is €199 once.
+        </p>
+      </div>
+
+      <!-- Result panel -->
+      <div class="result-panel">
+        <div class="result-card">
+          <div class="result-eyebrow">Your estimate</div>
+
+          <div class="result-primary">
+            <div class="result-big" id="daysOutput">—</div>
+            <div class="result-label">days of build time saved</div>
+          </div>
+
+          <div class="result-secondary">
+            <div class="result-price" id="euroOutput">—</div>
+            <div class="result-price-label">developer cost at your rate</div>
+          </div>
+
+          <div class="rate-row">
+            <span class="rate-label">Your rate:</span>
+            <input class="rate-input" type="number" id="rateInput" value="100" min="10" max="999" step="10">
+            <span class="rate-unit">€/hr</span>
+          </div>
+
+          <div class="result-breakdown" id="breakdown"></div>
+
+          <div class="result-cta">
+            <a href="/#pricing" class="btn-buy" rel="noopener">
+              Get Already — €199 →
+            </a>
+            <p class="btn-buy-sub">Already is €199. One time. Everything included.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var FEATURES = [
+      { id: 'auth',       name: 'Auth',              desc: 'Email + password, TOTP, passkeys, sessions, audit log',        low: 3,   high: 6  },
+      { id: 'billing',    name: 'Billing',            desc: 'Mollie subscriptions, webhooks, idempotency, dead letter',      low: 4,   high: 8  },
+      { id: 'orgs',       name: 'Multi-tenant orgs',  desc: 'RLS isolation, invitations, roles, per-org audit log',          low: 5,   high: 10 },
+      { id: 'admin',      name: 'Admin dashboard',    desc: 'User management, org overview, impersonation, audit trail',     low: 3,   high: 5  },
+      { id: 'email',      name: 'Email & messaging',  desc: 'Transactional email (Brevo + React Email) + in-app realtime',  low: 1,   high: 2  },
+      { id: 'i18n',       name: 'i18n (5 locales)',   desc: 'next-intl, EN/DE/ES/IT/FR, cookie-based locale switching',      low: 2,   high: 4  },
+      { id: 'ai',         name: 'AI module',          desc: 'Multi-provider (Anthropic/OpenAI/Google) + credits ledger',     low: 2,   high: 4  },
+      { id: 'security',   name: 'Security & rate limiting', desc: 'Suspicious activity detection, BotID, GDPR endpoints',  low: 2,   high: 4  },
+      { id: 'jobs',       name: 'Background jobs',    desc: 'Vercel Cron + Postgres queue + handler pattern',               low: 1,   high: 2  },
+      { id: 'apikeys',    name: 'API keys',           desc: 'Hashed at rest, scoped permissions, rotation reminders',       low: 1,   high: 2  },
+      { id: 'flags',      name: 'Feature flags',      desc: 'PostHog flags + env-var fallback, server + client',            low: 0.5, high: 1  },
+      { id: 'growth',     name: 'Growth & affiliate', desc: 'Tapfiliate affiliate + localized pricing + Storybook',          low: 1,   high: 3  },
+    ];
+
+    var HOURS_PER_DAY = 8;
+    var checked = {};
+    FEATURES.forEach(function(f) { checked[f.id] = true; });
+
+    function fmt(n) {
+      return n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    }
+    function fmtDays(n) {
+      if (n < 1) return Math.round(n * HOURS_PER_DAY) + 'h';
+      if (Number.isInteger(n)) return n + 'd';
+      return n.toFixed(1).replace(/\.0$/, '') + 'd';
+    }
+
+    function getRate() {
+      var v = parseInt(document.getElementById('rateInput').value, 10);
+      return isNaN(v) || v < 10 ? 100 : v;
+    }
+
+    function update() {
+      var lowDays = 0, highDays = 0;
+      var selected = FEATURES.filter(function(f) { return checked[f.id]; });
+
+      selected.forEach(function(f) {
+        lowDays  += f.low;
+        highDays += f.high;
+      });
+
+      var rate = getRate();
+      var lowEuros  = Math.round(lowDays  * HOURS_PER_DAY * rate);
+      var highEuros = Math.round(highDays * HOURS_PER_DAY * rate);
+
+      var daysEl   = document.getElementById('daysOutput');
+      var euroEl = document.getElementById('euroOutput');
+      var bkEl     = document.getElementById('breakdown');
+
+      if (selected.length === 0) {
+        daysEl.textContent   = '0d';
+        euroEl.textContent = '€0';
+        bkEl.innerHTML = '<p class="breakdown-none">Select features above to see your estimate.</p>';
+        return;
+      }
+
+      daysEl.innerHTML   = fmtDays(lowDays) + '<span> – ' + fmtDays(highDays) + '</span>';
+      euroEl.textContent = '€' + fmt(lowEuros) + ' – $' + fmt(highEuros);
+
+      var rows = selected.map(function(f) {
+        return '<div class="breakdown-row"><span class="breakdown-label">' + f.name + '</span><span class="breakdown-val">' + fmtDays(f.low) + '–' + fmtDays(f.high) + '</span></div>';
+      }).join('');
+      bkEl.innerHTML = rows;
+    }
+
+    function renderList() {
+      var container = document.getElementById('featureList');
+      container.innerHTML = FEATURES.map(function(f) {
+        var isChecked = checked[f.id];
+        return '<div class="feature-row' + (isChecked ? ' checked' : '') + '" data-id="' + f.id + '">' +
+          '<div class="feature-check"></div>' +
+          '<div class="feature-info"><div class="feature-name">' + f.name + '</div><div class="feature-desc">' + f.desc + '</div></div>' +
+          '<div class="feature-time"><div class="feature-days">' + fmtDays(f.low) + '–' + fmtDays(f.high) + '</div></div>' +
+          '</div>';
+      }).join('');
+
+      container.querySelectorAll('.feature-row').forEach(function(row) {
+        row.addEventListener('click', function() {
+          var id = row.dataset.id;
+          checked[id] = !checked[id];
+          row.classList.toggle('checked', checked[id]);
+          update();
+          updateToggleBtn();
+        });
+      });
+    }
+
+    function updateToggleBtn() {
+      var allChecked = FEATURES.every(function(f) { return checked[f.id]; });
+      document.getElementById('toggleAll').textContent = allChecked ? 'Deselect all' : 'Select all';
+    }
+
+    document.getElementById('toggleAll').addEventListener('click', function() {
+      var allChecked = FEATURES.every(function(f) { return checked[f.id]; });
+      FEATURES.forEach(function(f) { checked[f.id] = !allChecked; });
+      renderList();
+      update();
+      updateToggleBtn();
+    });
+
+    document.getElementById('rateInput').addEventListener('input', update);
+
+    renderList();
+    update();
+  })();
+  </script>
+  <script src="/i18n.js" defer></script>
+</body>
+</html>

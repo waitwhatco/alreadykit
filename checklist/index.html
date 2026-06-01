@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Production SaaS Checklist — 65 things before you ship</title>
+  <meta name="description" content="65 things every production SaaS needs: auth, billing, multi-tenancy, security, observability, compliance. Interactive checklist with score. Save your.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/checklist/">
+  <link rel="canonical" href="https://alreadykit.com/checklist/">
+  <meta property="og:title" content="Production SaaS Checklist — 65 things before you ship">
+  <meta property="og:description" content="Auth, billing, multi-tenancy, security, observability, compliance — 65 items across 9 categories. Free interactive checklist. Share your score.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/checklist/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Production SaaS Checklist — 65 things before you ship">
+  <meta name="twitter:description" content="65 things every production SaaS needs. Free interactive checklist. How many does yours have?">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Production SaaS Launch Checklist — 65 items before you ship",
+    "description": "65 things to check before launching your production SaaS: authentication, billing, multi-tenancy, security, performance, observability, developer experience, AI integration, and legal compliance.",
+    "url": "https://alreadykit.com/checklist/",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alreadykit.com/checklist/" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "@id": "https://alreadykit.com/#organization", "name": "wait, what." },
+    "image": { "@type": "ImageObject", "url": "https://alreadykit.com/og.png", "width": 1200, "height": 630 },
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2", ".checklist-intro"] },
+    "about": { "@type": "SoftwareApplication", "name": "Already", "url": "https://alreadykit.com" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Already", "item": "https://alreadykit.com" },
+      { "@type": "ListItem", "position": 2, "name": "Production Checklist", "item": "https://alreadykit.com/checklist/" }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --green: #1A6632; --green-bg: #EEF8F1;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--amber:#7A4C00;--amber-bg:#FEF9EC; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 20px; } }
+
+    /* Nav */
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+    @media (max-width: 640px) { .nav-inner { padding: 0 20px; } }
+
+    /* Score bar */
+    .score-bar { position: sticky; top: 56px; z-index: 9; background: var(--paper); border-bottom: 1px solid var(--rule); padding: 12px 0; }
+    .score-inner { max-width: 880px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 20px; }
+    @media (max-width: 640px) { .score-inner { padding: 0 20px; gap: 12px; } }
+    .score-label { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; min-width: 72px; }
+    .score-track { flex: 1; height: 6px; background: var(--rule); border-radius: 0; overflow: hidden; }
+    .score-fill { height: 100%; background: var(--ink); transition: width 0.2s ease; }
+    .score-pct { font-family: var(--mono); font-size: 12px; color: var(--ink-muted); white-space: nowrap; min-width: 36px; text-align: right; }
+    .share-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 6px 12px; cursor: pointer; transition: all 0.12s; white-space: nowrap; }
+    .share-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .reset-btn { display: inline-flex; align-items: center; background: transparent; border: none; color: var(--ink-subtle); font-family: var(--sans); font-size: 12px; cursor: pointer; padding: 6px 8px; transition: color 0.12s; white-space: nowrap; }
+    .reset-btn:hover { color: var(--signal); }
+
+    /* Header */
+    .page-header { padding: 56px 0 48px; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    h1 { font-size: clamp(26px, 4vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.10; color: var(--ink); margin-bottom: 16px; }
+    .lede { font-size: 16px; line-height: 1.65; color: var(--ink-secondary); max-width: 600px; margin-bottom: 20px; }
+    .legend { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-muted); }
+    .badge-already { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 2px 7px; }
+    .badge-manual { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; background: transparent; color: var(--ink-muted); border: 1px solid var(--rule); padding: 2px 7px; }
+
+    /* Category */
+    .category { margin-bottom: 48px; }
+    .cat-header { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 10px; border-bottom: 2px solid var(--ink); margin-bottom: 2px; }
+    .cat-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+    .cat-count { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); }
+
+    /* Items */
+    .item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--rule); cursor: pointer; transition: background 0.08s; }
+    .item:last-child { border-bottom: none; }
+    .item:hover { background: var(--paper-subtle); margin: 0 -16px; padding: 12px 16px; }
+    .item input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; min-width: 18px; border: 1.5px solid var(--rule); background: var(--paper); cursor: pointer; transition: all 0.12s; margin-top: 1px; position: relative; flex-shrink: 0; }
+    .item input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
+    .item input[type="checkbox"]:checked::after { content: ""; position: absolute; top: 2px; left: 5px; width: 5px; height: 9px; border: 2px solid var(--paper); border-top: none; border-left: none; transform: rotate(45deg); }
+    .item-body { flex: 1; min-width: 0; }
+    .item-label { font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.4; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .item-note { font-size: 13px; color: var(--ink-muted); line-height: 1.5; margin-top: 3px; }
+    .item.checked .item-label { color: var(--ink-muted); text-decoration: line-through; text-decoration-color: var(--rule); }
+    .item.checked .item-note { color: var(--ink-subtle); }
+
+    /* CTA block */
+    .cta-block { border: 1px solid var(--rule); padding: 32px; margin: 56px 0; text-align: center; }
+    .cta-block h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.018em; color: var(--ink); margin-bottom: 10px; }
+    .cta-block p { font-size: 15px; color: var(--ink-secondary); margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 28px; text-decoration: none; transition: background 0.12s; }
+    .cta-btn:hover { background: var(--signal); }
+    .cta-subtext { font-size: 13px; color: var(--ink-muted); margin-top: 12px; margin-bottom: 0; }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-brand:hover { color: var(--ink); }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: var(--paper); font-size: 14px; padding: 12px 20px; opacity: 0; transform: translateY(8px); transition: all 0.2s; pointer-events: none; z-index: 100; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+  <script src="/i18n.js" defer></script>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">Already</a>
+      <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link active">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+      <div class="nav-controls">
+        <select class="nav-lang" id="langSelect" onchange="setLang(this.value)" title="Language">
+          <option value="en">EN</option>
+          <option value="de">DE</option>
+          <option value="es">ES</option>
+        </select>
+        <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+        <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link active">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="score-bar">
+    <div class="score-inner">
+      <span class="score-label" id="scoreLabel">0 / 65</span>
+      <div class="score-track"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+      <span class="score-pct" id="scorePct">0%</span>
+      <button class="share-btn" id="shareBtn" onclick="shareScore()">↗ Share score</button>
+      <button class="reset-btn" id="resetBtn" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <p class="eyebrow">Production SaaS · 65 items</p>
+      <h1 data-i18n="ck.h1" data-i18n-html>Before you ship to production,<br>check this list.</h1>
+      <p class="lede" data-i18n="ck.lede" data-i18n-html>65 things every production SaaS needs. Tool-agnostic — works with any stack. Checks are saved in your browser. Items marked <span class="badge-already">Already</span> are included in Already's starter kit.</p>
+      <div class="legend">
+        <div class="legend-item"><span class="badge-already">Already</span> Included in Already</div>
+        <div class="legend-item"><span class="badge-manual">build</span> You build this</div>
+      </div>
+    </div>
+
+    <!-- Authentication -->
+    <div class="category" id="cat-auth">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.auth" data-i18n-html>Authentication</span>
+        <span class="cat-count" id="count-auth">0 / 8</span>
+      </div>
+      <div class="item" onclick="toggle('auth-1')">
+        <input type="checkbox" id="auth-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Email + password sign-up and sign-in <span class="badge-already">Already</span></div>
+          <div class="item-note">With email verification and secure password reset flow.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-2')">
+        <input type="checkbox" id="auth-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">OAuth (Google, GitHub, or equivalent) <span class="badge-already">Already</span></div>
+          <div class="item-note">Social login reduces friction. Add at least one provider.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-3')">
+        <input type="checkbox" id="auth-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Magic link / passwordless email <span class="badge-already">Already</span></div>
+          <div class="item-note">One-click login for users who forget passwords.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-4')">
+        <input type="checkbox" id="auth-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">TOTP 2FA (authenticator app) <span class="badge-already">Already</span></div>
+          <div class="item-note">Required for any B2B product. Users expect it.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-5')">
+        <input type="checkbox" id="auth-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Passkeys (WebAuthn) <span class="badge-already">Already</span></div>
+          <div class="item-note">Phishing-resistant, passwordless. Increasingly standard.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-6')">
+        <input type="checkbox" id="auth-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Email enumeration protection <span class="badge-already">Already</span></div>
+          <div class="item-note">Sign-in errors should not reveal whether an email exists.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-7')">
+        <input type="checkbox" id="auth-7" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Rate limiting on auth endpoints <span class="badge-already">Already</span></div>
+          <div class="item-note">Block brute-force and credential stuffing attempts.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('auth-8')">
+        <input type="checkbox" id="auth-8" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Auth event audit log <span class="badge-already">Already</span></div>
+          <div class="item-note">Log every sign-in with timestamp, IP, and device. Needed for compliance.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Billing -->
+    <div class="category" id="cat-billing">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.billing" data-i18n-html>Billing &amp; Payments</span>
+        <span class="cat-count" id="count-billing">0 / 7</span>
+      </div>
+      <div class="item" onclick="toggle('billing-1')">
+        <input type="checkbox" id="billing-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Payment processor integration (Stripe) <span class="badge-already">Already</span></div>
+          <div class="item-note">Subscriptions, one-time payments, or both wired end-to-end.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-2')">
+        <input type="checkbox" id="billing-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Idempotent webhook handler <span class="badge-already">Already</span></div>
+          <div class="item-note">Stripe retries failed webhooks. Processing the same event twice must be safe.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-3')">
+        <input type="checkbox" id="billing-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Dead-letter queue for failed webhook events <span class="badge-already">Already</span></div>
+          <div class="item-note">Silent dropped events = silent revenue bugs. Persist and alert on failures.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-4')">
+        <input type="checkbox" id="billing-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Plan-based feature gating <span class="badge-already">Already</span></div>
+          <div class="item-note">Limit features by plan tier. Check on every request, not just on sign-in.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-5')">
+        <input type="checkbox" id="billing-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Customer billing portal <span class="badge-already">Already</span></div>
+          <div class="item-note">Let customers update payment methods and cancel without contacting support.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-6')">
+        <input type="checkbox" id="billing-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Trial period + grace period <span class="badge-already">Already</span></div>
+          <div class="item-note">Grace period prevents instant churn on failed payment. Gives users time to update cards.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('billing-7')">
+        <input type="checkbox" id="billing-7" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Billing notifications / dunning emails <span class="badge-already">Already</span></div>
+          <div class="item-note">Warn users before trial ends, when payment fails, and when subscription renews.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-tenancy -->
+    <div class="category" id="cat-orgs">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.orgs" data-i18n-html>Multi-tenancy &amp; Orgs</span>
+        <span class="cat-count" id="count-orgs">0 / 6</span>
+      </div>
+      <div class="item" onclick="toggle('orgs-1')">
+        <input type="checkbox" id="orgs-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Organisation / workspace model <span class="badge-already">Already</span></div>
+          <div class="item-note">All resources belong to an org. Users can be members of multiple orgs.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('orgs-2')">
+        <input type="checkbox" id="orgs-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Role-based access control (RBAC) <span class="badge-already">Already</span></div>
+          <div class="item-note">At minimum: owner, admin, member. Enforced at the route and query layer.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('orgs-3')">
+        <input type="checkbox" id="orgs-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Member invitations by email <span class="badge-already">Already</span></div>
+          <div class="item-note">Invite flow with token expiry and role assignment on accept.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('orgs-4')">
+        <input type="checkbox" id="orgs-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Row-level security at the database layer <span class="badge-already">Already</span></div>
+          <div class="item-note">Postgres RLS policies ensure tenants can't read each other's data even if query logic has a bug.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('orgs-5')">
+        <input type="checkbox" id="orgs-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Query-layer tenant scoping <span class="badge-already">Already</span></div>
+          <div class="item-note">Every query automatically filters by org_id. No relying on developers to remember.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('orgs-6')">
+        <input type="checkbox" id="orgs-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Admin dashboard with impersonation <span class="badge-already">Already</span></div>
+          <div class="item-note">See what any user sees without knowing their password. Essential for support.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="category" id="cat-security">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.security" data-i18n-html>Security</span>
+        <span class="cat-count" id="count-security">0 / 13</span>
+      </div>
+      <div class="item" onclick="toggle('sec-1')">
+        <input type="checkbox" id="sec-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Content Security Policy (CSP) with nonces <span class="badge-already">Already</span></div>
+          <div class="item-note">Mitigates XSS. Nonce-based CSP avoids unsafe-inline and works with SSR.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-2')">
+        <input type="checkbox" id="sec-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">HSTS + secure transport headers <span class="badge-already">Already</span></div>
+          <div class="item-note">Strict-Transport-Security, X-Frame-Options, Referrer-Policy, X-Content-Type-Options.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-3')">
+        <input type="checkbox" id="sec-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">API rate limiting <span class="badge-already">Already</span></div>
+          <div class="item-note">Per-user and per-IP limits. Prevent abuse of expensive or sensitive endpoints.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-4')">
+        <input type="checkbox" id="sec-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Bot and scraper detection <span class="badge-already">Already</span></div>
+          <div class="item-note">Block bots on sign-up and sensitive actions. Separate from rate limiting.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-5')">
+        <input type="checkbox" id="sec-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">File upload validation + MIME type checks <span class="badge-already">Already</span></div>
+          <div class="item-note">Validate file type server-side. Never trust the Content-Type header alone.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-6')">
+        <input type="checkbox" id="sec-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Suspicious activity detection <span class="badge-already">Already</span></div>
+          <div class="item-note">Geo anomalies, new device flags, login velocity. Alert users on unusual activity.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-7')">
+        <input type="checkbox" id="sec-7" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Secrets not committed to source control <span class="badge-already">Already</span></div>
+          <div class="item-note">.env in .gitignore, no real keys in .env.example. Use a secrets manager or Keychain injection.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-8')">
+        <input type="checkbox" id="sec-8" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Dependency vulnerability scanning in CI <span class="badge-already">Already</span></div>
+          <div class="item-note">npm audit, Dependabot, or Snyk. Automate what you won't check manually.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-9')">
+        <input type="checkbox" id="sec-9" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">API keys for external access (hashed at rest) <span class="badge-already">Already</span></div>
+          <div class="item-note">Store only the hash. Show the key once on creation. Scoped by capability.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-10')">
+        <input type="checkbox" id="sec-10" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Input sanitization on AI / user-generated content <span class="badge-manual">build</span></div>
+          <div class="item-note">Prompt injection and malicious input are real attack vectors for AI-powered SaaS.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-11')">
+        <input type="checkbox" id="sec-11" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Org-wide MFA mandate <span class="badge-already">Already</span></div>
+          <div class="item-note">Owners can force every member to enrol MFA. Required by every enterprise security questionnaire.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-12')">
+        <input type="checkbox" id="sec-12" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">SAML SSO for enterprise customers <span class="badge-already">Already</span></div>
+          <div class="item-note">Supabase Auth handles the SAML handshake. The recipe is wired and documented in the repo.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('sec-13')">
+        <input type="checkbox" id="sec-13" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">SCIM 2.0 provisioning (Okta, Entra) <span class="badge-already">Already</span></div>
+          <div class="item-note">Sold as an Enterprise add-on. Endpoint at <code>/api/scim/v2/*</code> handles Users list, create, deactivate, deprovision.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance -->
+    <div class="category" id="cat-perf">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.perf" data-i18n-html>Performance</span>
+        <span class="cat-count" id="count-perf">0 / 6</span>
+      </div>
+      <div class="item" onclick="toggle('perf-1')">
+        <input type="checkbox" id="perf-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">LCP &lt; 2.5s and INP &lt; 200ms <span class="badge-already">Already</span></div>
+          <div class="item-note">Google's Core Web Vitals thresholds. Measure with field data, not just lab data.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('perf-2')">
+        <input type="checkbox" id="perf-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">CLS &lt; 0.1 (no layout shift on load) <span class="badge-already">Already</span></div>
+          <div class="item-note">Specify image dimensions. Avoid inserting content above the fold after load.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('perf-3')">
+        <input type="checkbox" id="perf-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Bundle size budget enforced in CI <span class="badge-already">Already</span></div>
+          <div class="item-note">Track JS bundle size. Alert when a dependency adds unexpected weight.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('perf-4')">
+        <input type="checkbox" id="perf-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Database connection pooling <span class="badge-already">Already</span></div>
+          <div class="item-note">Serverless functions open new connections on every invocation. Pool via PgBouncer or Supabase pooler.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('perf-5')">
+        <input type="checkbox" id="perf-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Indexes on all foreign keys and filter columns <span class="badge-already">Already</span></div>
+          <div class="item-note">Missing indexes are the most common cause of slow queries in production.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('perf-6')">
+        <input type="checkbox" id="perf-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Static generation or Partial Prerendering where possible <span class="badge-already">Already</span></div>
+          <div class="item-note">Marketing pages should be static. PPR (Next.js 15) enables hybrid rendering per-page.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Observability -->
+    <div class="category" id="cat-obs">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.obs" data-i18n-html>Observability</span>
+        <span class="cat-count" id="count-obs">0 / 6</span>
+      </div>
+      <div class="item" onclick="toggle('obs-1')">
+        <input type="checkbox" id="obs-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Error monitoring with source maps (Sentry) <span class="badge-already">Already</span></div>
+          <div class="item-note">Catch exceptions before users report them. Source maps show the real line number.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('obs-2')">
+        <input type="checkbox" id="obs-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Real-user performance monitoring <span class="badge-already">Already</span></div>
+          <div class="item-note">Lab tests don't catch field issues. PostHog, Vercel Analytics, or Datadog RUM.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('obs-3')">
+        <input type="checkbox" id="obs-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Health check endpoint <span class="badge-already">Already</span></div>
+          <div class="item-note">/api/health returns DB status and app version. Required for uptime monitors.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('obs-4')">
+        <input type="checkbox" id="obs-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Background job failure tracking <span class="badge-already">Already</span></div>
+          <div class="item-note">Failed cron jobs and queue workers fail silently without explicit alerting.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('obs-5')">
+        <input type="checkbox" id="obs-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Structured logging (JSON format) <span class="badge-manual">build</span></div>
+          <div class="item-note">Parseable logs make it possible to search, alert, and correlate issues in production.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('obs-6')">
+        <input type="checkbox" id="obs-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">External uptime monitoring <span class="badge-manual">build</span></div>
+          <div class="item-note">Checkly, Better Uptime, or equivalent. Alerts when your health endpoint stops responding.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DX -->
+    <div class="category" id="cat-dx">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.dx" data-i18n-html>Developer Experience</span>
+        <span class="cat-count" id="count-dx">0 / 9</span>
+      </div>
+      <div class="item" onclick="toggle('dx-1')">
+        <input type="checkbox" id="dx-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">One-command local dev setup <span class="badge-already">Already</span></div>
+          <div class="item-note">New devs should be running locally in under 10 minutes. If they aren't, fix it.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-2')">
+        <input type="checkbox" id="dx-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Type-safe environment variable validation <span class="badge-already">Already</span></div>
+          <div class="item-note">Fail at startup if a required env var is missing. Zod on process.env at boot time.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-3')">
+        <input type="checkbox" id="dx-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Database migration tooling <span class="badge-already">Already</span></div>
+          <div class="item-note">Track schema changes in version control. Run migrations in CI before deploying.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-4')">
+        <input type="checkbox" id="dx-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Seed script for local development <span class="badge-already">Already</span></div>
+          <div class="item-note">Deterministic test data makes onboarding and debugging much faster.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-5')">
+        <input type="checkbox" id="dx-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Lint + format check in CI <span class="badge-already">Already</span></div>
+          <div class="item-note">Code style debates belong in config, not code review. ESLint + Prettier on every PR.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-6')">
+        <input type="checkbox" id="dx-6" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">TypeScript strict mode check in CI <span class="badge-already">Already</span></div>
+          <div class="item-note">tsc --noEmit on every PR. Catches type errors before they reach production.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-7')">
+        <input type="checkbox" id="dx-7" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Unit and integration tests (Vitest) <span class="badge-already">Already</span></div>
+          <div class="item-note">Cover business logic, billing edge cases, and auth flows at minimum.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-8')">
+        <input type="checkbox" id="dx-8" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">End-to-end tests (Playwright) <span class="badge-already">Already</span></div>
+          <div class="item-note">Sign-up, onboarding, and billing flows. Catch regressions before users do.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('dx-9')">
+        <input type="checkbox" id="dx-9" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Component library / Storybook <span class="badge-already">Already</span></div>
+          <div class="item-note">Document and visually test UI components in isolation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div class="category" id="cat-ai">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.ai" data-i18n-html>AI Integration</span>
+        <span class="cat-count" id="count-ai">0 / 5</span>
+      </div>
+      <div class="item" onclick="toggle('ai-1')">
+        <input type="checkbox" id="ai-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Multi-provider AI (Anthropic, OpenAI, Google) <span class="badge-already">Already</span></div>
+          <div class="item-note">Abstract the provider. Swap models without changing your application code.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('ai-2')">
+        <input type="checkbox" id="ai-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Per-user AI credits ledger <span class="badge-already">Already</span></div>
+          <div class="item-note">Track and limit AI spend per user or org. Needed before you go to production.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('ai-3')">
+        <input type="checkbox" id="ai-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Streaming AI responses <span class="badge-already">Already</span></div>
+          <div class="item-note">Stream tokens to the client. Non-streamed AI feels broken for anything over 2 seconds.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('ai-4')">
+        <input type="checkbox" id="ai-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">AI-native developer context (CLAUDE.md / Cursor rules) <span class="badge-already">Already</span></div>
+          <div class="item-note">Configure your AI coding assistant with codebase context. Drastically improves output quality.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('ai-5')">
+        <input type="checkbox" id="ai-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Prompt injection protection <span class="badge-manual">build</span></div>
+          <div class="item-note">Validate and sanitize user content before inserting into prompts. Document your trust boundaries.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal -->
+    <div class="category" id="cat-legal">
+      <div class="cat-header">
+        <span class="cat-title" data-i18n="ck.cat.legal" data-i18n-html>Legal &amp; Compliance</span>
+        <span class="cat-count" id="count-legal">0 / 5</span>
+      </div>
+      <div class="item" onclick="toggle('legal-1')">
+        <input type="checkbox" id="legal-1" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Privacy policy published <span class="badge-already">Already</span></div>
+          <div class="item-note">Required in most jurisdictions before collecting any user data. Already ships a template.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('legal-2')">
+        <input type="checkbox" id="legal-2" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Terms of service published <span class="badge-already">Already</span></div>
+          <div class="item-note">Sets licence scope, refund policy, and liability limits. Already ships a template.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('legal-3')">
+        <input type="checkbox" id="legal-3" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">GDPR data export endpoint <span class="badge-already">Already</span></div>
+          <div class="item-note">Users in the EU have the right to request all their data. You must be able to provide it.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('legal-4')">
+        <input type="checkbox" id="legal-4" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">GDPR account and data deletion <span class="badge-already">Already</span></div>
+          <div class="item-note">Right to erasure. Hard-delete or anonymise all personal data on request.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle('legal-5')">
+        <input type="checkbox" id="legal-5" onchange="handleChange(event)">
+        <div class="item-body">
+          <div class="item-label">Cookie consent (if using tracking cookies) <span class="badge-manual">build</span></div>
+          <div class="item-note">Required in EU if you set any non-essential cookies. Not needed if you only use functional cookies.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-block" id="cta-block">
+      <h2 id="cta-title">Skip the checklist. Already ships 60 of 65.</h2>
+      <p id="cta-body">Auth, billing, multi-tenancy, security, observability, AI integration, and GDPR compliance — all wired together in a single Next.js starter kit. Buy once, own the code.</p>
+      <a href="/#pricing" class="cta-btn" rel="noopener">Get Already — $199 →</a>
+      <p class="cta-subtext">Solo $199 · Team $399 · early-bird until June 24</p>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://wait-what.shop" rel="noopener" class="footer-bottom-brand">wait, what. · 2026</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const TOTAL = 65;
+    const STORAGE_KEY = 'already-checklist-v1';
+
+    const categoryCounts = {
+      auth: 8, billing: 7, orgs: 6, security: 13,
+      perf: 6, obs: 6, dx: 9, ai: 5, legal: 5
+    };
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      } catch { return {}; }
+    }
+
+    function saveState(state) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    }
+
+    function countChecked() {
+      const state = loadState();
+      return Object.values(state).filter(Boolean).length;
+    }
+
+    function updateScore() {
+      const checked = countChecked();
+      const pct = Math.round((checked / TOTAL) * 100);
+      document.getElementById('scoreLabel').textContent = checked + ' / ' + TOTAL;
+      document.getElementById('scoreFill').style.width = pct + '%';
+      document.getElementById('scorePct').textContent = pct + '%';
+
+      // Update category counts
+      const state = loadState();
+      Object.entries(categoryCounts).forEach(([cat, total]) => {
+        const items = document.querySelectorAll('#cat-' + cat + ' input[type="checkbox"]');
+        const catChecked = Array.from(items).filter(el => el.checked).length;
+        const el = document.getElementById('count-' + cat);
+        if (el) el.textContent = catChecked + ' / ' + total;
+      });
+
+      // Update CTA
+      updateCTA(checked);
+    }
+
+    function updateCTA(checked) {
+      const remaining = 57 - Math.min(checked, 57);
+      const ctaTitle = document.getElementById('cta-title');
+      const ctaBody = document.getElementById('cta-body');
+      if (!ctaTitle) return;
+      if (checked === 0) {
+        ctaTitle.textContent = 'Skip the checklist. Already ships 60 of 65.';
+        ctaBody.textContent = 'Auth, billing, multi-tenancy, security, observability, AI integration, and GDPR compliance — all wired together in a single Next.js starter kit.';
+      } else if (remaining > 0) {
+        ctaTitle.textContent = 'Already ships ' + remaining + ' of the unchecked items.';
+        ctaBody.textContent = 'Skip the remaining infrastructure work. Already has all 57 items wired together, production-tested, and ready to extend.';
+      } else {
+        ctaTitle.textContent = 'You\'re production-ready.';
+        ctaBody.textContent = 'If you want a starter kit that ships all of this pre-wired for your next project, that\'s Already.';
+      }
+    }
+
+    function toggle(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.checked = !el.checked;
+      const state = loadState();
+      state[id] = el.checked;
+      saveState(state);
+      const item = el.closest('.item');
+      if (item) item.classList.toggle('checked', el.checked);
+      updateScore();
+    }
+
+    function handleChange(event) {
+      event.stopPropagation();
+      const el = event.target;
+      const state = loadState();
+      state[el.id] = el.checked;
+      saveState(state);
+      const item = el.closest('.item');
+      if (item) item.classList.toggle('checked', el.checked);
+      updateScore();
+    }
+
+    function resetAll() {
+      if (!confirm('Reset all checkboxes?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+        el.checked = false;
+        const item = el.closest('.item');
+        if (item) item.classList.remove('checked');
+      });
+      updateScore();
+    }
+
+    function shareScore() {
+      const checked = countChecked();
+      const pct = Math.round((checked / TOTAL) * 100);
+      const text = 'My production SaaS checklist score: ' + checked + '/' + TOTAL + ' (' + pct + '%). How does yours stack up? https://alreadykit.com/checklist';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('Copied to clipboard');
+      }
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2500);
+    }
+
+    // Init: restore from localStorage
+    (function init() {
+      const state = loadState();
+      Object.entries(state).forEach(([id, checked]) => {
+        const el = document.getElementById(id);
+        if (el && checked) {
+          el.checked = true;
+          const item = el.closest('.item');
+          if (item) item.classList.add('checked');
+        }
+      });
+      updateScore();
+    })();
+  </script>
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Purchase confirmed — Already</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper: #FCFCFA; --ink: #0A0A0A; --ink-secondary: #3A3A38; --ink-muted: #6E6E68; --rule: #D8D8D0; --signal: #D40000; --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace; }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+    nav { border-bottom: 1px solid var(--rule); }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } .nav-hamburger { display: flex; } }
+
+    /* — Page — */
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 80px 40px; }
+    .center { text-align: center; max-width: 520px; }
+    .mark { font-family: var(--mono); font-size: 64px; font-weight: 500; letter-spacing: -0.02em; color: var(--ink); line-height: 1; margin-bottom: 28px; }
+    h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); margin-bottom: 12px; }
+    .sub { font-size: 15px; color: var(--ink-secondary); line-height: 1.6; margin-bottom: 40px; }
+    .steps { text-align: left; border-top: 1px solid var(--rule); margin-bottom: 40px; }
+    .step { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+    .step-num { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--ink-muted); letter-spacing: 0.05em; padding-top: 2px; min-width: 20px; }
+    .step-body { font-size: 14px; color: var(--ink-secondary); line-height: 1.6; }
+    .step-body strong { color: var(--ink); font-weight: 600; }
+    .step-body a { color: var(--ink); text-underline-offset: 3px; }
+    .step-body a:hover { color: var(--signal); }
+    .btn { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px 22px; text-decoration: none; transition: background 0.12s; margin-bottom: 16px; }
+    .btn:hover { background: var(--signal); }
+    .btn-cal { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--rule); color: var(--ink-secondary); font-size: 13px; font-weight: 500; padding: 10px 20px; text-decoration: none; transition: border-color 0.12s, color 0.12s; margin-bottom: 32px; }
+    .btn-cal:hover { border-color: var(--ink); color: var(--ink); }
+    .ref { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); letter-spacing: 0.04em; }
+    .ref a { color: var(--ink-muted); text-underline-offset: 3px; }
+    .ref a:hover { color: var(--ink); }
+  </style>
+  <script src="/i18n.js" defer></script>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="nav-lang" onchange="window.__alSetLang&&window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select onchange="window.__alSetLang&&window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <div class="center">
+      <div class="mark">✓</div>
+      <h1>You're in.</h1>
+      <p class="sub">Purchase confirmed. Here's what happens next.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-body"><strong>Check your email.</strong> Polar sends a GitHub repository invite to the address used at checkout. It may take a minute or two.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-body"><strong>Accept the invite.</strong> You'll get collaborator access to <a href="https://github.com/waitwhatco/already-template" rel="noopener">github.com/waitwhatco/already-template</a>. Invites expire after 7 days — accept it now.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-body"><strong>Clone and start building.</strong> Setup instructions are in the <a href="/docs">docs</a>. The <code style="font-family:var(--mono);font-size:13px;">README.md</code> covers everything from env vars to first deploy.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-body"><strong>Need a hand?</strong> Book a 15-min setup call ($49) — screen share, walk through your setup together, get unstuck fast. <a href="https://cal.com/wait-what/already-installation" rel="noopener">Book a slot →</a></div>
+        </div>
+      </div>
+
+      <a href="/docs" class="btn">Open the docs →</a>
+      <br>
+      <a href="https://cal.com/wait-what/already-installation" class="btn-cal" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Book a setup call — $49
+      </a>
+
+      <div class="ref">
+        No invite after 5 minutes? <a href="mailto:already@wait-what.shop">already@wait-what.shop</a>
+        <span id="ref-line"></span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+
+    // Show order reference if checkout_id param present
+    var params=new URLSearchParams(window.location.search);
+    var cid=params.get('checkout_id');
+    if(cid){
+      var el=D.getElementById('ref-line');
+      if(el) el.innerHTML=' &middot; Order&nbsp;<span style="letter-spacing:0.02em">'+cid+'</span>';
+    }
+
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _sync();
+    };
+    function _sync(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_sync();}});}
+    _sync();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from Bolt to Swiss-sovereign SaaS — Already CH</title>
+  <meta name="description" content="Move your Bolt.new app to a Swiss-sovereign Next.js codebase. Same Vite/React app, now with Payrexx + TWINT billing, Exoscale hosting, and an nFADP register.">
+  <link rel="canonical" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/migrate/bolt">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/migrate/bolt">
+  <meta property="og:title" content="Migrate from Bolt to Swiss-sovereign SaaS — Already CH">
+  <meta property="og:url" content="https://alreadykit.com/ch/migrate/bolt">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4;--code-dim:#6E6E68;--sans:'Inter Tight','Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace; }
+    @media (prefers-color-scheme: dark) { :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; } }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; line-height: 1.55; color: var(--ink-secondary); max-width: 600px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .btn-ghost:hover { color: var(--ink); }
+
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; }
+    .dim { color: var(--code-dim); }
+
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+
+    @media (max-width: 760px) { pre code { white-space: pre-wrap; word-break: break-word; } }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "From Bolt",
+        "item": "https://alreadykit.com/ch/migrate/bolt"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+    <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · Bolt → Already CH &nbsp;🇨🇭</div>
+      <h1>Your Bolt app shipped.<br>Now run it on a <em>Swiss-sovereign</em> stack.</h1>
+      <p class="lede">Bolt.new is great at scaffolding a Vite + React app from a prompt. Already CH is the stack you graduate to when you need real billing, real multi-tenancy, real Swiss data residency — Payrexx for CHF + TWINT, Supabase on Exoscale, nFADP register, Matomo analytics.</p>
+      <div>
+        <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-primary">Get Already CH — CHF 199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Keeps your shadcn/ui + Tailwind components</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Vite → Next.js (App Router) migration script</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Stripe → Payrexx (CHF, TWINT)</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Data stays in Switzerland 🇨🇭</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+
+        <div>
+          <h2>Why migrate from Bolt?</h2>
+          <p>Bolt.new builds a working frontend fast — usually Vite + React, sometimes Next.js, with a generated Supabase client. The trade-off is that the generated codebase is a starting point, not a foundation. Auth flows are skeletal, billing is "go wire Stripe yourself", multi-tenancy is absent, and there's no notion of where your data lives or what compliance regime it lands under.</p>
+          <p>Already CH is the opposite: 16 production-ready modules already wired together, with every default chosen for Swiss data residency.</p>
+
+          <h2>What carries over without changes</h2>
+          <ul>
+            <li><strong>Your UI components.</strong> If Bolt used shadcn/ui + Tailwind (the common default), your components paste straight in.</li>
+            <li><strong>Your Supabase project.</strong> If Bolt connected you to Supabase Cloud, point Already CH at the same project — or migrate it to self-hosted Supabase on Exoscale for full Swiss residency.</li>
+            <li><strong>Your domain model.</strong> Tables and RLS policies you defined in Supabase persist; you re-declare them as Drizzle schemas.</li>
+          </ul>
+
+          <h2>What needs migration work</h2>
+          <ul>
+            <li><strong>Vite → Next.js.</strong> If Bolt produced a Vite app, you'll move pages into Next.js App Router under <code>app/(public)</code> / <code>app/(app)</code>. The included CLI does most of the mechanical work.</li>
+            <li><strong>Client-fetched data → Server Components.</strong> Bolt's <code>useEffect</code> + <code>fetch</code> pattern becomes server-side <code>await db.query.*</code> with <code>withOrgScope()</code>.</li>
+            <li><strong>Stripe → Payrexx.</strong> If Bolt suggested Stripe, you'll re-create plans in Payrexx with unique CHF amounts. Idempotent webhooks, 8.1% VAT, TWINT — all wired in Already CH.</li>
+            <li><strong>Env vars.</strong> <code>VITE_*</code> becomes <code>NEXT_PUBLIC_*</code>. Secrets move to macOS Keychain via <code>pnpm Already CH secrets push</code>.</li>
+          </ul>
+
+          <h2>Stack mapping</h2>
+          <pre><code><span class="dim">Bolt-generated default      →     Already CH</span>
+Vite + React                →     Next.js 15 App Router (Server Components)
+Supabase Cloud (US/EU)      →     Supabase self-hosted on Exoscale (CH)
+Stripe                      →     Payrexx (CHF, TWINT, PostFinance)
+No analytics                →     Matomo (self-hosted, cookie-free)
+No multi-tenancy            →     Orgs + RLS + withOrgScope()
+No nFADP support            →     /admin/data-register (Art. 12)
+.env secrets                →     macOS Keychain integration</code></pre>
+
+          <h2>Step-by-step migration</h2>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Pull your Bolt project locally</div></div>
+            <div class="step-content"><p>Export or download your Bolt project (or clone the GitHub repo if Bolt synced it). Keep it side-by-side with your new Already CH project.</p></div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Run the Vite → Next.js helper</div></div>
+            <div class="step-content">
+              <p>The included CLI maps Vite pages and assets to the Next.js App Router structure used by Already CH.</p>
+              <pre><code>pnpm Already CH migrate bolt --source ../my-bolt-app</code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Move Supabase to Exoscale (optional but recommended)</div></div>
+            <div class="step-content"><p>If you want full Swiss residency, spin up self-hosted Supabase on Exoscale using the included <code>docker-compose.prod.yml</code>. <code>pg_dump</code> your Supabase Cloud database and restore it locally.</p></div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Replace Stripe with Payrexx</div></div>
+            <div class="step-content"><p>Create one Payrexx gateway per plan (unique CHF amounts). Set the webhook to <code>/api/webhooks/payrexx</code>. TWINT and PostFinance enable automatically once your Payrexx contract supports them.</p></div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Convert client fetching to Server Components</div></div>
+            <div class="step-content"><p>Search for <code>useEffect</code> + <code>supabase.from</code> patterns and convert each to an <code>async</code> Server Component using Drizzle with <code>withOrgScope()</code>.</p></div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Fill the nFADP register</div></div>
+            <div class="step-content"><p>Go to <code>/admin/data-register</code> and add one row per processing activity. Done.</p></div>
+          </div>
+
+          <h2>Common questions</h2>
+          <h3>What if my Bolt app is Next.js already?</h3>
+          <p>Even better — skip the Vite mapping and go straight to copying components and routes into Already CH's route groups.</p>
+          <h3>How long does this take?</h3>
+          <p>Bolt-generated app, small surface: half a day. Add Stripe → Payrexx and self-hosting Supabase on Exoscale: 1–2 days.</p>
+
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to migrate?</div>
+            <h3>Already CH — CHF 199</h3>
+            <p>16 Swiss-sovereign modules. Payrexx + TWINT billing. nFADP compliant. Full source ownership.</p>
+            <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-buy">Buy Solo — CHF 199 →</a>
+            <div class="note">14-day refund if you haven't cloned · Lifetime v1.x updates</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/lovable" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Lovable →</a>
+            <a href="/migrate/base44" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Base44 →</a>
+            <a href="/migrate/v0" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">v0 by Vercel →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){var n=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('al-th',n);_s();};
+    function _s(){var d=html.getAttribute('data-theme')==='dark';var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');if(b){b.textContent=d?'○':'◐';}if(bm){bm.textContent=(d?'○':'◐')+' Theme';}}
+    window.toggleMobileNav=function(){var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');if(!m)return;var o=m.classList.toggle('open');if(h){h.setAttribute('aria-expanded',String(o));var sp=h.querySelectorAll('span');if(o){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}}};
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_s();}});}_s();
+  })();
+  </script>
+</body>
+</html>

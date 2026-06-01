@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Swiss SaaS Launch Checklist — 48 items before you ship 🇨🇭</title>
+  <meta name="description" content="48 things every Swiss-sovereign SaaS needs before launch: Payrexx live mode, TWINT, nFADP register, Matomo cookie-free, Swiss VAT, Handelsregister, Infomaniak SMTP. Interactive checklist with score.">
+  <link rel="canonical" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/checklist/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/checklist/">
+  <meta property="og:title" content="Swiss SaaS Launch Checklist — 48 items before you ship">
+  <meta property="og:description" content="Payrexx live mode, TWINT, nFADP, Matomo, Swiss VAT, commercial register — interactive Swiss launch checklist.">
+  <meta property="og:url" content="https://alreadykit.com/checklist/">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23D40000'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Swiss SaaS Launch Checklist — 48 items before you ship",
+    "description": "48 items across 8 Swiss-specific categories: Payrexx live mode, TWINT, nFADP register, Matomo cookie-free, Swiss VAT, Handelsregister, hardening.",
+    "url": "https://alreadykit.com/checklist/",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": { "@type": "Person", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "name": "wait, what." }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--sans:'Inter Tight','Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace; }
+    @media (prefers-color-scheme: dark) { :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80; } }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 20px; } }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    @media (max-width: 640px) { .nav-inner { padding: 0 20px; } }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .score-bar { position: sticky; top: 56px; z-index: 9; background: var(--paper); border-bottom: 1px solid var(--rule); padding: 12px 0; }
+    .score-inner { max-width: 880px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 20px; }
+    @media (max-width: 640px) { .score-inner { padding: 0 20px; gap: 12px; } }
+    .score-label { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; min-width: 72px; }
+    .score-track { flex: 1; height: 6px; background: var(--rule); overflow: hidden; }
+    .score-fill { height: 100%; background: var(--ink); transition: width 0.2s ease; }
+    .score-pct { font-family: var(--mono); font-size: 12px; color: var(--ink-muted); white-space: nowrap; min-width: 36px; text-align: right; }
+    .share-btn, .reset-btn { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 6px 12px; cursor: pointer; transition: all 0.12s; white-space: nowrap; }
+    .share-btn { border-color: var(--rule); }
+    .share-btn:hover { border-color: var(--ink); color: var(--ink); }
+    .reset-btn:hover { color: var(--signal); }
+
+    .page-header { padding: 56px 0 32px; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    h1 { font-size: clamp(26px,4vw,40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.10; color: var(--ink); margin-bottom: 16px; }
+    h1 em { font-style: normal; color: var(--signal); }
+    .lede { font-size: 16px; line-height: 1.65; color: var(--ink-secondary); max-width: 640px; margin-bottom: 20px; }
+    .legend { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 24px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-muted); }
+    .badge-already { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; background: var(--ink); color: var(--paper); padding: 2px 7px; }
+    .badge-manual { display: inline-flex; align-items: center; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; background: transparent; color: var(--ink-muted); border: 1px solid var(--rule); padding: 2px 7px; }
+
+    .category { margin-bottom: 48px; }
+    .cat-header { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 10px; border-bottom: 2px solid var(--ink); margin-bottom: 2px; }
+    .cat-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
+    .cat-count { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); }
+
+    .item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--rule); cursor: pointer; transition: background 0.08s; }
+    .item:last-child { border-bottom: none; }
+    .item:hover { background: var(--paper-subtle); margin: 0 -16px; padding: 12px 16px; }
+    .item input[type="checkbox"] { appearance: none; -webkit-appearance: none; width: 18px; height: 18px; min-width: 18px; border: 1.5px solid var(--rule); background: var(--paper); cursor: pointer; transition: all 0.12s; margin-top: 1px; position: relative; flex-shrink: 0; }
+    .item input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
+    .item input[type="checkbox"]:checked::after { content: ""; position: absolute; top: 2px; left: 5px; width: 5px; height: 9px; border: 2px solid var(--paper); border-top: none; border-left: none; transform: rotate(45deg); }
+    .item-body { flex: 1; min-width: 0; }
+    .item-label { font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.4; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .item-note { font-size: 13px; color: var(--ink-muted); line-height: 1.5; margin-top: 3px; }
+    .item.checked .item-label { color: var(--ink-muted); text-decoration: line-through; text-decoration-color: var(--rule); }
+
+    .cta-block { border: 1px solid var(--rule); padding: 32px; margin: 56px 0; text-align: center; }
+    .cta-block h2 { font-size: 22px; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+    .cta-block p { font-size: 15px; color: var(--ink-secondary); margin-bottom: 24px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 14px 28px; text-decoration: none; transition: background 0.12s; }
+    .cta-btn:hover { background: var(--signal); }
+    .cta-subtext { font-size: 13px; color: var(--ink-muted); margin-top: 12px; }
+
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: var(--paper); font-size: 14px; padding: 12px 20px; opacity: 0; transform: translateY(8px); transition: all 0.2s; pointer-events: none; z-index: 100; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Checklist",
+        "item": "https://alreadykit.com/checklist/"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+    <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="score-bar">
+    <div class="score-inner">
+      <span class="score-label" id="scoreLabel">0 / 48</span>
+      <div class="score-track"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+      <span class="score-pct" id="scorePct">0%</span>
+      <button class="share-btn" onclick="shareScore()">↗ Share</button>
+      <button class="reset-btn" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <p class="eyebrow">Swiss SaaS · 48 items 🇨🇭</p>
+      <h1>Before you ship a Swiss SaaS,<br>check this <em>list.</em></h1>
+      <p class="lede">48 things every Swiss-sovereign SaaS needs before launch — billing, nFADP, VAT, hosting residency, hardening, legal entity. Swiss-specific. Checks are saved in your browser. Items marked <span class="badge-already">Already CH</span> ship pre-wired.</p>
+      <div class="legend">
+        <div class="legend-item"><span class="badge-already">Already CH</span> Included in Already CH</div>
+        <div class="legend-item"><span class="badge-manual">build / file</span> You do this</div>
+      </div>
+    </div>
+
+    <!-- Payrexx + Billing -->
+    <div class="category" id="cat-billing">
+      <div class="cat-header"><span class="cat-title">Payrexx &amp; Billing</span><span class="cat-count" id="count-billing">0 / 8</span></div>
+      <div class="item" onclick="toggle('bill-1')"><input type="checkbox" id="bill-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Payrexx live-mode keys swapped in <span class="badge-manual">build</span></div><div class="item-note">Move <code>PAYREXX_API_KEY</code> + <code>PAYREXX_WEBHOOK_SECRET</code> from test to live. Verify with a CHF 1 self-purchase before announcing.</div></div></div>
+      <div class="item" onclick="toggle('bill-2')"><input type="checkbox" id="bill-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Payrexx gateway IDs unique per plan <span class="badge-already">Already CH</span></div><div class="item-note">Plan key is derived from transaction amount — duplicate amounts break the plan mapping.</div></div></div>
+      <div class="item" onclick="toggle('bill-3')"><input type="checkbox" id="bill-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Webhook handler is idempotent <span class="badge-already">Already CH</span></div><div class="item-note">Persisted in <code>payment_events</code>. Processing same transaction ID twice is safe.</div></div></div>
+      <div class="item" onclick="toggle('bill-4')"><input type="checkbox" id="bill-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Dead-letter queue for failed webhooks <span class="badge-already">Already CH</span></div><div class="item-note"><code>payment_events_failed</code> + <code>/debug-webhook</code> admin page.</div></div></div>
+      <div class="item" onclick="toggle('bill-5')"><input type="checkbox" id="bill-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">TWINT enabled in Payrexx dashboard <span class="badge-manual">file</span></div><div class="item-note">Apply via Payrexx → Payment methods. Approval takes 1–3 business days.</div></div></div>
+      <div class="item" onclick="toggle('bill-6')"><input type="checkbox" id="bill-6" onchange="handleChange(event)"><div class="item-body"><div class="item-label">PostFinance + Swiss cards enabled <span class="badge-manual">file</span></div><div class="item-note">PostFinance requires a separate contract. Visa/Mastercard/AmEx come standard.</div></div></div>
+      <div class="item" onclick="toggle('bill-7')"><input type="checkbox" id="bill-7" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Apple Pay + Google Pay domain-verified <span class="badge-manual">file</span></div><div class="item-note">Add your production domain in the Payrexx wallet settings + Apple developer.</div></div></div>
+      <div class="item" onclick="toggle('bill-8')"><input type="checkbox" id="bill-8" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Settlement bank account verified <span class="badge-manual">file</span></div><div class="item-note">Confirm IBAN in Payrexx settings. T+1 CHF settlement to Swiss bank.</div></div></div>
+    </div>
+
+    <!-- Swiss VAT + Tax -->
+    <div class="category" id="cat-vat">
+      <div class="cat-header"><span class="cat-title">Swiss VAT &amp; Tax</span><span class="cat-count" id="count-vat">0 / 6</span></div>
+      <div class="item" onclick="toggle('vat-1')"><input type="checkbox" id="vat-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">VAT 8.1% rate set in <code>config/billing.ts</code> <span class="badge-already">Already CH</span></div><div class="item-note"><code>vatRate = 0.081</code>. Standard rate from 1 January 2024.</div></div></div>
+      <div class="item" onclick="toggle('vat-2')"><input type="checkbox" id="vat-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Swiss VAT registration filed (if turnover &gt; CHF 100k) <span class="badge-manual">file</span></div><div class="item-note">ESTV / AFC online registration. Below threshold, registration is optional but lets you reclaim input VAT.</div></div></div>
+      <div class="item" onclick="toggle('vat-3')"><input type="checkbox" id="vat-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">UID printed on every invoice <span class="badge-manual">build</span></div><div class="item-note">Format <code>CHE-xxx.xxx.xxx</code>. Required on invoices once registered.</div></div></div>
+      <div class="item" onclick="toggle('vat-4')"><input type="checkbox" id="vat-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">EU OSS registration considered (EU B2C sales &gt; €10k) <span class="badge-manual">file</span></div><div class="item-note">Once cross-border B2C exceeds €10k/yr, register OSS via a fiscal rep in one EU country.</div></div></div>
+      <div class="item" onclick="toggle('vat-5')"><input type="checkbox" id="vat-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Reverse-charge wording on B2B invoices to EU <span class="badge-manual">build</span></div><div class="item-note">"Reverse charge — Art. 196 EU VAT Directive". Customer accounts for VAT locally.</div></div></div>
+      <div class="item" onclick="toggle('vat-6')"><input type="checkbox" id="vat-6" onchange="handleChange(event)"><div class="item-body"><div class="item-label">10-year invoice retention configured <span class="badge-already">Already CH</span></div><div class="item-note">Required by Art. 958f Swiss Code of Obligations. Stored in Supabase + Exoscale SOS.</div></div></div>
+    </div>
+
+    <!-- Legal entity + Handelsregister -->
+    <div class="category" id="cat-legal">
+      <div class="cat-header"><span class="cat-title">Legal entity &amp; register</span><span class="cat-count" id="count-legal">0 / 5</span></div>
+      <div class="item" onclick="toggle('leg-1')"><input type="checkbox" id="leg-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Legal entity formed (Einzelunternehmen / GmbH / AG) <span class="badge-manual">file</span></div><div class="item-note">GmbH is the default for B2B SaaS — CHF 20k capital, limited liability.</div></div></div>
+      <div class="item" onclick="toggle('leg-2')"><input type="checkbox" id="leg-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Commercial register entry (Handelsregister) <span class="badge-manual">file</span></div><div class="item-note">Mandatory for GmbH/AG from day 1; for Einzelunternehmen above CHF 100k turnover.</div></div></div>
+      <div class="item" onclick="toggle('leg-3')"><input type="checkbox" id="leg-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Domiciliation address that isn't a P.O. box <span class="badge-manual">file</span></div><div class="item-note">Swiss buyers look this up. A real address signals legitimacy.</div></div></div>
+      <div class="item" onclick="toggle('leg-4')"><input type="checkbox" id="leg-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Imprint / Impressum page published <span class="badge-manual">build</span></div><div class="item-note">Legal entity name, address, UID, e-mail, commercial register number. Required for commercial websites in CH/DE/AT.</div></div></div>
+      <div class="item" onclick="toggle('leg-5')"><input type="checkbox" id="leg-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Business liability insurance in place <span class="badge-manual">file</span></div><div class="item-note">Berufshaftpflicht ~ CHF 800–2000/yr. Required by most enterprise procurement.</div></div></div>
+    </div>
+
+    <!-- nFADP / Data Protection -->
+    <div class="category" id="cat-nfadp">
+      <div class="cat-header"><span class="cat-title">nFADP &amp; Data Protection</span><span class="cat-count" id="count-nfadp">0 / 8</span></div>
+      <div class="item" onclick="toggle('nfa-1')"><input type="checkbox" id="nfa-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">nFADP data register seeded (Art. 12) <span class="badge-already">Already CH</span></div><div class="item-note">Admin UI at <code>/admin/data-register</code>. Seed entries for Payrexx, Infomaniak, Supabase, Matomo, GitHub.</div></div></div>
+      <div class="item" onclick="toggle('nfa-2')"><input type="checkbox" id="nfa-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Privacy policy references nFADP Art. 19 <span class="badge-already">Already CH</span></div><div class="item-note">Pre-written template at <code>/legal/privacy</code>. Update controller name + address.</div></div></div>
+      <div class="item" onclick="toggle('nfa-3')"><input type="checkbox" id="nfa-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Data export endpoint (Art. 25, 30-day SLA) <span class="badge-already">Already CH</span></div><div class="item-note">User can request all personal data. 30-day legal response window per nFADP Art. 25 §6.</div></div></div>
+      <div class="item" onclick="toggle('nfa-4')"><input type="checkbox" id="nfa-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Account + data deletion endpoint (Art. 32) <span class="badge-already">Already CH</span></div><div class="item-note">Hard-delete or anonymise personal data on request; preserve commercial records for 10 years.</div></div></div>
+      <div class="item" onclick="toggle('nfa-5')"><input type="checkbox" id="nfa-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">DPIA documented if processing high-risk data (Art. 24) <span class="badge-manual">file</span></div><div class="item-note">Triggers: AI profiling, large-scale sensitive data, systematic monitoring.</div></div></div>
+      <div class="item" onclick="toggle('nfa-6')"><input type="checkbox" id="nfa-6" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Sub-processor list published &amp; up to date <span class="badge-already">Already CH</span></div><div class="item-note">Required by Art. 19. Linked from privacy policy.</div></div></div>
+      <div class="item" onclick="toggle('nfa-7')"><input type="checkbox" id="nfa-7" onchange="handleChange(event)"><div class="item-body"><div class="item-label">FDPIC-recognised SCCs for CH→US transfers (e.g. GitHub) <span class="badge-already">Already CH</span></div><div class="item-note">Standard contractual clauses referenced in DPA template.</div></div></div>
+      <div class="item" onclick="toggle('nfa-8')"><input type="checkbox" id="nfa-8" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Data breach notification process (72h to FDPIC) <span class="badge-manual">build</span></div><div class="item-note">Runbook for who, what, when. Train support before launch.</div></div></div>
+    </div>
+
+    <!-- Hosting / Data Residency -->
+    <div class="category" id="cat-host">
+      <div class="cat-header"><span class="cat-title">Hosting &amp; Data Residency</span><span class="cat-count" id="count-host">0 / 6</span></div>
+      <div class="item" onclick="toggle('h-1')"><input type="checkbox" id="h-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Production deployed to Exoscale CH-GVA-2 or CH-DK-2 <span class="badge-already">Already CH</span></div><div class="item-note">Geneva or Zurich data centre. Verify region in the Exoscale console.</div></div></div>
+      <div class="item" onclick="toggle('h-2')"><input type="checkbox" id="h-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Supabase self-hosted on Exoscale, not Supabase Cloud <span class="badge-already">Already CH</span></div><div class="item-note">Cloud routes through US/EU multi-region; self-hosted stays in CH.</div></div></div>
+      <div class="item" onclick="toggle('h-3')"><input type="checkbox" id="h-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Backups encrypted &amp; stored in Exoscale SOS (CH) <span class="badge-already">Already CH</span></div><div class="item-note">Daily Postgres backups. AES-256, stored in CH bucket.</div></div></div>
+      <div class="item" onclick="toggle('h-4')"><input type="checkbox" id="h-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">TLS via Caddy + Let's Encrypt, HSTS preloaded <span class="badge-already">Already CH</span></div><div class="item-note">Strict-Transport-Security, max-age 1yr, includeSubDomains, preload.</div></div></div>
+      <div class="item" onclick="toggle('h-5')"><input type="checkbox" id="h-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">DNS at Infomaniak / Hostpoint / Switch (not US registrar) <span class="badge-manual">file</span></div><div class="item-note">CH registrar removes one US touchpoint. SWITCH is the canonical .ch registry.</div></div></div>
+      <div class="item" onclick="toggle('h-6')"><input type="checkbox" id="h-6" onchange="handleChange(event)"><div class="item-body"><div class="item-label">No US sub-processors enabled by default <span class="badge-already">Already CH</span></div><div class="item-note">Anthropic/OpenAI/Google are opt-in fallbacks; primary AI is Mistral (FR).</div></div></div>
+    </div>
+
+    <!-- Analytics / Cookies -->
+    <div class="category" id="cat-analytics">
+      <div class="cat-header"><span class="cat-title">Analytics &amp; Cookies</span><span class="cat-count" id="count-analytics">0 / 5</span></div>
+      <div class="item" onclick="toggle('a-1')"><input type="checkbox" id="a-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Matomo running in cookie-free mode verified <span class="badge-already">Already CH</span></div><div class="item-note">Open browser dev tools → Application → Cookies. None should be set by Matomo.</div></div></div>
+      <div class="item" onclick="toggle('a-2')"><input type="checkbox" id="a-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Anonymised IP truncation enabled in Matomo <span class="badge-already">Already CH</span></div><div class="item-note">Last octet truncated (anonymizeIP = full). nFADP compliant by default.</div></div></div>
+      <div class="item" onclick="toggle('a-3')"><input type="checkbox" id="a-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">No Google Analytics, no Facebook Pixel <span class="badge-already">Already CH</span></div><div class="item-note">If you add US trackers, you must add a consent banner — defeats the point.</div></div></div>
+      <div class="item" onclick="toggle('a-4')"><input type="checkbox" id="a-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">No consent banner needed (cookie-free) <span class="badge-already">Already CH</span></div><div class="item-note">If you only set technical cookies, no banner is required under nFADP or GDPR.</div></div></div>
+      <div class="item" onclick="toggle('a-5')"><input type="checkbox" id="a-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Single technical cookie <code>al-th</code> only (dark-mode pref) <span class="badge-already">Already CH</span></div><div class="item-note">No personal data, local-only. Explicitly noted in privacy policy.</div></div></div>
+    </div>
+
+    <!-- Security -->
+    <div class="category" id="cat-security">
+      <div class="cat-header"><span class="cat-title">Security &amp; Hardening</span><span class="cat-count" id="count-security">0 / 6</span></div>
+      <div class="item" onclick="toggle('s-1')"><input type="checkbox" id="s-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Friendly Captcha verified on sign-up + sensitive endpoints <span class="badge-already">Already CH</span></div><div class="item-note">DE-based, privacy-first. Replaces Vercel BotID. Verify server-side.</div></div></div>
+      <div class="item" onclick="toggle('s-2')"><input type="checkbox" id="s-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Rate limits on auth + write endpoints via ioredis <span class="badge-already">Already CH</span></div><div class="item-note">rate-limiter-flexible. Per-user and per-IP.</div></div></div>
+      <div class="item" onclick="toggle('s-3')"><input type="checkbox" id="s-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">CSP nonces + HSTS + secure transport headers <span class="badge-already">Already CH</span></div><div class="item-note">Caddy config bakes these in. Verify with securityheaders.com.</div></div></div>
+      <div class="item" onclick="toggle('s-4')"><input type="checkbox" id="s-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">TOTP + Passkeys + org-wide MFA mandate <span class="badge-already">Already CH</span></div><div class="item-note">Owners can force-enrol all members. Required by enterprise procurement.</div></div></div>
+      <div class="item" onclick="toggle('s-5')"><input type="checkbox" id="s-5" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Secrets in macOS Keychain, never in <code>.env</code> <span class="badge-already">Already CH</span></div><div class="item-note">Service-role key, Payrexx API key, SMTP password — all injected from Keychain in dev.</div></div></div>
+      <div class="item" onclick="toggle('s-6')"><input type="checkbox" id="s-6" onchange="handleChange(event)"><div class="item-body"><div class="item-label">GlitchTip error tracking live, PII scrubbed <span class="badge-already">Already CH</span></div><div class="item-note">Sentry-compatible DSN. <code>beforeSend</code> hook strips user identifiers.</div></div></div>
+    </div>
+
+    <!-- Localisation -->
+    <div class="category" id="cat-i18n">
+      <div class="cat-header"><span class="cat-title">Localisation</span><span class="cat-count" id="count-i18n">0 / 4</span></div>
+      <div class="item" onclick="toggle('i-1')"><input type="checkbox" id="i-1" onchange="handleChange(event)"><div class="item-body"><div class="item-label">German (DE) translations reviewed by a native <span class="badge-manual">build</span></div><div class="item-note">German is the largest CH market (~63%). Machine translation is not enough.</div></div></div>
+      <div class="item" onclick="toggle('i-2')"><input type="checkbox" id="i-2" onchange="handleChange(event)"><div class="item-body"><div class="item-label">French (FR) translations reviewed <span class="badge-manual">build</span></div><div class="item-note">Romandie (~23%). Different sales culture — formal, longer cycles.</div></div></div>
+      <div class="item" onclick="toggle('i-3')"><input type="checkbox" id="i-3" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Italian (IT) translations reviewed <span class="badge-manual">build</span></div><div class="item-note">Ticino (~8%). Smaller but loyal market.</div></div></div>
+      <div class="item" onclick="toggle('i-4')"><input type="checkbox" id="i-4" onchange="handleChange(event)"><div class="item-body"><div class="item-label">Imprint + privacy + terms localised <span class="badge-already">Already CH</span></div><div class="item-note">i18n keys exist for all legal pages. Translate before launch.</div></div></div>
+    </div>
+
+    <div class="cta-block" id="cta-block">
+      <h2 id="cta-title">Skip the technical setup. Already CH ships the whole stack pre-wired.</h2>
+      <p id="cta-body">Payrexx + TWINT, nFADP register, Matomo cookie-free, Friendly Captcha, GlitchTip, Mistral AI, i18n — all wired into a Swiss-sovereign Next.js codebase you own.</p>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="cta-btn">Get Already CH — CHF 199 →</a>
+      <p class="cta-subtext">Solo CHF 199 · Team CHF 399 · Enterprise +CHF 299</p>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+    <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const TOTAL = 48;
+    const STORAGE_KEY = 'already-ch-checklist-v1';
+    const categoryCounts = { billing: 8, vat: 6, legal: 5, nfadp: 8, host: 6, analytics: 5, security: 6, i18n: 4 };
+
+    function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } }
+    function saveState(s) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {} }
+    function countChecked() { return Object.values(loadState()).filter(Boolean).length; }
+
+    function updateScore() {
+      const checked = countChecked();
+      const pct = Math.round((checked / TOTAL) * 100);
+      document.getElementById('scoreLabel').textContent = checked + ' / ' + TOTAL;
+      document.getElementById('scoreFill').style.width = pct + '%';
+      document.getElementById('scorePct').textContent = pct + '%';
+      Object.entries(categoryCounts).forEach(([cat, total]) => {
+        const items = document.querySelectorAll('#cat-' + cat + ' input[type="checkbox"]');
+        const cc = Array.from(items).filter(el => el.checked).length;
+        const el = document.getElementById('count-' + cat);
+        if (el) el.textContent = cc + ' / ' + total;
+      });
+      updateCTA(checked);
+    }
+
+    function updateCTA(checked) {
+      const remaining = 30 - Math.min(checked, 30);
+      const t = document.getElementById('cta-title');
+      const b = document.getElementById('cta-body');
+      if (!t) return;
+      if (checked === 0) { t.textContent = 'Skip the technical setup. Already CH ships the whole stack pre-wired.'; b.textContent = 'Payrexx + TWINT, nFADP register, Matomo cookie-free, Friendly Captcha, GlitchTip, Mistral AI, i18n — all wired into a Swiss-sovereign Next.js codebase you own.'; }
+      else if (remaining > 0) { t.textContent = 'Already CH ships ' + remaining + ' of the unchecked items.'; b.textContent = 'Skip the remaining Swiss-stack integration work. Already CH ships those pre-wired and nFADP-aligned.'; }
+      else { t.textContent = 'You\'re ready to launch in Switzerland.'; b.textContent = 'If you want a starter kit that ships all of this pre-wired for your next Swiss SaaS, that\'s Already CH.'; }
+    }
+
+    function toggle(id) {
+      const el = document.getElementById(id); if (!el) return;
+      el.checked = !el.checked;
+      const s = loadState(); s[id] = el.checked; saveState(s);
+      const item = el.closest('.item'); if (item) item.classList.toggle('checked', el.checked);
+      updateScore();
+    }
+    function handleChange(e) {
+      e.stopPropagation();
+      const el = e.target; const s = loadState(); s[el.id] = el.checked; saveState(s);
+      const item = el.closest('.item'); if (item) item.classList.toggle('checked', el.checked);
+      updateScore();
+    }
+    function resetAll() {
+      if (!confirm('Reset all checkboxes?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      document.querySelectorAll('input[type="checkbox"]').forEach(el => { el.checked = false; const it = el.closest('.item'); if (it) it.classList.remove('checked'); });
+      updateScore();
+    }
+    function shareScore() {
+      const c = countChecked();
+      const pct = Math.round((c / TOTAL) * 100);
+      const text = 'My Swiss SaaS launch checklist 🇨🇭 ' + c + '/' + TOTAL + ' (' + pct + '%). How does yours stack up? https://alreadykit.com/checklist';
+      if (navigator.clipboard) { navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard')); }
+      else { const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('Copied to clipboard'); }
+    }
+    function showToast(m) { const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2500); }
+
+    (function init() {
+      const s = loadState();
+      Object.entries(s).forEach(([id, c]) => { const el = document.getElementById(id); if (el && c) { el.checked = true; const it = el.closest('.item'); if (it) it.classList.add('checked'); } });
+      updateScore();
+    })();
+  </script>
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){var n=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('al-th',n);_s();};
+    function _s(){var d=html.getAttribute('data-theme')==='dark';var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');if(b){b.textContent=d?'○':'◐';}if(bm){bm.textContent=(d?'○':'◐')+' Theme';}}
+    window.toggleMobileNav=function(){var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');if(!m)return;var o=m.classList.toggle('open');if(h){h.setAttribute('aria-expanded',String(o));var sp=h.querySelectorAll('span');if(o){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}}};
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_s();}});}_s();
+  })();
+  </script>
+</body>
+</html>

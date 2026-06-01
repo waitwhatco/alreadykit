@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Already vs Next.js SaaS Starter — Production SaaS starter comparison</title>
+  <meta name="description" content="The Vercel Next.js SaaS Starter is free and officially maintained — an excellent foundation. Already ships what it leaves out: billing, auth hardening,.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <link rel="canonical" href="https://alreadykit.com/vs/nextjs-saas-starter">
+  <meta property="og:title" content="Already vs Next.js SaaS Starter — What the Vercel starter leaves out">
+  <meta property="og:description" content="The Vercel SaaS starter is clean, free, and officially maintained. Already is what you build on top of it — billing, multi-tenancy, admin, background jobs, and AI.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/vs/nextjs-saas-starter">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Already vs Next.js SaaS Starter — What the Vercel starter leaves out">
+  <meta name="twitter:description" content="Vercel's SaaS starter is free and minimal. Already ships 16 production modules on top of the same Next.js + Drizzle foundation.">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Already vs Next.js SaaS Starter — Production SaaS starter comparison",
+    "description": "A feature-by-feature comparison of the Already Next.js SaaS starter and the official Vercel Next.js SaaS Starter.",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "name": "wait, what.", "url": "https://alreadykit.com" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "url": "https://alreadykit.com/vs/nextjs-saas-starter",
+    "about": [
+      { "@type": "SoftwareApplication", "name": "Already", "url": "https://alreadykit.com" },
+      { "@type": "SoftwareApplication", "name": "Next.js SaaS Starter", "url": "https://github.com/vercel/nextjs-saas-starter" }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --green: #1A6632; --green-bg: #F0FAF3;
+      --amber: #7A4C00; --amber-bg: #FEF9EC;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--amber:#7A4C00;--amber-bg:#FEF9EC; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 20px; } }
+
+    /* Nav */
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; letter-spacing: 0.01em; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    /* Layout */
+    .page-wrap { display: grid; grid-template-columns: 1fr 280px; gap: 64px; padding: 64px 0 120px; }
+    @media (max-width: 900px) { .page-wrap { grid-template-columns: 1fr; gap: 40px; } }
+
+    /* Header */
+    .page-header { padding: 64px 0 0; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    h1 { font-size: clamp(24px, 3vw, 38px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.10; color: var(--ink); margin-bottom: 20px; }
+    .lede { font-size: 17px; line-height: 1.65; color: var(--ink-secondary); max-width: 640px; margin-bottom: 0; }
+
+    /* Verdict */
+    .verdict { border-left: 3px solid var(--ink); padding: 20px 24px; background: var(--paper-subtle); margin: 40px 0; }
+    .verdict p { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); }
+    .verdict strong { color: var(--ink); }
+
+    /* Section headings */
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.018em; color: var(--ink); margin: 56px 0 16px; padding-top: 56px; border-top: 1px solid var(--rule); }
+    h2:first-of-type { margin-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); margin: 28px 0 10px; }
+    p { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* Feature matrix */
+    .matrix-wrap { overflow-x: auto; margin: 24px 0; max-width: 100%; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead th { padding: 10px 16px; text-align: left; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); background: var(--paper-subtle); border-bottom: 2px solid var(--rule); }
+    thead th:nth-child(2), thead th:nth-child(3) { text-align: center; }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--paper-subtle); }
+    tbody td { padding: 10px 16px; color: var(--ink-secondary); vertical-align: middle; }
+    tbody td:nth-child(2), tbody td:nth-child(3) { text-align: center; font-size: 16px; }
+    .yes { color: var(--green); }
+    .no { color: var(--ink-subtle); }
+    .partial { color: var(--amber); font-size: 16px; }
+    .partial-note { display: block; font-size: 10px; font-family: var(--mono); margin-top: 1px; opacity: 0.85; }
+    .alt { color: var(--ink-secondary); font-size: 11px; font-family: var(--mono); letter-spacing: 0.02em; }
+    .cat-row td { font-weight: 600; color: var(--ink); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; background: var(--paper-subtle); padding: 8px 16px; }
+
+    /* Section comparison blocks */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    @media (max-width: 640px) { .compare-grid { grid-template-columns: 1fr; } }
+    .compare-card { border: 1px solid var(--rule); padding: 20px 24px; }
+    .compare-card h4 { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .compare-card p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 0; }
+    .compare-card.winner { border-color: var(--ink); }
+    .compare-card.winner h4 { color: var(--ink); }
+    .tag { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; margin-left: 6px; vertical-align: middle; }
+    .tag-wins { background: var(--ink); color: var(--paper); }
+    .tag-free { background: var(--paper-subtle); color: var(--ink-muted); border: 1px solid var(--rule); }
+
+    /* Who uses what */
+    .use-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+    @media (max-width: 640px) { .use-grid { grid-template-columns: 1fr; } }
+    .use-card { border: 1px solid var(--rule); padding: 24px; }
+    .use-card h3 { font-size: 16px; margin-top: 0; margin-bottom: 8px; }
+    .use-card ul { list-style: none; padding: 0; }
+    .use-card ul li { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); padding: 4px 0; padding-left: 20px; position: relative; }
+    .use-card ul li::before { content: "—"; position: absolute; left: 0; color: var(--ink-subtle); }
+
+    /* Sidebar */
+    .sidebar { padding-top: 0; }
+    .sidebar-card { border: 1px solid var(--rule); padding: 28px; position: sticky; top: 72px; }
+    .sidebar-card h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.010em; margin-bottom: 8px; margin-top: 0; }
+    .sidebar-card p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 20px; }
+    .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .price-main { font-size: 28px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); }
+    .price-label { font-size: 13px; color: var(--ink-muted); }
+    .price-note { font-size: 12px; font-family: var(--mono); color: var(--ink-muted); margin-bottom: 20px; }
+    .cta-btn { display: block; text-align: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 20px; text-decoration: none; transition: background 0.12s; margin-bottom: 12px; }
+    .cta-btn:hover { background: var(--signal); }
+    .cta-secondary { display: block; text-align: center; font-size: 13px; color: var(--ink-muted); text-decoration: none; padding: 8px; transition: color 0.12s; }
+    .cta-secondary:hover { color: var(--ink); }
+    .sidebar-list { list-style: none; padding: 0; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--rule); }
+    .sidebar-list li { font-size: 13px; line-height: 1.6; color: var(--ink-secondary); padding: 3px 0; padding-left: 14px; position: relative; }
+    .sidebar-list li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-size: 11px; }
+
+    /* Breadcrumb */
+    .breadcrumb { font-size: 13px; color: var(--ink-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--ink-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--ink); }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net */
+    @media (max-width: 760px) {
+      img, svg, table { max-width: 100%; height: auto; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      .verdict, .compare-grid > *, .matrix-wrap, main { max-width: 100%; min-width: 0; }
+      p, li, h1, h2, h3 { overflow-wrap: anywhere; word-break: break-word; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Already vs Next.js SaaS Starter",
+        "item": "https://alreadykit.com/vs/nextjs-saas-starter"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <p class="breadcrumb"><a href="/">Already</a> <span>/</span> Comparison</p>
+      <p class="eyebrow">vs · Next.js SaaS Starter</p>
+      <h1 data-i18n="vs_nextjs.h1" data-i18n-html>The Vercel starter is the cleanest foundation.<br>Already is what goes on top.</h1>
+      <p class="lede" data-i18n="vs_nextjs.lede" data-i18n-html>The official Vercel Next.js SaaS Starter is free, MIT-licensed, and maintained by the team that builds Next.js. It's an excellent starting point for a demo or internal tool. Already ships 16 production modules on a similar foundation — billing, auth hardening, multi-tenancy, admin dashboard, background jobs, AI integration — for teams building commercial SaaS.</p>
+    </div>
+
+    <div class="page-wrap">
+      <main>
+
+        <div class="verdict">
+          <p><strong>Short version:</strong> The Vercel SaaS starter is genuinely the best free starting point for Next.js + Drizzle. It's clean, official, and well-documented. Already is what you build after you realise you need billing, auth hardening, multi-tenancy, an admin dashboard, and background jobs before you can ship your product. It ships all of those — for $199, once.</p>
+        </div>
+
+        <h2>Feature matrix</h2>
+        <div class="matrix-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Next.js SaaS Starter</th>
+                <th>Already</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cat-row"><td colspan="3">Framework & Language</td></tr>
+              <tr><td>Next.js App Router</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>TypeScript</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Tailwind CSS</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>shadcn/ui components</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Drizzle ORM</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Database</td><td class="alt">raw Postgres</td><td class="yes">Supabase Postgres</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Authentication</td></tr>
+              <tr><td>Auth.js (NextAuth v5)</td><td class="yes">✓</td><td class="no">—</td></tr>
+              <tr><td>Supabase Auth</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Basic sign-in / sign-up forms</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>OAuth (Google, GitHub)</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+              <tr><td>Magic link (passwordless)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>TOTP 2FA (authenticator app)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Passkeys (WebAuthn)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Auth event audit log</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Org-wide MFA mandate (owner toggle)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>SAML SSO</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Billing & Payments</td></tr>
+              <tr><td>Stripe integration</td><td class="partial">~<span class="partial-note">basic</span></td><td class="yes">✓</td></tr>
+              <tr><td>Idempotent webhook handler</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Dead-letter queue for failed webhooks</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Plan-based feature gating</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Customer billing portal</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Trial + grace period</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Multi-tenancy & Orgs</td></tr>
+              <tr><td>Organisation / workspace model</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Role-based access control (RBAC)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Member invitations</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Row-level security (Postgres RLS)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Admin dashboard with impersonation</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>B2C personal-workspace mode (config flag)</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Messaging</td></tr>
+              <tr><td>Transactional email</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>In-app notifications (Realtime)</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Background Work</td></tr>
+              <tr><td>Cron-based background jobs</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Postgres-backed job queue</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>API key management (hashed at rest)</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Security & Hardening</td></tr>
+              <tr><td>CSP nonces (per-request, strict-dynamic)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Rate limiting on every authenticated endpoint</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Suspicious activity detection (6 signals)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>SSRF-guarded outbound webhooks with HMAC</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>AES-256-GCM secret-at-rest encryption</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>macOS Keychain secret storage (CLI)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Pre-commit hook that blocks live secrets in .env</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>GDPR export + deletion endpoints</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>SCIM 2.0 provisioning (Okta, Entra)</td><td class="no">—</td><td class="partial">~<span class="partial-note">+$299 add-on</span></td></tr>
+
+              <tr class="cat-row"><td colspan="3">AI & Developer Experience</td></tr>
+              <tr><td>Multi-provider AI module</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>AI credits ledger</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>Feature flags (PostHog)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>AI-native context (CLAUDE.md / Cursor rules)</td><td class="no">—</td><td class="yes">✓</td></tr>
+              <tr><td>i18n (next-intl)</td><td class="no">—</td><td class="yes">✓</td></tr>
+
+              <tr class="cat-row"><td colspan="3">Cost</td></tr>
+              <tr><td>Price</td><td class="yes">Free (MIT)</td><td class="yes">$199 one-time</td></tr>
+              <tr><td>Officially Vercel-maintained</td><td class="yes">✓</td><td class="no">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:13px;color:var(--ink-muted)">✓ Included · — Not included · Amber text = partial implementation.</p>
+
+        <h2>Auth</h2>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h4>Next.js SaaS Starter <span class="tag tag-free">free</span></h4>
+            <p>Uses Auth.js v5 (NextAuth) with email + password and OAuth. Basic sign-in and sign-up forms are included. No magic link, no TOTP 2FA, no passkeys, and no auth audit log. For a free starting point, the coverage is reasonable and the implementation is clean.</p>
+          </div>
+          <div class="compare-card winner">
+            <h4>Already <span class="tag tag-wins">complete</span></h4>
+            <p>Supabase Auth with pre-built screens for every flow: email + password, magic link, OAuth, TOTP, and passkeys. Auth event log tracks every sign-in by device, IP, and timestamp. Email enumeration protection and rate limiting on all auth endpoints are on by default.</p>
+          </div>
+        </div>
+
+        <h2>Billing</h2>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h4>Next.js SaaS Starter <span class="tag tag-free">free</span></h4>
+            <p>Includes a basic Stripe subscription setup — enough to get a pricing page live and process a first payment. The webhook handler is minimal: no idempotency guarantees and no dead-letter queue. Plan-based feature gating, customer portal, and trial periods are not included.</p>
+          </div>
+          <div class="compare-card winner">
+            <h4>Already <span class="tag tag-wins">complete</span></h4>
+            <p>Full Stripe integration with idempotent webhook handling and a dead-letter queue for failed events. Plan-based feature gating, customer portal, trial periods with grace periods, and billing email notifications are all wired. Production-grade from day one.</p>
+          </div>
+        </div>
+
+        <h2>Multi-tenancy — what the Vercel starter intentionally omits</h2>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h4>Next.js SaaS Starter <span class="tag tag-free">free</span></h4>
+            <p>No multi-tenancy. The starter is explicitly scoped to single-user SaaS — Vercel's own documentation notes it as a starting point, not a complete product. Teams, organisations, member invitations, RBAC, and admin tooling are all out of scope and left to the developer.</p>
+          </div>
+          <div class="compare-card winner">
+            <h4>Already <span class="tag tag-wins">complete</span></h4>
+            <p>Full multi-tenant org model with Postgres RLS and query-layer tenant scoping. Member invitations with role assignment, RBAC across all routes, and an admin dashboard with user impersonation. Tested for cross-tenant data isolation. Standard B2B SaaS infrastructure, shipped.</p>
+          </div>
+        </div>
+
+        <h2>The Supabase vs. direct Postgres difference</h2>
+        <p>The Vercel starter connects to a direct Postgres database — no Supabase. This is a deliberate choice: it keeps the starter portable and not tied to a specific managed service. For a learning project or an internal tool with simple requirements, that's fine.</p>
+        <p>Already uses Supabase, which adds Realtime (for in-app notifications), Row-Level Security (enforced at the database layer), Storage, and a managed Auth service. If you're building a multi-tenant product, the Supabase stack is meaningfully better tooled — you get RLS for free, Realtime for notifications, and managed auth. The trade-off is vendor lock-in, which Already accepts as a deliberate decision.</p>
+
+        <h2>Who should use what</h2>
+        <div class="use-grid">
+          <div class="use-card">
+            <h3>Use Next.js SaaS Starter when</h3>
+            <ul>
+              <li>You need a free, MIT-licensed starting point</li>
+              <li>You're building a demo, internal tool, or prototype</li>
+              <li>You prefer to pick your own managed database provider</li>
+              <li>Vercel's official codebase and maintenance matter to you</li>
+              <li>Your product is single-user or doesn't require teams/orgs</li>
+              <li>You have time to build billing, admin, and background jobs yourself</li>
+            </ul>
+          </div>
+          <div class="use-card">
+            <h3>Use Already when</h3>
+            <ul>
+              <li>You're building commercial B2B SaaS and need billing from day one</li>
+              <li>Your product needs workspaces, teams, or multi-tenancy</li>
+              <li>An admin dashboard and user management are table stakes</li>
+              <li>Background jobs and a job queue are on your roadmap</li>
+              <li>AI integration and AI-native DX (CLAUDE.md) matter to your workflow</li>
+              <li>You want 16 modules wired and tested — not assembled from scratch</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2>The honest comparison</h2>
+        <p>The Vercel Next.js SaaS Starter is the right answer when the answer to every module in this comparison is "we'll build that ourselves." It's clean, free, officially maintained, and uses the same Next.js + Drizzle foundation as Already. For teams with time, strong opinions on infrastructure, or a budget of $0, it's a great foundation.</p>
+        <p>Already is for the team that has built SaaS before and knows that billing, multi-tenancy, background jobs, and security hardening are 6–8 weeks of work before the first line of product code. The $199 one-time price is the cost of skipping that infrastructure build — with all 16 modules tested, documented, and ready to extend.</p>
+
+      </main>
+
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3>Already</h3>
+          <p>16 production modules. Buy once, own the code.</p>
+          <div class="price-row">
+            <span class="price-main">$199</span>
+            <span class="price-label">Solo licence</span>
+          </div>
+          <p class="price-note">$249 after June 24 · Team $399</p>
+          <a href="/#pricing" class="cta-btn" rel="noopener">Buy Already →</a>
+          <a href="/" class="cta-secondary">See what's included</a>
+          <ul class="sidebar-list">
+            <li>Auth with TOTP + passkeys</li>
+            <li>Stripe billing, complete</li>
+            <li>Multi-tenant org model</li>
+            <li>Admin dashboard</li>
+            <li>Transactional email</li>
+            <li>Background jobs + queues</li>
+            <li>AI integration + credits</li>
+            <li>Security hardening</li>
+            <li>i18n (5 locales)</li>
+            <li>GDPR-compliant</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+            <span>Tailwind v4</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

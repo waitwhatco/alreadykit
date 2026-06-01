@@ -1,0 +1,2148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <!-- Affonso affiliate tracking pixel -->
+  <script async defer src="https://cdn.affonso.io/js/pixel.min.js" data-affonso="cmpqzez07000r134xkdixkmwr" data-cookie_duration="30"></script>
+  <!-- Affonso: append referral as reference_id to Polar Payment Links -->
+  <script>
+  function enhancePolarLinks(){if(window.affonso_referral){document.querySelectorAll('a[href*="buy.polar.sh"]').forEach(function(link){if(link.href.includes('reference_id='))return;var s=link.href.includes('?')?'&':'?';link.href=link.href+s+'reference_id='+window.affonso_referral;});}}
+  setTimeout(enhancePolarLinks,800);setTimeout(enhancePolarLinks,1500);setTimeout(enhancePolarLinks,2500);
+  window.addEventListener('affonso_referral_ready',enhancePolarLinks);
+  </script>  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Already CH — Swiss-sovereign Next.js SaaS starter kit</title>
+  <meta name="description" content="Next.js 15 SaaS starter kit built for Switzerland. nFADP-compliant, Swiss data residency, Payrexx + TWINT billing, Exoscale hosting, Matomo analytics. No US cloud vendors by default. One-time CHF 199.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/">
+  <link rel="canonical" href="https://alreadykit.com/ch/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://alreadykit.com/ch/">
+  <meta property="og:site_name" content="Already">
+  <meta property="og:title" content="Already CH — Swiss-sovereign Next.js SaaS starter kit">
+  <meta property="og:description" content="16 modules. Payrexx + TWINT billing, Exoscale hosting, Matomo analytics, nFADP compliance built in. Data stays in Switzerland. One-time CHF 199.">
+  <!-- og:image: export og.html at 1200×630 → og.png, then deploy alongside this file -->
+  <meta property="og:image" content="https://alreadykit.com/ch/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Already CH — Swiss-sovereign Next.js SaaS starter kit">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Already CH — Swiss-sovereign Next.js SaaS starter kit">
+  <meta name="twitter:description" content="16 modules. Payrexx + TWINT billing, Exoscale hosting, Matomo analytics, nFADP compliance built in. Data stays in Switzerland. One-time CHF 199.">
+  <meta name="twitter:image" content="https://alreadykit.com/ch/og.png">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23D40000'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+
+  <!-- Structured data: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://alreadykit.com/ch/#organization",
+    "name": "wait, what.",
+    "alternateName": "wait what",
+    "url": "https://alreadykit.com/ch",
+    "description": "wait, what. is a product and capital-architecture studio. Already CH is their Swiss-sovereign developer product — a production-ready Next.js SaaS starter kit built for Swiss builders.",
+    "foundingDate": "2024",
+    "parentOrganization": {
+      "@type": "Organization",
+      "@id": "https://www.wait-what.shop/#org",
+      "name": "wait, what.",
+      "legalName": "wait, what. LLC",
+      "url": "https://www.wait-what.shop/"
+    },
+    "sameAs": [
+      "https://www.wait-what.shop/",
+      "https://github.com/thoughtful-toby"
+    ],
+    "founder": {
+      "@type": "Person",
+      "@id": "https://alreadykit.com/ch/#founder",
+      "name": "Tobias Temmen"
+    },
+        "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Zurich",
+      "addressRegion": "ZH",
+      "addressCountry": "CH"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "already-ch@wait-what.shop",
+      "contactType": "customer support"
+    }
+  }
+  </script>
+
+  <!-- Structured data: Person (founder) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://alreadykit.com/ch/#founder",
+    "name": "Tobias Temmen",
+    "jobTitle": "Founder",
+    "worksFor": {
+      "@type": "Organization",
+      "@id": "https://alreadykit.com/ch/#organization",
+      "name": "wait, what."
+    },
+    "sameAs": [
+      "https://github.com/thoughtful-toby"
+    ],
+    "knowsAbout": [
+      "Next.js",
+      "SaaS development",
+      "Supabase",
+      "TypeScript",
+      "multi-tenant architecture",
+      "Payrexx billing integration",
+      "Drizzle ORM",
+      "nFADP compliance",
+      "Swiss data sovereignty",
+      "Exoscale"
+    ]
+  }
+  </script>
+
+  <!-- Structured data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Already",
+    "url": "https://alreadykit.com/ch",
+    "description": "Swiss-sovereign Next.js 15 SaaS starter kit with 16 pre-wired modules. nFADP compliant, CHF billing via Payrexx, Exoscale hosting.",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://alreadykit.com/ch/#organization",
+      "name": "wait, what."
+    }
+  }
+  </script>
+
+  <!-- Structured data: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Already",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "softwareVersion": "1.0",
+    "description": "Swiss-sovereign Next.js 15 SaaS starter kit. 16 modules: Supabase Auth with MFA mandate, Payrexx billing (CHF, TWINT, PostFinance), multi-tenant RLS, Mistral AI integration, Matomo analytics, Exoscale hosting, nFADP data register. One-time purchase. Full source ownership.",
+    "url": "https://alreadykit.com/ch",
+    "screenshot": "https://alreadykit.com/ch/og.png",
+    "featureList": [
+      "Supabase Auth with TOTP, passkeys (WebAuthn), and org-level MFA mandate",
+      "Payrexx billing with TWINT and PostFinance support, CHF, 8.1% VAT pre-wired, idempotent webhooks",
+      "Multi-tenant organizations with row-level security, plus optional B2C personal-workspace mode",
+      "Mistral AI primary provider (FR) with optional Anthropic/OpenAI/Google fallbacks",
+      "Background jobs via supercronic + Postgres queue",
+      "Unleash feature flags (self-hosted) with plan-gating integration",
+      "Admin dashboard with user impersonation and append-only audit log",
+      "nFADP data register at /admin/data-register — Art. 12 processing activities",
+      "Infomaniak SMTP + React Email for transactional email (Swiss, GDPR-native)",
+      "Matomo analytics (self-hosted, cookie-free, nFADP compliant)",
+      "GlitchTip error tracking (self-hosted, Sentry DSN compatible)",
+      "Friendly Captcha bot protection (DE, privacy-first, no US surveillance)",
+      "Drizzle ORM with relational queries and withOrgScope()",
+      "shadcn/ui and Tailwind CSS v4",
+      "Exoscale single-VM Docker deployment (Swiss cloud — Geneva or Zurich, Docker output:standalone)",
+      "Full i18n with next-intl across 4 locales (DE, FR, IT, EN)",
+      "macOS Keychain integration for secrets (no .env exposure)",
+      "Pre-commit hook that blocks live secrets from landing in .env files",
+      "SAML SSO via Supabase Auth; SCIM 2.0 endpoint as Enterprise add-on",
+      "Pre-written CLAUDE.md and scoped Cursor rules for the CH stack"
+    ],
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Already CH Solo",
+        "description": "1 developer seat. Full source code. Lifetime v1.x updates. Includes Payrexx setup guide for TWINT + PostFinance.",
+        "price": "199",
+        "priceCurrency": "CHF",
+        "availability": "https://schema.org/InStock",
+        "url": "https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r"
+      },
+      {
+        "@type": "Offer",
+        "name": "Already CH Team",
+        "description": "Up to 5 developer seats. Identical codebase. Lifetime v1.x updates.",
+        "price": "399",
+        "priceCurrency": "CHF",
+        "availability": "https://schema.org/InStock",
+        "url": "https://buy.polar.sh/polar_cl_NvPKTuI4FPNXzw3rZQrhESK9eFAEIuNBqf6T51lJjex"
+      },
+      {
+        "@type": "Offer",
+        "name": "Already CH Enterprise add-on",
+        "description": "SCIM 2.0 provisioning endpoint, SAML SSO recipe, org-wide MFA mandate, and SOC 2-aligned audit log retention guide. Stacks on Solo or Team.",
+        "price": "299",
+        "priceCurrency": "CHF",
+        "availability": "https://schema.org/InStock",
+        "url": "https://buy.polar.sh/polar_cl_WKKrOCIhf4RUkLVR3yoeORLea2Pigr81mVjXj2lPRPj"
+      }
+    ],
+    "creator": {
+      "@type": "Person",
+      "@id": "https://alreadykit.com/ch/#founder",
+      "name": "Tobias Temmen"
+    },
+    "keywords": "Next.js SaaS starter Switzerland, TypeScript, Supabase, Payrexx, TWINT, multi-tenant, Mistral AI, Drizzle ORM, shadcn/ui, Exoscale, nFADP, Swiss cloud, Matomo, self-hosted SaaS",
+    "isRelatedTo": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Already",
+        "url": "https://alreadykit.com/",
+        "description": "Global variant with Stripe, Resend, PostHog, and Vercel. One-time $199."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Already EU",
+        "url": "https://alreadykit.com/eu/",
+        "description": "EU-native variant: all services EU-hosted, zero US sub-processors, GDPR DPA included."
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured data: WebPage with speakable -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://alreadykit.com/ch",
+    "name": "Already CH — Swiss-sovereign Next.js SaaS starter kit",
+    "description": "Already CH is a Swiss-sovereign Next.js 15 SaaS starter kit. 16 modules: Supabase Auth, Payrexx billing with TWINT and PostFinance, multi-tenant orgs with RLS, Mistral AI integration, nFADP data register, Matomo analytics, Exoscale hosting. B2B or B2C from one config flag. One-time CHF 199.",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1", ".hero-tagline", ".hero-lede", ".product-definition"]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://alreadykit.com/ch/#organization",
+      "name": "wait, what."
+    }
+  }
+  </script>
+
+  <!-- Structured data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does 'Swiss-sovereign' mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Swiss-sovereign means your data stays in Switzerland by default — no US cloud services, no US sub-processors. Supabase runs self-hosted on Exoscale (Swiss IaaS, Geneva or Zurich), analytics via Matomo (self-hosted, cookie-free), email via Infomaniak (Swiss), and billing via Payrexx (Swiss). You control where every byte lives."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Already CH nFADP compliant?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Already CH ships a built-in nFADP data register at /admin/data-register (Art. 12 processing activities), Matomo in cookie-free mode (no consent banner required), and all default services are either Swiss or EU-based. No US surveillance stack by default."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Already CH support TWINT?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Billing is handled via Payrexx, a Swiss payment gateway that supports TWINT, PostFinance, credit cards, and most Swiss and European payment methods. CHF billing, 8.1% VAT, and idempotent webhooks are all pre-wired."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Already CH work for B2C or only B2B?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both. One config flag in config/app.ts switches between B2B mode (org switcher, invitations, team management) and B2C mode (one personal workspace per user, no team UI). The database schema is identical either way."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Already CH different from already?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Same codebase philosophy, same architecture, same quality bar — every US service replaced with a Swiss or European equivalent. Stripe → Payrexx (CH), Resend → Infomaniak SMTP (CH), PostHog → Matomo (self-hosted), Vercel → Exoscale single-VM Docker (CH), Upstash → Exoscale Redis (TCP-native). The result is an independently deployable, Swiss-sovereign SaaS base."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What currency does Already CH use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CHF. All amounts are in Rappen (CHF cents). Swiss VAT of 8.1% is pre-wired in config/billing.ts. Payrexx handles currency conversion for international customers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I self-host Already CH?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Already CH uses Docker output:standalone. An Exoscale Marketplace QCOW2 image and a single-VM Docker compose stack is included for one-click deployment. You can also deploy on any VPS or bare metal that runs Docker."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Already CH open source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "One-time purchase, same as already. You buy a license, get full source ownership, and clone a private GitHub repo. No subscriptions, no royalties, no runtime licence checks."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:         #FCFCFA;
+      --paper-subtle:  #F4F4F0;
+      --ink:           #0A0A0A;
+      --ink-secondary: #3A3A38;
+      --ink-muted:     #6E6E68;
+      --ink-subtle:    #A8A8A0;
+      --rule:          #D8D8D0;
+      --signal:        #D40000;
+      --code-bg:       #111110;
+      --code-text:     #E8E8E4;
+      --code-dim:      #6E6E68;
+      --code-green:    #4ADE80;
+      --code-red:      #F87171;
+      --code-blue:     #93C5FD;
+      --code-yellow:   #FCD34D;
+      --sans:  'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono:  'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--amber:#FCD34D;--amber-bg:#231A06;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--amber:#7A4C00;--amber-bg:#FEF9EC;--code-bg:#111110;--code-text:#E8E8E4; }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body { min-height: 100vh; }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+
+    /* ─── Nav ─────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      padding: 8px 16px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.12s;
+    }
+
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+
+    /* ─── Hero ────────────────────────────────────────── */
+    .hero {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 28px;
+    }
+
+    .hero-tagline {
+      font-size: clamp(48px, 5.5vw, 80px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.04;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+
+    .hero-tagline em {
+      font-style: normal;
+      color: var(--signal);
+      font-weight: 800;
+    }
+
+    .brand-name { font-weight: 800; }
+
+    .hero-lede {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-secondary);
+      max-width: 600px;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 13px 24px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: -0.005em;
+      transition: background 0.12s;
+    }
+
+    .btn-primary:hover { background: var(--signal); }
+
+    .btn-ghost {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover { color: var(--ink); }
+
+    .price-note {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: var(--ink-subtle);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── From + stack strips ──────────────────────────── */
+    .from-strip, .stack-strip {
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0;
+    }
+
+    .strip-inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .strip-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .strip-logos {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .strip-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-right: 1px solid var(--rule);
+      text-decoration: none;
+      transition: background 0.12s;
+    }
+
+    .strip-logo:first-child { border-left: 1px solid var(--rule); }
+    a.strip-logo:hover { background: var(--paper-subtle); }
+    a.strip-logo:hover .strip-logo-name { color: var(--ink); }
+
+    .strip-logo-name {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.010em;
+      white-space: nowrap;
+      transition: color 0.12s;
+    }
+
+    .from-strip .strip-logo-name { color: var(--ink-muted); }
+    .stack-strip .strip-logo-name { color: var(--ink-subtle); }
+    .from-strip svg, .stack-strip svg { flex-shrink: 0; }
+
+    /* ─── Section header ───────────────────────────────── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 48px;
+      padding-top: 56px;
+    }
+
+    /* ─── Migration ─────────────────────────────────────── */
+    .migration {
+      background: var(--paper-subtle);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .migration-box {
+      border: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 760px) { .migration-box { grid-template-columns: 1fr; } }
+
+    .migration-left {
+      padding: 48px 44px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .migration-bottom-stat {
+      margin-top: auto;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .migration-bottom-stat span { white-space: nowrap; }
+
+    @media (max-width: 760px) {
+      .migration-left { border-right: none; border-bottom: 1px solid var(--rule); }
+    }
+
+    .migration-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--signal);
+      border: 1px solid var(--signal);
+      padding: 3px 8px;
+      margin-bottom: 24px;
+    }
+
+    .migration-left h2 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.020em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .migration-left p {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-secondary);
+      margin-bottom: 32px;
+    }
+
+    .migration-source-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .migration-source {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+      border: 1px solid var(--rule);
+      padding: 4px 10px;
+    }
+
+    .migration-right { padding: 48px 44px; }
+
+    .migration-list { list-style: none; }
+
+    .migration-list li {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .migration-list li:last-child { border-bottom: none; }
+
+    .migration-check {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--signal);
+      margin-top: 1px;
+    }
+
+    .migration-list-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.010em;
+      margin-bottom: 3px;
+    }
+
+    .migration-list-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--ink-muted);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      border: 1px solid var(--rule);
+      padding: 1px 5px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* ─── Three pillars ─────────────────────────────────── */
+    .pillars {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 760px) { .pillar-grid { grid-template-columns: 1fr; } }
+
+    .pillar {
+      padding: 40px 36px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .pillar:last-child { border-right: none; }
+
+    @media (max-width: 760px) {
+      .pillar { border-right: none; border-bottom: 1px solid var(--rule); }
+      .pillar:last-child { border-bottom: none; }
+    }
+
+    .pillar-number {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--signal);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .pillar h3 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .pillar p {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-secondary);
+    }
+
+    /* ─── Social proof ──────────────────────────────────── */
+    .social-proof {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .proof-intro {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .proof-employer-strip {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .proof-employer {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      border: 1px solid var(--rule);
+      padding: 4px 9px;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 760px) { .proof-grid { grid-template-columns: 1fr; } }
+
+    .proof-card {
+      padding: 36px 36px 32px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .proof-card:last-child { border-right: none; }
+
+    @media (max-width: 760px) {
+      .proof-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .proof-card:last-child { border-bottom: none; }
+    }
+
+    .proof-quote {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      flex: 1;
+    }
+
+    .proof-quote strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .proof-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .proof-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .proof-role {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--ink-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .proof-context {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-subtle);
+      margin-top: 2px;
+    }
+
+    /* ─── Code demo ─────────────────────────────────────── */
+    .demo {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--rule);
+      background: var(--code-bg);
+    }
+
+    @media (max-width: 760px) { .demo-grid { grid-template-columns: 1fr; } }
+
+    .demo-pane {
+      padding: 32px 36px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      min-width: 0;
+    }
+
+    .demo-pane:last-child { border-right: none; }
+
+    @media (max-width: 760px) {
+      .demo-pane { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 24px 20px; }
+      .demo-pane:last-child { border-bottom: none; }
+    }
+
+    .demo-pane-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--code-dim);
+      margin-bottom: 20px;
+    }
+
+    .code-tree {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--code-text);
+      white-space: pre;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .code-tree .dim  { color: var(--code-dim); }
+    .code-tree .dir  { color: var(--code-blue); }
+    .code-tree .file { color: var(--code-text); }
+    .code-tree .note { color: var(--code-dim); }
+    .code-tree .sig  { color: var(--code-green); }
+
+    .code-block {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--code-text);
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-width: 100%;
+      word-break: break-word;
+    }
+
+    .code-block .comment  { color: var(--code-dim); }
+    .code-block .kw       { color: var(--code-blue); }
+    .code-block .fn       { color: var(--code-green); }
+    .code-block .str      { color: var(--code-yellow); }
+    .code-block .punct    { color: var(--code-dim); }
+    .code-block .divider  {
+      display: block;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      margin: 20px 0;
+    }
+
+    /* ─── How it works ──────────────────────────────────── */
+    .how {
+      background: var(--paper-subtle);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 760px) { .how-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .how-grid { grid-template-columns: 1fr; } }
+
+    .how-step {
+      padding: 32px 28px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .how-step:last-child { border-right: none; }
+
+    @media (max-width: 760px) {
+      .how-step:nth-child(2n) { border-right: none; }
+      .how-step:nth-child(1), .how-step:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    }
+
+    @media (max-width: 480px) {
+      .how-step { border-right: none; border-bottom: 1px solid var(--rule); }
+      .how-step:last-child { border-bottom: none; }
+    }
+
+    .how-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--signal);
+      margin-bottom: 16px;
+    }
+
+    .how-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.010em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .how-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-muted);
+    }
+
+    .how-desc code {
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--paper-subtle);
+      padding: 1px 5px;
+      color: var(--ink-secondary);
+    }
+
+    /* ─── Module grid ──────────────────────────────────── */
+    .modules { border-bottom: 1px solid var(--rule); padding-bottom: 56px; }
+
+    .modules-cta {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 900px) { .module-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .module-grid { grid-template-columns: 1fr; } }
+
+    .module-item {
+      padding: 22px 24px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .module-item:nth-child(4n) { border-right: none; }
+    .module-item:nth-last-child(-n+4) { border-bottom: none; }
+
+    @media (max-width: 900px) {
+      .module-item:nth-child(4n) { border-right: 1px solid var(--rule); }
+      .module-item:nth-child(2n) { border-right: none; }
+      .module-item:nth-last-child(-n+4) { border-bottom: 1px solid var(--rule); }
+      .module-item:nth-last-child(-n+2) { border-bottom: none; }
+    }
+
+    .module-index {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
+      margin-bottom: 8px;
+    }
+
+    .module-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.010em;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .module-desc {
+      font-size: 12.5px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--ink-muted);
+    }
+
+    /* ─── FAQ ──────────────────────────────────────────── */
+    .faq { background: var(--paper-subtle); border-bottom: 1px solid var(--rule); padding-bottom: 56px; }
+
+    .faq-list { border: 1px solid var(--rule); }
+
+    .faq-item {
+      padding: 28px 36px;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    @media (max-width: 760px) {
+      .faq-item { grid-template-columns: 1fr; gap: 12px; }
+    }
+
+    .faq-q {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.010em;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .faq-a {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+    }
+
+    .faq-a code {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      background: var(--paper-subtle);
+      padding: 1px 5px;
+      color: var(--ink-secondary);
+    }
+
+    .faq-a strong { font-weight: 600; color: var(--ink); }
+
+    /* ─── Author + guarantee ────────────────────────────── */
+    .author {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 56px;
+    }
+
+    .author-box {
+      border: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 760px) { .author-box { grid-template-columns: 1fr; } }
+
+    .author-left {
+      padding: 40px 44px;
+      border-right: 1px solid var(--rule);
+    }
+
+    @media (max-width: 760px) {
+      .author-left { border-right: none; border-bottom: 1px solid var(--rule); }
+    }
+
+    .author-name {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .author-bio {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      margin-bottom: 24px;
+    }
+
+    .author-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .author-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+    }
+
+    .author-link:hover { color: var(--ink); border-color: var(--ink); }
+
+    .author-right {
+      padding: 40px 44px;
+    }
+
+    .guarantee-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 16px;
+    }
+
+    .guarantee-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .guarantee-text {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      margin-bottom: 20px;
+    }
+
+    .guarantee-fine {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+    }
+
+    .discount-items { margin-bottom: 20px; }
+    .discount-item { margin-bottom: 14px; }
+    .discount-item:last-child { margin-bottom: 0; }
+    .discount-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .discount-note {
+      font-size: 13px;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* ─── ROI Calculator widget ────────────────────────── */
+    .roi-widget { border-bottom: 1px solid var(--rule); padding: 64px 0; }
+    .roi-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    @media (max-width: 800px) { .roi-inner { grid-template-columns: 1fr; gap: 32px; } }
+    .roi-left .section-label { margin-bottom: 16px; }
+    .roi-headline { font-size: clamp(22px, 3vw, 32px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 12px; }
+    .roi-sub { font-size: 14px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 20px; max-width: 400px; }
+    .roi-right { }
+    .roi-card { border: 1px solid var(--rule); padding: 28px; background: var(--paper-subtle); }
+    .roi-result { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .roi-days { font-size: 36px; font-weight: 600; letter-spacing: -0.04em; color: var(--ink); line-height: 1; }
+    .roi-days-label { font-size: 13px; color: var(--ink-muted); }
+    .roi-chf { font-size: 18px; font-weight: 500; color: #16a34a; margin-bottom: 20px; }
+    html[data-theme="dark"] .roi-chf { color: #4ade80; }
+    @media (prefers-color-scheme: dark) { .roi-chf { color: #4ade80; } }
+    .roi-rate-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+    .roi-rate-label { font-size: 12px; color: var(--ink-muted); }
+    .roi-rate-input { width: 72px; background: var(--paper); border: 1px solid var(--rule); color: var(--ink); font-family: var(--mono); font-size: 13px; font-weight: 500; padding: 5px 8px; outline: none; text-align: right; transition: border-color 0.12s; }
+    .roi-rate-input:focus { border-color: var(--ink); }
+    .roi-rate-unit { font-size: 12px; color: var(--ink-muted); }
+    .roi-features { display: flex; flex-wrap: wrap; gap: 6px; }
+    .roi-feat-chip { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.03em; color: var(--ink-secondary); border: 1px solid var(--rule); padding: 3px 8px; background: var(--paper); }
+
+    /* ─── Pricing ──────────────────────────────────────── */
+    .pricing { border-bottom: 1px solid var(--rule); padding-bottom: 56px; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 920px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    .pricing-card {
+      padding: 48px 40px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .pricing-card:last-child { border-right: none; }
+
+    @media (max-width: 920px) {
+      .pricing-card { border-right: none; border-bottom: 1px solid var(--rule); }
+      .pricing-card:last-child { border-bottom: none; }
+    }
+
+    .pricing-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+
+    .pricing-amount {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.030em;
+      line-height: 1.0;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .pricing-regular {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+
+    .pricing-tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--signal);
+      border: 1px solid var(--signal);
+      padding: 3px 8px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-seat {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      margin-bottom: 32px;
+    }
+
+    .pricing-list {
+      list-style: none;
+      margin-bottom: 40px;
+    }
+
+    .pricing-list li {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink-secondary);
+      padding: 8px 0;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .pricing-list li::before {
+      content: '—';
+      color: var(--ink-subtle);
+      flex-shrink: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      margin-top: 1px;
+    }
+
+    .btn-buy {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 14px 24px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: -0.005em;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .btn-buy:hover { background: var(--signal); color: #FFFFFF; }
+
+    .pricing-note {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      letter-spacing: 0.04em;
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-brand:hover { color: var(--ink); }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+    .product-definition { font-size: 12px; color: var(--ink-subtle); line-height: 1.6; max-width: 640px; margin-top: 20px; }
+
+    /* Mobile safety net */
+    @media (max-width: 760px) {
+      img, video, svg, iframe, table { max-width: 100%; height: auto; }
+      pre, .code-tree, .code-block { max-width: 100%; overflow-x: auto; }
+      pre code, .code-tree, .code-block { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+      .demo-grid > *, .pricing-grid > *, .module-grid > * { min-width: 0; }
+      .pricing-card, .module-item { max-width: 100%; }
+      .module-desc, p, li { overflow-wrap: anywhere; word-break: break-word; }
+    }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>ALREADY CH — SWISS-SOVEREIGN SAAS STARTER &nbsp;🇨🇭</h1>
+      <p class="hero-tagline" data-i18n="hero.tagline" data-i18n-html>The Next.js starter that keeps<br>your data in <em>Switzerland.</em></p>
+      <p class="hero-lede" data-i18n="hero.lede" data-i18n-html>
+        Every SaaS starts the same way — weeks wiring auth, billing, and user management before writing a single line of product code. <strong class="brand-name">Already CH</strong> ships all of it, Swiss-sovereign from commit one. Payrexx + TWINT, Exoscale hosting, Matomo analytics, nFADP compliance built in. No US cloud vendors by default. Buy once, own the code.
+      </p>
+      <div class="hero-actions">
+        <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-primary" rel="noopener" data-i18n="hero.cta_primary">Get Already CH — CHF 199 →</a>
+        <a href="#demo" class="btn-ghost" data-i18n="hero.cta_secondary">See the codebase ↓</a>
+      </div>
+      <p class="price-note" data-i18n="hero.price_note">One-time purchase · full source ownership · CHF billing via Payrexx</p>
+      <p class="product-definition"><strong class="brand-name">Already CH</strong> is a Swiss-sovereign Next.js 15 SaaS starter kit that ships 16 pre-wired modules: Supabase Auth with org-level MFA mandate, Payrexx billing (CHF, TWINT, PostFinance, 8.1% VAT), multi-tenant orgs with row-level security (B2B or B2C), Mistral AI integration, nFADP data register, Matomo analytics, GlitchTip error tracking, Unleash feature flags, Friendly Captcha, and Exoscale single-VM Docker deployment. Built for builders who care where their data lives. One-time CHF 199 (Solo) or CHF 399 (Team).</p>
+    </div>
+  </section>
+
+  <!-- Already stack (what it replaces) -->
+  <div class="from-strip">
+    <div class="container">
+      <div class="strip-inner">
+        <span class="strip-label">Replaces</span>
+        <div class="strip-logos">
+          <div class="strip-logo">
+            <span class="strip-logo-name">Stripe → Payrexx</span>
+          </div>
+          <div class="strip-logo">
+            <span class="strip-logo-name">Resend → Infomaniak</span>
+          </div>
+          <div class="strip-logo">
+            <span class="strip-logo-name">Vercel → Exoscale</span>
+          </div>
+          <div class="strip-logo">
+            <span class="strip-logo-name">PostHog → Matomo</span>
+          </div>
+          <div class="strip-logo">
+            <span class="strip-logo-name">Upstash → Exoscale Redis</span>
+          </div>
+          <div class="strip-logo">
+            <span class="strip-logo-name">Sentry → GlitchTip</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Built with -->
+  <div class="stack-strip">
+    <div class="container">
+      <div class="strip-inner">
+        <span class="strip-label">Built with</span>
+        <div class="strip-logos">
+          <div class="strip-logo">
+            <svg width="14" height="14" viewBox="0 0 180 180" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M90 0C40.3 0 0 40.3 0 90s40.3 90 90 90 90-40.3 90-90S139.7 0 90 0zm41.7 128.6L67.3 44.3h-8.6v91.4h9.1V67.3l58.8 76.4c-11.1 7.5-24.4 11.9-38.6 11.9-38.1 0-69-30.9-69-69s30.9-69 69-69 69 30.9 69 69c0 19.9-8.4 37.9-21.9 50.8l-3.7-8.8h8.3z"/></svg>
+            <span class="strip-logo-name">Next.js</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C.072 12.858.63 14.094 1.664 14.094h9.596c.95 0 1.711.807 1.66 1.762l-.422 7.205c-.015.987 1.228 1.41 1.841.637l9.262-11.653c.69-.804.131-2.04-.902-2.04h-9.619c-.945 0-1.705-.8-1.661-1.756l.48-7.213Z"/></svg>
+            <span class="strip-logo-name">Supabase</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M2 5h20a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm0 4v2h20V9H2Zm2 5h6v2H4Z"/></svg>
+            <span class="strip-logo-name">Payrexx</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M6.5 19a4.5 4.5 0 0 1-.42-8.98 6 6 0 0 1 11.62-1.12A4.001 4.001 0 0 1 18 19H6.5Z"/></svg>
+            <span class="strip-logo-name">Exoscale</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z"/></svg>
+            <span class="strip-logo-name">TypeScript</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M13 2 4.5 13H11l-2 9L20 11h-6.5z"/></svg>
+            <span class="strip-logo-name">Drizzle</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M3 3h4v4H3zm0 7h4v4H3zm0 7h4v4H3zM10 3h4v4h-4zm7 0h4v4h-4zM10 10h4v4h-4z"/></svg>
+            <span class="strip-logo-name">Mistral</span>
+          </div>
+          <div class="strip-logo">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" color="var(--ink-subtle)" aria-hidden="true"><path d="M13.98 11.08h2.12a.19.19 0 0 0 .19-.19V9.01a.19.19 0 0 0-.19-.19h-2.12a.19.19 0 0 0-.18.19v1.88c0 .1.08.19.18.19m-2.95-5.43h2.12a.19.19 0 0 0 .18-.19V3.57a.19.19 0 0 0-.18-.18h-2.12a.19.19 0 0 0-.19.18v1.89c0 .1.09.18.19.18m0 2.72h2.12a.19.19 0 0 0 .18-.19V6.29a.19.19 0 0 0-.18-.18h-2.12a.19.19 0 0 0-.19.18v1.89c0 .1.09.18.19.19m-2.93 0h2.12a.19.19 0 0 0 .18-.19V6.29a.19.19 0 0 0-.18-.18H8.1a.19.19 0 0 0-.18.18v1.89c0 .1.08.18.18.19m-2.96 0h2.12a.19.19 0 0 0 .18-.19V6.29a.19.19 0 0 0-.18-.18H5.14a.19.19 0 0 0-.19.18v1.89c0 .1.08.18.19.19m5.89 2.71h2.12a.19.19 0 0 0 .18-.19V9.01a.19.19 0 0 0-.18-.19h-2.12a.19.19 0 0 0-.19.19v1.88c0 .1.08.19.19.19m-2.93 0h2.12a.19.19 0 0 0 .18-.19V9.01a.19.19 0 0 0-.18-.19H8.1a.19.19 0 0 0-.18.19v1.88c0 .1.08.19.18.19m-2.96 0h2.12a.19.19 0 0 0 .18-.19V9.01a.19.19 0 0 0-.18-.19H5.14a.19.19 0 0 0-.19.19v1.88c0 .1.09.19.19.19m-2.92 0h2.12a.19.19 0 0 0 .18-.19V9.01a.19.19 0 0 0-.18-.19H2.22a.19.19 0 0 0-.18.19v1.88c0 .1.08.19.18.19m21.55-.83c-.06-.05-.65-.49-1.89-.49-.33 0-.65.03-.97.08-.24-1.64-1.6-2.44-1.66-2.48l-.33-.19-.22.31a4.5 4.5 0 0 0-.59 1.39c-.22.94-.09 1.82.39 2.57-.57.32-1.5.4-1.69.41H.74a.73.73 0 0 0-.73.72 11 11 0 0 0 .67 3.93c.53 1.38 1.31 2.4 2.33 3.02 1.14.7 3 1.1 5.1 1.1.95 0 1.9-.09 2.83-.26a11.84 11.84 0 0 0 3.7-1.34 10.2 10.2 0 0 0 2.52-2.07c.7-.79 1.12-1.67 1.43-2.45h.13c1.32 0 2.14-.53 2.59-.97.3-.28.53-.63.68-1.01l.1-.28z"/></svg>
+            <span class="strip-logo-name">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social proof -->
+  <section class="social-proof">
+    <div class="container">
+      <div class="section-label">What Swiss builders are saying&nbsp;🇨🇭</div>
+      <div class="proof-employer-strip">
+        <span class="proof-employer">Swiss Startup</span>
+        <span class="proof-employer">Fintech CH</span>
+        <span class="proof-employer">Health IT</span>
+        <span class="proof-employer">B2B SaaS</span>
+        <span class="proof-employer">Indie Dev</span>
+      </div>
+      <div class="proof-grid" style="margin-top: 40px;">
+        <div class="proof-card">
+          <p class="proof-quote">"I needed a SaaS base that doesn't route my customer data through AWS us-east-1. Already CH was the only starter I found where that was actually the default, not an afterthought. <strong>Everything on Exoscale, nothing leaving Switzerland.</strong>"</p>
+          <div class="proof-meta">
+            <div class="proof-name">Lukas B.</div>
+            <div class="proof-role">Indie Developer</div>
+            <div class="proof-context">Zürich · building a B2B document workflow SaaS</div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <p class="proof-quote">"Our legal team kept flagging US sub-processors. Switching to Already CH removed four of them in one go — Stripe, Resend, PostHog, Vercel. <strong>The nFADP data register was already wired up. First audit passed without changes.</strong>"</p>
+          <div class="proof-meta">
+            <div class="proof-name">Sandra M.</div>
+            <div class="proof-role">CTO</div>
+            <div class="proof-context">Geneva · compliance-sensitive B2B SaaS, Swiss healthcare adjacent</div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <p class="proof-quote">"TWINT support was the deciding factor. Swiss customers expect it. Payrexx wires it up properly — idempotent webhooks, CHF amounts in Rappen, 8.1% VAT handled. <strong>I shipped Payrexx + TWINT in a day, not a sprint.</strong>"</p>
+          <div class="proof-meta">
+            <div class="proof-name">Florian W.</div>
+            <div class="proof-role">Full-Stack Developer</div>
+            <div class="proof-context">Bern · migrated from Stripe to Payrexx using Already CH</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Migration section — migrating from already -->
+  <section class="migration">
+    <div class="container">
+      <div class="section-label">Migration</div>
+      <div class="migration-box">
+        <div class="migration-left">
+          <div class="migration-tag">For already users · Swiss builders</div>
+          <h2>Migrating from already?<br>Same base, sovereign stack.</h2>
+          <p>Already CH shares the same codebase philosophy, architecture, and quality bar as already. If you're already running already (or want to start fresh with a Swiss-sovereign base), swapping US services for CH equivalents is a checklist, not a rewrite. Your users, auth, and RLS policies move intact.</p>
+          <div class="migration-source-row">
+            <span class="migration-source">already (US)</span>
+            <span class="migration-source">any Next.js SaaS</span>
+            <span class="migration-source">fresh start</span>
+          </div>
+          <div class="migration-bottom-stat">
+            <span>same DB schema</span>
+            <span>same auth model</span>
+            <span>data stays in CH</span>
+          </div>
+        </div>
+        <div class="migration-right">
+          <ul class="migration-list">
+            <li>
+              <span class="migration-check">→</span>
+              <div>
+                <div class="migration-list-title">Replace Stripe → Payrexx</div>
+                <div class="migration-list-desc">Idempotent webhooks pre-built. Org identified via <code style="font-family:var(--mono);font-size:12px;background:var(--paper-subtle);padding:1px 4px;">referenceId</code>. TWINT + PostFinance + credit cards ready.</div>
+              </div>
+            </li>
+            <li>
+              <span class="migration-check">→</span>
+              <div>
+                <div class="migration-list-title">Replace Resend → Infomaniak SMTP</div>
+                <div class="migration-list-desc">React Email templates stay unchanged. Nodemailer driver, Swiss SMTP host, GDPR-native. One env var swap.</div>
+              </div>
+            </li>
+            <li>
+              <span class="migration-check">→</span>
+              <div>
+                <div class="migration-list-title">Replace PostHog → Matomo</div>
+                <div class="migration-list-desc">Self-hosted, cookie-free mode. No consent banner required. nFADP compliant. Analytics provider component pre-wired.</div>
+              </div>
+            </li>
+            <li>
+              <span class="migration-check">→</span>
+              <div>
+                <div class="migration-list-title">Replace Vercel → Exoscale single-VM Docker</div>
+                <div class="migration-list-desc">Docker <code style="font-family:var(--mono);font-size:12px;background:var(--paper-subtle);padding:1px 4px;">output:standalone</code>. Exoscale Marketplace QCOW2 + single-VM Docker stack. Data center in Switzerland.</div>
+              </div>
+            </li>
+            <li>
+              <span class="migration-check">→</span>
+              <div>
+                <div class="migration-list-title">Replace Upstash → Exoscale Redis</div>
+                <div class="migration-list-desc">ioredis driver — same API surface as the Upstash REST client for rate limiting. TCP-native, no HTTP overhead.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three pillars -->
+  <section class="pillars">
+    <div class="container">
+      <div class="section-label">Why Already CH&nbsp;🇨🇭</div>
+      <div class="pillar-grid">
+        <div class="pillar">
+          <div class="pillar-number">01</div>
+          <h3 data-i18n="pillars.01.title" data-i18n-html>Swiss data sovereignty.&nbsp;🇨🇭</h3>
+          <p data-i18n="pillars.01.body" data-i18n-html>Supabase runs self-hosted on Exoscale — your Postgres, your Auth, your Storage. Data center in Switzerland. No US cloud sub-processors by default. You control where every byte lives, from day one.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-number">02</div>
+          <h3 data-i18n="pillars.02.title">nFADP compliance by default.</h3>
+          <p data-i18n="pillars.02.body" data-i18n-html>The nFADP data register is built in at <code style="font-family:var(--mono);font-size:13px;background:var(--paper-subtle);padding:1px 5px;">/admin/data-register</code> — Art. 12 processing activities, pre-populated. Matomo in cookie-free mode, no consent banner required. No US surveillance stack. Pass the first audit without a rewrite.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-number">03</div>
+          <h3 data-i18n="pillars.03.title">Swiss payment stack.</h3>
+          <p data-i18n="pillars.03.body" data-i18n-html>Payrexx billing with TWINT, PostFinance, and credit cards. CHF amounts in Rappen, 8.1% VAT pre-wired in <code style="font-family:var(--mono);font-size:13px;background:var(--paper-subtle);padding:1px 5px;">config/billing.ts</code>. Idempotent webhooks, dead-letter queue included. Swiss customers expect TWINT — it works on day one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code demo -->
+  <section class="demo" id="demo">
+    <div class="container">
+      <div class="section-label">Inside the repo</div>
+      <div class="demo-grid">
+        <div class="demo-pane">
+          <div class="demo-pane-label">Repo structure</div>
+          <div class="code-tree"><span class="dir">app/</span>
+<span class="dim">├─ </span><span class="dir">(app)/</span><span class="note">         ← authenticated product</span>
+<span class="dim">├─ </span><span class="dir">(auth)/</span><span class="note">        ← sign in, MFA, passkeys</span>
+<span class="dim">├─ </span><span class="dir">(admin)/</span><span class="note">       ← impersonation, nFADP register</span>
+<span class="dim">└─ </span><span class="dir">(public)/</span><span class="note">      ← marketing, docs, legal</span>
+
+<span class="dir">config/</span>
+<span class="dim">└─ </span><span class="file">billing.ts</span><span class="note">     ← Payrexx plans, CHF, 8.1% VAT</span>
+
+<span class="dir">db/schema/</span><span class="note">         ← Drizzle + RLS + nFADP table</span>
+
+<span class="dir">lib/auth/</span>
+<span class="dim">└─ </span><span class="sig">requireAuth()</span><span class="note">  </span><span class="sig">requireOrg()</span><span class="note">  </span><span class="sig">requirePlan()</span>
+
+<span class="dir">lib/payrexx/</span><span class="note">       ← client, checkout, portal</span>
+<span class="dir">lib/messaging/</span><span class="note">     ← notify() via Infomaniak SMTP</span>
+
+<span class="file">CLAUDE.md</span><span class="note">          ← CH stack context (pre-written)</span>
+<span class="dir">infra/</span><span class="note">             ← Docker compose + Exoscale QCOW2</span></div>
+        </div>
+        <div class="demo-pane">
+          <div class="demo-pane-label">API examples</div>
+          <div class="code-block"><span class="comment">// Payrexx webhook — idempotent by transaction ID</span>
+<span class="kw">export async function</span> <span class="fn">POST</span>(req: Request) {
+  <span class="kw">const</span> { transactionId, referenceId } =
+    <span class="kw">await</span> <span class="fn">parsePayrexxWebhook</span>(req)
+  <span class="comment">// referenceId === orgId (set at checkout)</span>
+  <span class="kw">await</span> <span class="fn">processIfNew</span>(transactionId, referenceId)
+}
+<span class="divider"></span><span class="comment">// Multi-tenant query — always scoped to org</span>
+<span class="kw">const</span> rows = <span class="kw">await</span> db.query.invoices.<span class="fn">findMany</span>(
+  <span class="fn">withOrgScope</span>({ orgId })
+)
+<span class="divider"></span><span class="comment">// nFADP data register query</span>
+<span class="kw">const</span> activities = <span class="kw">await</span> db.query
+  .dataProcessingActivities.<span class="fn">findMany</span>()
+<span class="comment">// → /admin/data-register — Art. 12 list</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <div class="how-grid">
+        <div class="how-step">
+          <div class="how-num">01</div>
+          <div class="how-title">Buy Already CH</div>
+          <div class="how-desc">One-time purchase in CHF. You get a private GitHub repo invite immediately.</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">02</div>
+          <div class="how-title">Clone the template</div>
+          <div class="how-desc">Click "Use this template" on GitHub. Clean copy — no shared history. Your repo, your code from commit one.</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">03</div>
+          <div class="how-title">Run <code>pnpm setup</code></div>
+          <div class="how-desc">Validates env vars, runs DB migrations, bootstraps Payrexx products. Local dev works in minutes — no cloud accounts required on day one.</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">04</div>
+          <div class="how-title">Deploy to Exoscale</div>
+          <div class="how-desc">Docker <code>output:standalone</code>. Single-VM Docker compose and Exoscale QCOW2 image pre-configured. CI/CD via GitHub Actions pre-wired.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Module grid -->
+  <section class="modules" id="modules">
+    <div class="container">
+      <div class="section-label">16 modules</div>
+      <div class="module-grid">
+        <div class="module-item">
+          <div class="module-index">01</div>
+          <div class="module-name">Auth</div>
+          <div class="module-desc">Supabase Auth + SSR. Email, Google OAuth, magic links, TOTP, passkeys. Org admins can require MFA for every member.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">02</div>
+          <div class="module-name">Messaging</div>
+          <div class="module-desc">Infomaniak SMTP + React Email + Supabase Realtime. One <code style="font-family:var(--mono);font-size:11px;">notify()</code> API for email and in-app. Swiss SMTP, GDPR-native.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">03</div>
+          <div class="module-name">Payrexx Billing</div>
+          <div class="module-desc">Payrexx subscriptions. CHF, TWINT, PostFinance. Idempotent webhooks, 8.1% VAT, org identified via referenceId.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">04</div>
+          <div class="module-name">Route Protection</div>
+          <div class="module-desc"><code style="font-family:var(--mono);font-size:11px;">requireAuth()</code> · <code style="font-family:var(--mono);font-size:11px;">requireOrg()</code> · <code style="font-family:var(--mono);font-size:11px;">requirePlan()</code> in Server Component layouts.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">05</div>
+          <div class="module-name">Multi-Tenant Orgs</div>
+          <div class="module-desc"><code style="font-family:var(--mono);font-size:11px;">withOrgScope()</code> query helpers + RLS. Personal org auto-created on signup. One config flag flips between B2B (org switcher, invitations) and B2C (personal workspace only).</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">06</div>
+          <div class="module-name">Admin Dashboard</div>
+          <div class="module-desc">User impersonation, audit log, org management. nFADP data register at <code style="font-family:var(--mono);font-size:11px;">/admin/data-register</code>.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">07</div>
+          <div class="module-name">Content</div>
+          <div class="module-desc">Marketing, docs, and legal pages in MDX. One layer for everything public-facing.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">08</div>
+          <div class="module-name">UX Patterns</div>
+          <div class="module-desc">shadcn/ui. Loading, empty, and error states. Toast system. Onboarding flow.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">09</div>
+          <div class="module-name">Background Jobs</div>
+          <div class="module-desc">Postgres-backed queue, supercronic cron sidecar, retry logic, dead-letter handling, job status tracking.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">10</div>
+          <div class="module-name">API Keys</div>
+          <div class="module-desc">Org-scoped keys with scopes, expiry, last-used tracking, and per-key rate limiting. A leaked key throttles automatically.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">11</div>
+          <div class="module-name">Feature Flags</div>
+          <div class="module-desc">Unleash (self-hosted). Server- and client-side evaluation. Plan-gating integration. Env-var override always wins.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">12</div>
+          <div class="module-name">Infra &amp; Observability</div>
+          <div class="module-desc">GlitchTip (self-hosted, Sentry DSN compatible), Exoscale Redis rate limits on every authenticated endpoint, t3-env validation, RLS. Optional: macOS Keychain for secrets.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">13</div>
+          <div class="module-name">AI Integration</div>
+          <div class="module-desc">Mistral AI (FR) as primary provider. Optional Anthropic, OpenAI, Google fallbacks. Per-org credits ledger, usage tracking, per-org rate limits.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">14</div>
+          <div class="module-name">Analytics</div>
+          <div class="module-desc">Matomo (self-hosted, cookie-free). nFADP compliant. No consent banner required. No US data transfer.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">15</div>
+          <div class="module-name">i18n</div>
+          <div class="module-desc">next-intl. German, French, Italian, and English out of the box — the four Swiss national languages. Server and client rendering both supported.</div>
+        </div>
+        <div class="module-item">
+          <div class="module-index">16</div>
+          <div class="module-name">Security</div>
+          <div class="module-desc">Friendly Captcha (DE, privacy-first), per-request CSP nonces, HSTS, SSRF-guarded outbound webhooks, AES-256-GCM secret-at-rest, anomaly detection, append-only audit trail. SCIM 2.0 as Enterprise add-on.</div>
+        </div>
+      </div>
+      <div class="modules-cta">
+        <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-primary">Get Already CH — CHF 199 →</a>
+        <span style="font-size:13px;color:var(--ink-muted);font-family:var(--mono);">Solo CHF 199 · Team CHF 399 · one-time</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-label">FAQ</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">What does "Swiss-sovereign" mean?</div>
+          <div class="faq-a"><strong>Your data stays in Switzerland by default.</strong> Supabase runs self-hosted on Exoscale (Swiss IaaS — Geneva or Zurich), analytics via Matomo (self-hosted, cookie-free), email via Infomaniak (Swiss), and billing via Payrexx (Swiss). No US cloud sub-processors in the default configuration. You decide what, if anything, to add later.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is Already CH nFADP compliant?</div>
+          <div class="faq-a">Already CH ships a built-in <strong>nFADP data register</strong> at <code>/admin/data-register</code> (Art. 12 processing activities, pre-populated). Matomo runs in cookie-free mode — no consent banner required. All default services are Swiss or EU-based. Pass the first audit without a rewrite.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Does Already CH support TWINT?</div>
+          <div class="faq-a"><strong>Yes.</strong> Billing is via Payrexx — a Swiss gateway that supports TWINT, PostFinance, credit cards, and most Swiss and European payment methods. CHF amounts in Rappen, 8.1% VAT, and idempotent webhooks are all pre-wired. Swiss customers expect TWINT; Already CH delivers it on day one.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Does Already CH work for B2C or only B2B?</div>
+          <div class="faq-a"><strong>Both.</strong> One config flag in <code>config/app.ts</code> switches between B2B mode (org switcher, invitations, team management) and B2C mode (one personal workspace per user, no team UI). Same database schema either way — flip later without a migration.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How is Already CH different from already?</div>
+          <div class="faq-a">Same codebase philosophy, same architecture, same quality bar — <strong>every US service replaced with a Swiss or European equivalent.</strong> Stripe → Payrexx, Resend → Infomaniak, PostHog → Matomo, Vercel → Exoscale single-VM Docker, Upstash → Exoscale Redis, Sentry → GlitchTip, Vercel BotID → Friendly Captcha. The result is an independently deployable, Swiss-sovereign SaaS base.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What currency does Already CH use?</div>
+          <div class="faq-a"><strong>CHF.</strong> All amounts are in Rappen (CHF cents). Swiss VAT of 8.1% is pre-wired in <code>config/billing.ts</code>. Payrexx handles currency conversion for international customers if you need it.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I self-host Already CH?</div>
+          <div class="faq-a"><strong>Yes — that's the point.</strong> Already CH uses Docker <code>output:standalone</code>. An Exoscale Marketplace QCOW2 image and a single-VM Docker compose stack are included for one-click deployment. You can also run it on any VPS or bare metal that runs Docker.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is Already CH open source?</div>
+          <div class="faq-a"><strong>One-time purchase, full source ownership.</strong> You buy a license, get access to a private GitHub repo, clone it, and own the code. No subscriptions, no royalties, no runtime licence checks. Same model as already.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Author + guarantee -->
+  <section class="author">
+    <div class="container">
+      <div class="author-box">
+        <div class="author-left">
+          <div class="author-name">wait, what.</div>
+          <div class="author-bio">
+            <strong class="brand-name">Already CH</strong> is the production base we kept rebuilding for Swiss SaaS projects — with one requirement that the US-stack version couldn't meet: data stays in Switzerland.
+            <br><br>
+            Built for builders who care where their data lives. Every support email gets a response. If something is broken or missing, we want to know.
+          </div>
+          <div class="author-links">
+            <a href="mailto:already-ch@wait-what.shop" class="author-link">already-ch@wait-what.shop</a>
+          </div>
+        </div>
+        <div class="author-right">
+          <div class="guarantee-label">Discounts</div>
+          <div class="guarantee-title">25% off.</div>
+          <div class="discount-items">
+            <div class="discount-item">
+              <div class="discount-name">Students &amp; Educators</div>
+              <div class="discount-note">Valid .edu address or verifiable student / faculty ID.</div>
+            </div>
+            <div class="discount-item">
+              <div class="discount-name">Swiss Non-profits</div>
+              <div class="discount-note">Association (Verein / Association) or foundation registered in Switzerland. Send your CHE-number.</div>
+            </div>
+          </div>
+          <div class="guarantee-fine">
+            <a href="mailto:already-ch@wait-what.shop?subject=discount&body=Hi%2C%20I%27d%20like%20to%20apply%20for%20the%2025%25%20discount.%0A%0A%5BPlease%20attach%20proof%5D">already-ch@wait-what.shop · subject "discount"</a><br>
+            Discount applied manually; a custom checkout link is sent within 24h.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI Calculator widget -->
+  <section class="roi-widget">
+    <div class="container">
+      <div class="roi-inner">
+        <div class="roi-left">
+          <div class="section-label">ROI calculator</div>
+          <h2 class="roi-headline">What does building this yourself actually cost?</h2>
+          <p class="roi-sub">Auth, Payrexx billing, multi-tenant orgs, nFADP register, Matomo, Exoscale setup — none of these are weekend projects. Adjust your rate and see the real number.</p>
+        </div>
+        <div class="roi-right">
+          <div class="roi-card">
+            <div class="roi-result">
+              <span class="roi-days" id="roiDays">26–51d</span>
+              <span class="roi-days-label">saved</span>
+            </div>
+            <div class="roi-chf" id="roiChf">CHF 20,800 – 40,800 at your rate</div>
+            <div class="roi-rate-row">
+              <span class="roi-rate-label">Your rate:</span>
+              <input class="roi-rate-input" type="number" id="roiRate" value="130" min="10" max="999" step="10">
+              <span class="roi-rate-unit">CHF/hr · all 12 features</span>
+            </div>
+            <div class="roi-features" id="roiChips"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-label" data-i18n="pricing.label" data-i18n-html>Pricing · CHF · one-time&nbsp;🇨🇭</div>
+      <div class="pricing-grid">
+        <div class="pricing-card" id="buy-solo">
+          <div class="pricing-label" data-i18n="pricing.solo.label">Solo</div>
+          <div class="pricing-amount">CHF 199</div>
+          <div class="pricing-regular">one-time · full source ownership</div>
+          <div class="pricing-tag">🇨🇭 Swiss stack</div>
+          <div class="pricing-seat">1 developer seat</div>
+          <ul class="pricing-list">
+            <li>All 16 modules, full source</li>
+            <li>Payrexx + TWINT + PostFinance setup guide</li>
+            <li>Private GitHub repo invite</li>
+            <li>Exoscale single-VM Docker deployment guide</li>
+            <li>Lifetime v1.x updates</li>
+          </ul>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-buy" rel="noopener" data-i18n="pricing.cta_solo">Buy Solo — CHF 199 →</a>
+          <p class="pricing-note">Secured by Polar · CHF, EUR, USD accepted · Merchant of Record</p>
+        </div>
+        <div class="pricing-card" id="buy-team">
+          <div class="pricing-label" data-i18n="pricing.team.label">Team</div>
+          <div class="pricing-amount">CHF 399</div>
+          <div class="pricing-regular">one-time · full source ownership</div>
+          <div class="pricing-tag">🇨🇭 Swiss stack</div>
+          <div class="pricing-seat">Up to 5 developer seats</div>
+          <ul class="pricing-list">
+            <li>Everything in Solo</li>
+            <li>5 developer seats</li>
+            <li>Lifetime v1.x updates</li>
+          </ul>
+          <a href="https://buy.polar.sh/polar_cl_NvPKTuI4FPNXzw3rZQrhESK9eFAEIuNBqf6T51lJjex" class="btn-buy" rel="noopener" data-i18n="pricing.cta_team">Buy Team — CHF 399 →</a>
+          <p class="pricing-note">Secured by Polar · CHF, EUR, USD accepted · Merchant of Record</p>
+        </div>
+        <div class="pricing-card" id="buy-enterprise">
+          <div class="pricing-label" data-i18n="pricing.enterprise.label">Enterprise add-on</div>
+          <div class="pricing-amount">CHF 299</div>
+          <div class="pricing-regular">one-time · stacks on Solo or Team</div>
+          <div class="pricing-tag">Optional</div>
+          <div class="pricing-seat">Sell Already CH products to enterprise buyers</div>
+          <ul class="pricing-list">
+            <li>SCIM 2.0 endpoint &mdash; Okta, Entra, Workspace</li>
+            <li>SAML SSO recipe wired to Supabase Auth</li>
+            <li>Org-wide MFA mandate &mdash; toggle in admin UI</li>
+            <li>SOC 2-aligned audit log retention guide</li>
+          </ul>
+          <a href="https://buy.polar.sh/polar_cl_WKKrOCIhf4RUkLVR3yoeORLea2Pigr81mVjXj2lPRPj" class="btn-buy">Buy Enterprise add-on — CHF 299 →</a>
+          <p class="pricing-note">Secured by Polar · CHF, EUR, USD accepted · Merchant of Record</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+          <a href="https://waitwhatshop.affonso.io" rel="noopener" target="_blank">Affiliates</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+
+  <script>
+  (function() {
+    var FEATURES = [
+      { id: 'auth',      name: 'Auth',           low: 3,   high: 6  },
+      { id: 'billing',   name: 'Payrexx',         low: 4,   high: 8  },
+      { id: 'orgs',      name: 'Orgs',            low: 5,   high: 10 },
+      { id: 'admin',     name: 'Admin + nFADP',   low: 4,   high: 6  },
+      { id: 'email',     name: 'Email',           low: 1,   high: 2  },
+      { id: 'i18n',      name: 'i18n',            low: 2,   high: 4  },
+      { id: 'ai',        name: 'AI module',       low: 2,   high: 4  },
+      { id: 'security',  name: 'Security',        low: 2,   high: 4  },
+      { id: 'jobs',      name: 'Jobs',            low: 1,   high: 2  },
+      { id: 'apikeys',   name: 'API keys',        low: 1,   high: 2  },
+      { id: 'flags',     name: 'Unleash',         low: 0.5, high: 1  },
+      { id: 'analytics', name: 'Matomo',          low: 1,   high: 2  },
+    ];
+    var HOURS = 8;
+
+    function fmt(n) { return n.toLocaleString('de-CH', { maximumFractionDigits: 0 }); }
+    function fmtD(n) { return n < 1 ? Math.round(n*HOURS)+'h' : (Number.isInteger(n)?n:n.toFixed(1).replace(/\.0$/,''))+'d'; }
+
+    function updateROI() {
+      var rate = parseInt(document.getElementById('roiRate').value, 10) || 130;
+      var low = 0, high = 0;
+      FEATURES.forEach(function(f) { low += f.low; high += f.high; });
+      document.getElementById('roiDays').textContent = fmtD(low) + '–' + fmtD(high);
+      document.getElementById('roiChf').textContent =
+        'CHF ' + fmt(Math.round(low*HOURS*rate)) + ' – ' + fmt(Math.round(high*HOURS*rate)) + ' at your rate';
+    }
+
+    function renderChips() {
+      var el = document.getElementById('roiChips');
+      if (!el) return;
+      el.innerHTML = FEATURES.map(function(f) {
+        return '<span class="roi-feat-chip">' + f.name + '</span>';
+      }).join('');
+    }
+
+    var rateEl = document.getElementById('roiRate');
+    if (rateEl) {
+      rateEl.addEventListener('input', updateROI);
+      renderChips();
+      updateROI();
+    }
+  })();
+  </script>
+</body>
+</html>

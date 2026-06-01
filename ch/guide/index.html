@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>The Swiss SaaS Handbook — Already CH 🇨🇭</title>
+  <meta name="description" content="A founder's handbook for launching a Swiss-sovereign SaaS. Payrexx vs Stripe, TWINT, Swiss VAT, nFADP, commercial register, hiring, pricing in CHF. Written by someone who shipped it.">
+  <link rel="canonical" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/guide/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/guide/">
+  <meta property="og:title" content="The Swiss SaaS Handbook — Already CH">
+  <meta property="og:description" content="Everything you need to launch a Swiss-sovereign SaaS — billing, VAT, nFADP, hiring, payments — without guessing.">
+  <meta property="og:url" content="https://alreadykit.com/ch/guide/">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23D40000'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The Swiss SaaS Handbook",
+    "description": "Founder-grade handbook for shipping a Swiss-sovereign SaaS — billing, VAT, nFADP, hiring, distribution.",
+    "url": "https://alreadykit.com/ch/guide/",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": { "@type": "Person", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "name": "wait, what." }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--sans:'Inter Tight','Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace; }
+    @media (prefers-color-scheme: dark) { :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050; } }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(32px,4vw,48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.08; color: var(--ink); margin-bottom: 16px; max-width: 820px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 17px; line-height: 1.55; color: var(--ink-secondary); max-width: 680px; }
+
+    .guide-layout { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 56px 0 80px; align-items: start; }
+    .guide-layout > * { min-width: 0; }
+    @media (max-width: 860px) { .guide-layout { grid-template-columns: 1fr; gap: 32px; } }
+
+    .guide-nav { position: sticky; top: 72px; }
+    .guide-nav-section { margin-bottom: 28px; }
+    .guide-nav-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 8px; }
+    .guide-nav a { display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 5px 0; border-left: 2px solid transparent; padding-left: 12px; margin-left: -12px; transition: color 0.1s; }
+    .guide-nav a:hover { color: var(--ink); border-color: var(--rule); }
+
+    .guide-content h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 56px 0 18px; padding-top: 56px; border-top: 1px solid var(--rule); }
+    .guide-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .guide-content h3 { font-size: 17px; font-weight: 600; color: var(--ink); margin: 32px 0 12px; }
+    .guide-content p { font-size: 16px; line-height: 1.7; color: var(--ink-secondary); margin-bottom: 18px; }
+    .guide-content ul { margin: 0 0 22px 0; padding: 0; list-style: none; }
+    .guide-content ul li { font-size: 16px; line-height: 1.65; color: var(--ink-secondary); padding: 6px 0 6px 22px; position: relative; }
+    .guide-content ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 12px; }
+    .guide-content a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .guide-content a:hover { color: var(--signal); }
+    .guide-content strong { font-weight: 600; color: var(--ink); }
+    .guide-content code { font-family: var(--mono); font-size: 13.5px; background: var(--paper-subtle); padding: 1px 6px; border: 1px solid var(--rule); color: var(--ink-secondary); }
+
+    .pull { border-left: 3px solid var(--ink); padding: 14px 22px; background: var(--paper-subtle); margin: 26px 0; font-size: 15.5px; line-height: 1.65; color: var(--ink-secondary); }
+    .pull strong { color: var(--ink); }
+
+    .toc-block { border: 1px solid var(--rule); padding: 24px 28px; margin: 32px 0 8px; background: var(--paper-subtle); }
+    .toc-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 14px; }
+    .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
+    @media (max-width: 640px) { .toc-grid { grid-template-columns: 1fr; } }
+    .toc-grid a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 5px 0; }
+    .toc-grid a:hover { color: var(--ink); }
+    .toc-grid a::before { content: '→ '; color: var(--signal); font-family: var(--mono); font-size: 12px; margin-right: 6px; }
+
+    .cta-block { border: 1px solid var(--rule); padding: 32px; margin: 56px 0; text-align: center; }
+    .cta-block h2 { font-size: 22px; font-weight: 600; color: var(--ink); margin: 0 0 10px; border: none; padding: 0; }
+    .cta-block p { font-size: 15px; color: var(--ink-secondary); margin-bottom: 22px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 14px 28px; text-decoration: none; transition: background 0.12s; }
+    .cta-btn:hover { background: var(--signal); }
+
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Handbook",
+        "item": "https://alreadykit.com/ch/guide/"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://alreadykit.com/ch/guide/#webpage",
+    "url": "https://alreadykit.com/ch/guide/",
+    "name": "The Swiss SaaS Handbook",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [
+        "h1",
+        "h2",
+        "p:first-of-type"
+      ]
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://alreadykit.com/ch/#website"
+    }
+  }
+  </script>
+</head>
+<body>
+
+    <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Handbook · 12 chapters &nbsp;🇨🇭</div>
+      <h1>The Swiss SaaS Handbook —<br>everything I wish I'd known before <em>billing my first customer in CHF.</em></h1>
+      <p class="lede">A founder's handbook for launching a Swiss-sovereign SaaS without guessing. Payrexx mechanics, TWINT realities, Swiss VAT, nFADP audit prep, hiring, pricing in CHF, distribution. Written by someone who shipped it.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="guide-layout">
+
+      <nav class="guide-nav">
+        <div class="guide-nav-section">
+          <div class="guide-nav-label">Foundations</div>
+          <a href="#why-swiss">Why Swiss-sovereign</a>
+          <a href="#legal-entity">Legal entity</a>
+          <a href="#commercial-register">Commercial register</a>
+        </div>
+        <div class="guide-nav-section">
+          <div class="guide-nav-label">Money</div>
+          <a href="#pricing-chf">Pricing in CHF</a>
+          <a href="#payrexx-mechanics">Payrexx mechanics</a>
+          <a href="#twint">TWINT</a>
+          <a href="#vat">Swiss VAT 8.1%</a>
+        </div>
+        <div class="guide-nav-section">
+          <div class="guide-nav-label">Compliance</div>
+          <a href="#nfadp">nFADP audit prep</a>
+          <a href="#gdpr">GDPR for EU buyers</a>
+          <a href="#data-residency">Data residency</a>
+        </div>
+        <div class="guide-nav-section">
+          <div class="guide-nav-label">Operations</div>
+          <a href="#hiring">Hiring</a>
+          <a href="#distribution">Distribution</a>
+          <a href="#first-90">First 90 days</a>
+        </div>
+      </nav>
+
+      <div class="guide-content">
+
+        <div class="toc-block">
+          <div class="toc-label">Chapters</div>
+          <div class="toc-grid">
+            <a href="#why-swiss">1. Why Swiss-sovereign matters</a>
+            <a href="#legal-entity">2. Picking a legal entity</a>
+            <a href="#commercial-register">3. Commercial register</a>
+            <a href="#pricing-chf">4. Pricing in CHF</a>
+            <a href="#payrexx-mechanics">5. Payrexx mechanics</a>
+            <a href="#twint">6. TWINT — the 60% rule</a>
+            <a href="#vat">7. Swiss VAT 8.1%</a>
+            <a href="#nfadp">8. nFADP audit prep</a>
+            <a href="#gdpr">9. GDPR for EU buyers</a>
+            <a href="#data-residency">10. Data residency, in practice</a>
+            <a href="#hiring">11. Hiring + freelancers</a>
+            <a href="#distribution">12. Distribution &amp; first 90 days</a>
+          </div>
+        </div>
+
+        <h2 id="why-swiss">1. Why Swiss-sovereign matters</h2>
+        <p>"Sovereign" is overused. Here's the operational version: <strong>can you, in writing, tell a Swiss customer where every byte of their data lives, who can subpoena it, and which sub-processors touch it?</strong> If the answer involves Stripe, Vercel, PostHog, and Resend, you're under the US CLOUD Act for the entire stack.</p>
+        <p>For most consumer SaaS, that's fine. For Swiss B2B — healthcare, finance, government, education, and regulated industries — it's a sales blocker. Procurement asks. Legal asks. If you don't have an answer, you don't get the contract.</p>
+        <div class="pull"><strong>The pragmatic test:</strong> can you sell to a cantonal administration? If yes, you've passed the sovereignty bar for almost everyone else.</div>
+
+        <h2 id="legal-entity">2. Picking a legal entity</h2>
+        <p>Three realistic options for a software founder in Switzerland:</p>
+        <ul>
+          <li><strong>Einzelunternehmen / raison individuelle</strong> — fastest, cheapest, no minimum capital. Personal liability is unlimited. Fine for &lt; CHF 100k turnover and pre-PMF.</li>
+          <li><strong>GmbH / Sàrl</strong> — CHF 20k minimum capital, limited liability, commercial register entry mandatory. The default for serious B2B SaaS.</li>
+          <li><strong>AG / SA</strong> — CHF 100k minimum (CHF 50k paid in), strong credibility for institutional sales. Overkill unless you raise.</li>
+        </ul>
+        <p>Most Already CH buyers form a GmbH. Founding via a notary takes a week. Budget CHF 1,500–3,000 in fees plus the CHF 20k capital (which is yours — it lives in a company bank account, not a fee).</p>
+
+        <h2 id="commercial-register">3. Commercial register (Handelsregister)</h2>
+        <p>For Einzelunternehmen, registration becomes mandatory above CHF 100k turnover. GmbH / AG are mandatory from day one. The cantonal commercial register is publicly searchable — every Swiss buyer will look you up.</p>
+        <p>Things to get right at registration: company name (cannot be misleading), domiciliation address (use a real one — a P.O. box is a red flag), purpose statement (broad enough to cover product expansion). Once filed, switching takes another notarial act, so think twice.</p>
+
+        <h2 id="pricing-chf">4. Pricing in CHF</h2>
+        <p>Three reasons to price in CHF, even if your primary market is global:</p>
+        <ul>
+          <li><strong>FX losses.</strong> Charging Swiss customers in USD via Stripe costs them 1–2% in conversion plus another 1–2% on their card statement. They notice.</li>
+          <li><strong>Accountancy.</strong> Swiss accountants reconcile in CHF. USD invoices add a manual currency conversion step and an exposure adjustment line.</li>
+          <li><strong>Pricing perception.</strong> "CHF 49/mo" reads as Swiss; "USD 49/mo" reads as American SaaS. For Swiss-targeted products, the former lifts conversion.</li>
+        </ul>
+        <p>Practical anchor points (mid-2026): Solo CHF 49–99/mo, Team CHF 199–399/mo, Enterprise from CHF 999/mo. One-time licences in the CHF 199 range price like an indie founder kit — exactly the band Already CH sits in.</p>
+
+        <h2 id="payrexx-mechanics">5. Payrexx mechanics</h2>
+        <p>Payrexx is a Swiss payment gateway based in Thun, regulated under Swiss law, member of the SRO-VQF. It is <em>not</em> a Merchant of Record — you remain the seller of record. Two consequences that Already CH handles for you:</p>
+        <ul>
+          <li><strong>No Customer object.</strong> Stripe ties payments to a <code>cus_xxx</code>; Payrexx doesn't. We attach <code>referenceId = orgId</code> on every checkout, then look up the org in the webhook.</li>
+          <li><strong>Plan derived from amount.</strong> Webhooks tell you what was charged, not which plan. Keep plan prices unique in <code>config/billing.ts</code> so the amount maps unambiguously to a plan tier.</li>
+        </ul>
+        <p>Payrexx settlement is in CHF directly to a Swiss bank account, typically T+1. Fees: 1.4% + CHF 0.30 for Swiss cards, slightly higher for international. TWINT and PostFinance fees are negotiated per account.</p>
+
+        <h2 id="twint">6. TWINT — the 60% rule</h2>
+        <p>Roughly 60% of Swiss consumers and a large share of Swiss SMB buyers expect TWINT at checkout. If you only ship Stripe, you're cutting half your conversion at the very last step — after the customer has already decided to buy.</p>
+        <p>TWINT works two ways: the QR-Bill flow (B2B, larger invoices, paper or PDF) and the in-app push flow (B2C, one-tap). Payrexx ships both. Already CH wires TWINT QR for invoiced plans and the push flow for self-serve checkout.</p>
+        <div class="pull"><strong>If you sell to Swiss SMBs:</strong> TWINT first, cards second, and offer QR-Bill as an explicit option on invoices. Skipping QR-Bill is the single most common reason German-stack SaaS struggles in Switzerland.</div>
+
+        <h2 id="vat">7. Swiss VAT 8.1%</h2>
+        <p>Standard Swiss VAT is 8.1% (from 1 January 2024). You become VAT-liable when your annual taxable turnover crosses CHF 100,000. Below that, registration is optional — many software founders register voluntarily because it lets them reclaim input VAT on services like Exoscale and Infomaniak.</p>
+        <p>Registration is via the Federal Tax Administration (ESTV / AFC). You'll get a <strong>UID</strong> (Unternehmens-Identifikationsnummer, format <code>CHE-xxx.xxx.xxx</code>) — print it on every invoice. <code>config/billing.ts</code> in Already CH carries <code>vatRate = 0.081</code>; flip the toggle to apply VAT once you cross threshold.</p>
+        <p>Selling to EU customers? Swiss software exports to EU B2C buyers are subject to <strong>EU OSS</strong> rules — you need an OSS registration (typically via a fiscal representative in one EU country) once your EU turnover crosses €10,000. Pre-threshold, no EU VAT applies.</p>
+
+        <h2 id="nfadp">8. nFADP audit prep</h2>
+        <p>The revised Federal Act on Data Protection (nFADP) came into force on 1 September 2023. It's GDPR-flavoured but distinctly Swiss. The four things that catch founders off-guard:</p>
+        <ul>
+          <li><strong>Art. 12 register of processing activities.</strong> Every company processing personal data systematically must keep this. Already CH ships the <code>/admin/data-register</code> UI pre-aligned to the structure required.</li>
+          <li><strong>Art. 19 information obligation.</strong> Your privacy policy must list every processing purpose, every data category, every sub-processor, and every international transfer. The privacy template in <code>/legal/privacy</code> covers this.</li>
+          <li><strong>Art. 24 data-protection impact assessment.</strong> Required when processing creates a high risk to data subjects — typical triggers: AI profiling, large-scale sensitive data, systematic monitoring. Document the assessment before launch.</li>
+          <li><strong>Art. 25 access rights, 30-day response.</strong> Build the data export endpoint before launch, not after the first request lands in your inbox.</li>
+        </ul>
+        <p>The fines: up to CHF 250,000 personally for the responsible person — not the company. Take this seriously.</p>
+
+        <h2 id="gdpr">9. GDPR for EU buyers</h2>
+        <p>If you sell to EU customers (the entire DACH market beyond Switzerland), GDPR applies in parallel with nFADP. The good news: nFADP is so close to GDPR that a single compliant stance covers both. The places they diverge:</p>
+        <ul>
+          <li><strong>Standard Contractual Clauses for transfers.</strong> Switzerland is on the EU adequacy list, so EU → CH transfers don't need SCCs. But CH → US transfers (e.g. GitHub) do, and the Swiss version of the SCCs (FDPIC-recognised) is mandatory.</li>
+          <li><strong>Data Protection Officer.</strong> nFADP doesn't require one; GDPR does for large-scale processors. Appoint one if you process EU data at scale.</li>
+          <li><strong>Lead authority.</strong> For EU buyers, the FDPIC is not your supervisory authority — pick one of the EU DPAs (Ireland is common for tech).</li>
+        </ul>
+
+        <h2 id="data-residency">10. Data residency, in practice</h2>
+        <p>"Hosted in Switzerland" sells. "Hosted in Switzerland with a Swiss support team and no US sub-processors" sells better. The five sub-processors customers will ask about:</p>
+        <ul>
+          <li><strong>Hosting:</strong> Exoscale (CH, Geneva + Zurich) — Already CH default.</li>
+          <li><strong>Database:</strong> Self-hosted Supabase on Exoscale. Not Supabase Cloud (US/EU multi-region).</li>
+          <li><strong>Email:</strong> Infomaniak SMTP (CH, ISO 27001) — Already CH default.</li>
+          <li><strong>Analytics:</strong> Matomo self-hosted, cookie-free. Not Google Analytics.</li>
+          <li><strong>Payments:</strong> Payrexx (CH). Stripe is not Swiss-sovereign even with EU data residency — Stripe Inc. is US-incorporated and subject to CLOUD Act.</li>
+        </ul>
+        <p>The only US touchpoint Already CH leaves in place is GitHub for repo delivery. If a customer can't accept GitHub for compliance reasons, we offer a one-time tarball delivery from Exoscale SOS.</p>
+
+        <h2 id="hiring">11. Hiring + freelancers</h2>
+        <p>For the first two to three hires, freelancers under <em>Auftrag</em> (mandate) contracts beat employees on cost and flexibility. Watch the <em>Scheinselbständigkeit</em> tests — SUVA, AHV, and the cantonal Migrationsamt all probe for de-facto employment if a freelancer has one client and works set hours.</p>
+        <p>Once you hire your first employee: AHV, SUVA, pension fund (BVG, mandatory above CHF 22,680 annual salary), accident insurance, and source-tax obligations for non-Swiss employees. Use a payroll service (PEAX, abacus, or Tippy) — the regulations shift every year.</p>
+
+        <h2 id="distribution">12. Distribution &amp; first 90 days</h2>
+        <p>Where Swiss B2B SaaS customers actually live:</p>
+        <ul>
+          <li><strong>LinkedIn DACH.</strong> Higher conversion than US LinkedIn, lower volume. Quality over reach.</li>
+          <li><strong>SwissDevJobs, SwissICT, OST/EPFL/ETH alumni networks.</strong> Tight-knit.</li>
+          <li><strong>BFH, FHNW, ZHAW partnerships.</strong> Free pilots in exchange for case studies. Slow but high-trust.</li>
+          <li><strong>digitec / NZZ / Cash mentions.</strong> If you land a mention, it sells. Most Swiss tech founders underweight national tech press.</li>
+        </ul>
+        <p>What I'd do on day 1: spin up a German marketing site (Already CH ships i18n DE/FR/IT/EN), publish 5 deep-dive technical posts in the local domain, and reach out to 30 hand-picked DACH decision-makers per week. No paid acquisition for the first three months — Swiss buyers don't convert from ads alone.</p>
+
+        <div class="pull"><strong>The single highest-leverage thing</strong> a Swiss SaaS founder can do in the first 90 days is publish 5 case studies with named Swiss customers and their UID on the website. It does more than a year of cold outreach.</div>
+
+        <div class="cta-block">
+          <h2>Skip the integration. Ship the product.</h2>
+          <p>Already CH wires every Swiss-specific layer in this handbook — Payrexx + TWINT, Swiss VAT, nFADP register, Matomo, Infomaniak SMTP, Exoscale deploy — into a Next.js codebase you own. 16 modules, CHF 199, one-time.</p>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="cta-btn">Buy — CHF 199 →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){var n=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('al-th',n);_s();};
+    function _s(){var d=html.getAttribute('data-theme')==='dark';var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');if(b){b.textContent=d?'○':'◐';}if(bm){bm.textContent=(d?'○':'◐')+' Theme';}}
+    window.toggleMobileNav=function(){var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');if(!m)return;var o=m.classList.toggle('open');if(h){h.setAttribute('aria-expanded',String(o));var sp=h.querySelectorAll('span');if(o){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}}};
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_s();}});}_s();
+  })();
+  </script>
+</body>
+</html>

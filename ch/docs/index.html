@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Already CH Docs — Swiss-sovereign Next.js SaaS starter</title>
+  <meta name="description" content="Already CH documentation: quickstart, env vars, Payrexx setup, Exoscale Docker deploy, Matomo install, Infomaniak SMTP, nFADP register. Buy on Payrexx, clone, ship.">
+  <link rel="canonical" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/docs/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/docs/">
+  <meta property="og:title" content="Already CH Docs — Quickstart">
+  <meta property="og:description" content="From purchase to a deployed Swiss-sovereign SaaS in under an hour.">
+  <meta property="og:url" content="https://alreadykit.com/ch/docs/">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23D40000'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Already CH Docs — Quickstart",
+    "description": "Setup and reference for the Already CH Swiss-sovereign Next.js SaaS starter.",
+    "url": "https://alreadykit.com/ch/docs/",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": { "@type": "Person", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "name": "wait, what." }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4;--sans:'Inter Tight','Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace; }
+    @media (prefers-color-scheme: dark) { :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; } }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4; }
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .doc-header h1 { font-size: clamp(32px,4vw,48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin-bottom: 16px; }
+    .doc-header p { font-size: 17px; line-height: 1.55; color: var(--ink-secondary); max-width: 620px; }
+
+    .doc-layout { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 56px 0 80px; align-items: start; }
+    .doc-layout > * { min-width: 0; }
+    @media (max-width: 860px) { .doc-layout { grid-template-columns: 1fr; gap: 32px; } }
+
+    .doc-nav { position: sticky; top: 72px; }
+    .doc-nav-section { margin-bottom: 28px; }
+    .doc-nav-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 8px; }
+    .doc-nav a { display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 5px 0; border-left: 2px solid transparent; padding-left: 12px; margin-left: -12px; transition: color 0.1s; }
+    .doc-nav a:hover { color: var(--ink); border-color: var(--rule); }
+
+    .doc-content h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    .doc-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .doc-content h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 28px 0 10px; }
+    .doc-content p { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    .doc-content ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    .doc-content ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    .doc-content ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 12px; }
+    .doc-content a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .doc-content a:hover { color: var(--signal); }
+    .doc-content strong { font-weight: 600; color: var(--ink); }
+    .doc-content code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; border: 1px solid var(--rule); color: var(--ink-secondary); }
+    .doc-content pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; }
+    .doc-content pre code { background: transparent; border: none; padding: 0; color: var(--code-text); font-size: 13px; line-height: 1.6; }
+
+    .step { border: 1px solid var(--rule); margin-bottom: 16px; }
+    .step-header { display: grid; grid-template-columns: 40px 1fr; background: var(--paper-subtle); padding: 16px 20px; align-items: center; gap: 16px; border-bottom: 1px solid var(--rule); }
+    .step-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .step-body { padding: 20px 20px 12px 20px; }
+    .step-body p { font-size: 14px; line-height: 1.6; }
+
+    .key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 24px; }
+    @media (max-width: 640px) { .key-grid { grid-template-columns: 1fr; } }
+    .key-card { border: 1px solid var(--rule); padding: 14px 16px; }
+    .key-name { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); }
+    .key-note { font-size: 12px; color: var(--ink-muted); margin-top: 4px; line-height: 1.5; }
+
+    .callout { border-left: 3px solid var(--ink); padding: 16px 20px; background: var(--paper-subtle); margin: 20px 0; font-size: 14px; line-height: 1.6; color: var(--ink-secondary); }
+    .callout strong { color: var(--ink); }
+
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Docs",
+        "item": "https://alreadykit.com/ch/docs/"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://alreadykit.com/ch/docs/#webpage",
+    "url": "https://alreadykit.com/ch/docs/",
+    "name": "Already CH Docs",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [
+        "h1",
+        "h2",
+        "p:first-of-type"
+      ]
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "https://alreadykit.com/ch/#website"
+    }
+  }
+  </script>
+</head>
+<body>
+
+    <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="doc-header">
+    <div class="container">
+      <div class="eyebrow">Documentation &nbsp;🇨🇭</div>
+      <h1>Quickstart</h1>
+      <p>From Payrexx checkout to a deployed Swiss-sovereign SaaS in under an hour. Same Next.js you already know — wired against a Swiss + European stack.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="doc-layout">
+
+      <nav class="doc-nav">
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Setup</div>
+          <a href="#prerequisites">Prerequisites</a>
+          <a href="#purchase">1. Purchase</a>
+          <a href="#clone">2. Clone</a>
+          <a href="#env">3. Env vars</a>
+          <a href="#dev">4. Local dev</a>
+          <a href="#deploy">5. Deploy</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Swiss stack</div>
+          <a href="#payrexx">Payrexx</a>
+          <a href="#infomaniak">Infomaniak SMTP</a>
+          <a href="#exoscale">Exoscale (single-VM Docker)</a>
+          <a href="#matomo">Matomo</a>
+          <a href="#nfadp">nFADP register</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Reference</div>
+          <a href="#env-vars">Env vars list</a>
+          <a href="#commands">Commands</a>
+          <a href="#modules">Modules</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Migrations</div>
+          <a href="/migrate/lovable">From Lovable</a>
+          <a href="/migrate/base44">From Base44</a>
+          <a href="/migrate/bolt">From Bolt</a>
+          <a href="/migrate/v0">From v0</a>
+        </div>
+      </nav>
+
+      <div class="doc-content">
+
+        <div class="callout">
+          🇨🇭 Already CH is the Swiss-sovereign sibling of <a href="https://alreadykit.com" rel="noopener">already</a>. Same Next.js 15 + Supabase + Drizzle code, swapped Stripe → Payrexx, Resend → Infomaniak, Vercel → Exoscale (single-VM Docker), PostHog → Matomo, Sentry → GlitchTip. 16 modules. CHF 199.
+        </div>
+
+        <h2 id="prerequisites">Prerequisites</h2>
+        <p>You need these installed before you start. All free.</p>
+        <ul>
+          <li><strong>Node.js 20+</strong> — check with <code>node --version</code></li>
+          <li><strong>pnpm 9+</strong> — install via <code>npm i -g pnpm</code></li>
+          <li><strong>Docker Desktop</strong> — for local Supabase + Caddy + Redis</li>
+          <li><strong>Supabase CLI</strong> — <code>brew install supabase/tap/supabase</code></li>
+        </ul>
+        <p>Cloud accounts: Payrexx (free, Swiss), Infomaniak (CHF 6/mo SMTP), Exoscale (free credit), plus optional Matomo Cloud (or self-host on the same Exoscale VM). All Swiss / EU. No US sign-up needed.</p>
+
+        <h2 id="purchase">1. Purchase</h2>
+        <div class="step">
+          <div class="step-header"><div class="step-num">01</div><div class="step-title">Buy on Payrexx → accept GitHub invite</div></div>
+          <div class="step-body">
+            <p>Buy a Solo (CHF 199) or Team (CHF 399) licence at <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r">alreadykit.com/ch/#buy-solo</a>. Payrexx handles the checkout — pay with TWINT, PostFinance, Visa, Mastercard, AmEx, Apple Pay, or Google Pay. Swiss VAT (8.1%) is invoiced automatically.</p>
+            <p>Within 1–2 minutes you'll get a GitHub repository invite via Infomaniak SMTP. Accept it, then click <strong>"Use this template"</strong> on the private <code>already-ch-template</code> repo to create your own copy.</p>
+          </div>
+        </div>
+
+        <h2 id="clone">2. Clone</h2>
+        <div class="step">
+          <div class="step-header"><div class="step-num">02</div><div class="step-title">Clone and install</div></div>
+          <div class="step-body">
+            <pre><code>git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+cd YOUR_REPO_NAME
+pnpm install</code></pre>
+          </div>
+        </div>
+
+        <h2 id="env">3. Env vars</h2>
+        <p>Copy the example file and fill it in:</p>
+        <pre><code>cp .env.example .env.local</code></pre>
+        <p>The minimum to boot locally:</p>
+        <div class="key-grid">
+          <div class="key-card"><div class="key-name">DATABASE_URL</div><div class="key-note">Local: postgres://postgres:postgres@localhost:54322/postgres</div></div>
+          <div class="key-card"><div class="key-name">NEXT_PUBLIC_SUPABASE_URL</div><div class="key-note">Local Supabase URL after <code>supabase start</code></div></div>
+          <div class="key-card"><div class="key-name">NEXT_PUBLIC_SUPABASE_ANON_KEY</div><div class="key-note">Printed by supabase CLI</div></div>
+          <div class="key-card"><div class="key-name">SUPABASE_SERVICE_ROLE_KEY</div><div class="key-note">Server-only. Inject from macOS Keychain, never commit.</div></div>
+          <div class="key-card"><div class="key-name">PAYREXX_INSTANCE</div><div class="key-note">Your Payrexx tenant name</div></div>
+          <div class="key-card"><div class="key-name">PAYREXX_API_KEY</div><div class="key-note">Test mode key from Payrexx dashboard</div></div>
+          <div class="key-card"><div class="key-name">PAYREXX_WEBHOOK_SECRET</div><div class="key-note">For signed webhook validation</div></div>
+          <div class="key-card"><div class="key-name">SMTP_HOST / USER / PASS</div><div class="key-note">Infomaniak: mail.infomaniak.com:587</div></div>
+        </div>
+        <p>See <a href="#env-vars">full env vars reference</a> below.</p>
+
+        <h2 id="dev">4. Local dev</h2>
+        <div class="step">
+          <div class="step-header"><div class="step-num">04</div><div class="step-title">Start everything</div></div>
+          <div class="step-body">
+            <pre><code>supabase start
+pnpm dev</code></pre>
+            <p>This boots Next.js on <code>localhost:3000</code>, local Supabase on <code>54322/54323</code>, and the Payrexx webhook tunnel via the included ngrok config. Hit <code>localhost:3000/health</code> to confirm DB + Redis connections.</p>
+          </div>
+        </div>
+
+        <h2 id="deploy">5. Deploy</h2>
+        <p>Already CH ships a single self-contained <code>docker-compose.prod.yml</code> — Caddy, the app, cron, a one-shot migrate sidecar, Redis, and the full self-hosted Supabase stack. Three paths:</p>
+        <h3>A. Exoscale Marketplace (one-click)</h3>
+        <p>Spin up a CHF-billed VM from the pre-built QCOW2 image:</p>
+        <pre><code>exo compute instance create my-app \
+  --template "already-ch" \
+  --zone ch-gva-2 \
+  --instance-type standard.medium</code></pre>
+        <p>First boot runs cloud-init, which injects <code>.env.production</code>, then a systemd unit starts the compose stack. Caddy auto-provisions TLS and wires MaxMind GeoIP2 (sets <code>x-geo-country</code>). The migrate sidecar applies migrations + RLS policies before the app starts.</p>
+        <h3>B. Bare VM bootstrap</h3>
+        <p>On any fresh Ubuntu host: <code>curl -fsSL …/infra/setup.sh | sudo bash</code> installs Docker, clones the repo, scaffolds <code>.env.production</code>, and brings the stack up.</p>
+        <h3>C. CI build → registry → SSH</h3>
+        <p>Push to <code>main</code> → GitHub Actions builds the image, pushes to the Exoscale Container Registry, and SSHes in to run <code>docker compose pull &amp;&amp; up -d</code>.</p>
+
+        <h2 id="payrexx">Payrexx</h2>
+        <p>Payrexx replaces Stripe. Two big differences to keep in mind:</p>
+        <ul>
+          <li><strong>No Customer object.</strong> We identify the org via <code>referenceId</code> set to <code>orgId</code> during checkout. Webhooks look up the org by that field.</li>
+          <li><strong>Plan key is derived from transaction amount.</strong> Keep plan prices unique in <code>config/billing.ts</code> — duplicates make plan derivation ambiguous.</li>
+        </ul>
+        <p>Webhooks are idempotent via the <code>payment_events</code> table. Failed events route to <code>payment_events_failed</code> for <code>/debug-webhook</code>.</p>
+        <pre><code>// config/billing.ts
+export const billingConfig = {
+  currency: 'CHF',
+  vatRate: 0.081, // Swiss VAT 8.1%
+  plans: {
+    solo: { amount: 19900, gateway: 'pop-up-solo' },
+    team: { amount: 39900, gateway: 'pop-up-team' },
+  },
+};</code></pre>
+
+        <h2 id="infomaniak">Infomaniak SMTP</h2>
+        <p>Transactional email goes through Infomaniak's Swiss-hosted SMTP. Use <code>nodemailer</code> via <code>lib/messaging/index.ts</code> — never call nodemailer directly. The <code>notify(userId, ...)</code> helper handles channel routing (email, in-app, both).</p>
+        <pre><code>SMTP_HOST=mail.infomaniak.com
+SMTP_PORT=587
+SMTP_USER=your-infomaniak-mailbox
+SMTP_PASS=your-app-password
+SMTP_FROM="Already CH &lt;noreply@your-domain.ch&gt;"</code></pre>
+
+        <h2 id="exoscale">Exoscale — single-VM Docker</h2>
+        <p>Exoscale runs the whole stack in Geneva (<code>ch-gva-2</code>) or Zurich (<code>ch-dk-2</code>). One <code>docker-compose.prod.yml</code> brings up Caddy, the app, cron, the migrate sidecar, Redis, and self-hosted Supabase — push-to-deploy via GitHub Actions (build → Exoscale Container Registry → SSH), no Vercel lock-in.</p>
+        <ul>
+          <li><strong>Hosting:</strong> Exoscale compute (standard.medium handles dev + staging fine)</li>
+          <li><strong>Postgres:</strong> Self-hosted Supabase via the included Docker compose</li>
+          <li><strong>Redis:</strong> Exoscale managed Redis (rate limits, queue)</li>
+          <li><strong>Object storage:</strong> Exoscale SOS (S3-compatible, CHF-billed)</li>
+          <li><strong>CDN / TLS:</strong> Caddy with Let's Encrypt + MaxMind GeoIP2</li>
+        </ul>
+
+        <h2 id="matomo">Matomo</h2>
+        <p>Matomo runs cookie-free on the same Exoscale VM as the app. Because it stores no cookies and uses a daily-rotating fingerprint, no consent banner is required under nFADP or GDPR.</p>
+        <pre><code>NEXT_PUBLIC_MATOMO_URL=https://analytics.your-domain.ch
+NEXT_PUBLIC_MATOMO_SITE_ID=1</code></pre>
+        <p>The tracker lives in <code>components/providers/analytics-provider.tsx</code> and only runs in production.</p>
+
+        <h2 id="nfadp">nFADP data register</h2>
+        <p>Every personal-data processing activity should appear in the <code>data_processing_activities</code> table. The admin UI lives at <code>/admin/data-register</code> and follows the structure required by Art. 12 nFADP (controller, purposes, legal basis, recipients, retention period, transfers, security measures).</p>
+        <p>Seed entries for Payrexx, Infomaniak, Supabase, Matomo, and GitHub are pre-loaded. Edit them to match your actual processing, then export the register as PDF for your DPO.</p>
+
+        <h2 id="env-vars">Env vars reference</h2>
+        <p>Public (build-time, baked into the bundle):</p>
+        <ul>
+          <li><code>NEXT_PUBLIC_SUPABASE_URL</code></li>
+          <li><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></li>
+          <li><code>NEXT_PUBLIC_MATOMO_URL</code></li>
+          <li><code>NEXT_PUBLIC_MATOMO_SITE_ID</code></li>
+          <li><code>NEXT_PUBLIC_FRIENDLY_CAPTCHA_SITE_KEY</code></li>
+        </ul>
+        <p>Server-only (inject from macOS Keychain via <code>~/.keychain-secrets.sh</code>, never put in <code>.env</code>):</p>
+        <ul>
+          <li><code>DATABASE_URL</code>, <code>DATABASE_URL_DIRECT</code></li>
+          <li><code>SUPABASE_SERVICE_ROLE_KEY</code></li>
+          <li><code>PAYREXX_API_KEY</code>, <code>PAYREXX_WEBHOOK_SECRET</code></li>
+          <li><code>SMTP_PASS</code></li>
+          <li><code>MISTRAL_API_KEY</code> (primary AI provider)</li>
+          <li><code>UNLEASH_API_TOKEN</code></li>
+          <li><code>GLITCHTIP_DSN</code></li>
+          <li><code>CRON_SECRET</code>, <code>BETTER_AUTH_SECRET</code></li>
+        </ul>
+
+        <h2 id="commands">Commands</h2>
+        <ul>
+          <li><code>pnpm dev</code> — Next.js + local Supabase + Caddy reverse proxy</li>
+          <li><code>pnpm test</code> — Vitest unit + integration</li>
+          <li><code>pnpm test:e2e</code> — Playwright</li>
+          <li><code>pnpm db:migrate</code> — apply Drizzle migrations</li>
+          <li><code>pnpm db:seed</code> — synthetic test data</li>
+          <li><code>pnpm already doctor</code> — verify env vars, DB, Payrexx connection</li>
+          <li><code>pnpm build</code> — Docker-style standalone build</li>
+        </ul>
+
+        <h2 id="modules">Modules</h2>
+        <p>16 modules ship in Already CH. Same scope as already, with Swiss-stack defaults.</p>
+        <ul>
+          <li>Auth (TOTP, passkeys, MFA mandate)</li>
+          <li>Billing (Payrexx + TWINT + Swiss VAT)</li>
+          <li>Multi-tenant orgs + RBAC + RLS</li>
+          <li>Admin dashboard + impersonation</li>
+          <li>Messaging (Infomaniak SMTP + in-app)</li>
+          <li>Background jobs + cron sidecar</li>
+          <li>Security hardening (CSP, headers, Friendly Captcha)</li>
+          <li>Suspicious activity detection</li>
+          <li>AI integration (Mistral primary, US fallbacks optional)</li>
+          <li>Feature flags (Unleash)</li>
+          <li>Observability (GlitchTip, Matomo)</li>
+          <li>Migration assistant</li>
+          <li>nFADP data register (Art. 12)</li>
+          <li>i18n (DE, FR, IT, EN)</li>
+          <li>Growth features (referrals, student discount)</li>
+          <li>Developer experience (CLAUDE.md, doctor, Biome)</li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){var n=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('al-th',n);_s();};
+    function _s(){var d=html.getAttribute('data-theme')==='dark';var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');if(b){b.textContent=d?'○':'◐';}if(bm){bm.textContent=(d?'○':'◐')+' Theme';}}
+    window.toggleMobileNav=function(){var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');if(!m)return;var o=m.classList.toggle('open');if(h){h.setAttribute('aria-expanded',String(o));var sp=h.querySelectorAll('span');if(o){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}}};
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_s();}});}_s();
+  })();
+  </script>
+</body>
+</html>

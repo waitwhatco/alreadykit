@@ -1,0 +1,54 @@
+# Already — Full Content for AI Retrieval
+
+> Already is a production-ready Next.js 15 SaaS starter kit sold as a one-time purchase by the studio "wait, what." It ships 16 pre-wired modules so developers skip the 2–4 weeks of rebuilding auth, billing, multi-tenancy, and infrastructure on every new SaaS. It includes a CLI migration tool for moving prototypes built on Lovable, Base44, Bolt, and v0 to a production codebase. Buy once, own the source.
+
+## What Already is
+Already is a complete, production-grade foundation for a B2B or B2C SaaS, built on Next.js 15 (App Router, React 19, React Compiler), Supabase (Postgres, Auth, Storage, Realtime), Drizzle ORM, Stripe, Resend, shadcn/ui, and Tailwind CSS v4, deployed on Vercel. A single config flag (`config/app.ts`) switches the kit between B2B mode (organizations, org switcher, invitations) and B2C mode (one personal workspace per user) — the database schema is identical in both. Buyers receive an automated GitHub invite to a private repository on purchase, click "Use this template" to create their own private copy, and own the full source. Sold via Polar.sh, which acts as Merchant of Record and handles global tax. All sales are final; source is delivered immediately.
+
+## Pricing
+- Solo: $199 early-bird (1 developer seat) — standard $249 after June 24, 2026.
+- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 24, 2026.
+- Enterprise add-on: $299 one-time, stacks on Solo or Team. Adds the SCIM 2.0 provisioning endpoint, the SAML SSO recipe wired to Supabase Auth, the org-wide MFA mandate, and the SOC 2-aligned audit-log retention guide.
+- One-time payment, no subscription. Lifetime updates within v1.x included.
+
+## The 16 modules
+1. Auth — Supabase Auth with email/password, Google OAuth, magic links, TOTP (authenticator app), passkeys (WebAuthn), and an owner-only setting that mandates MFA for every org member.
+2. Messaging — Unified notify() API across email (Resend + React Email) and in-app (Supabase Realtime).
+3. Billing — Stripe subscriptions with idempotent webhooks, dead-letter handling, plan gating, customer portal, org or user billing modes.
+4. Route Protection — requireAuth(), requireOrg(), requirePlan() helpers in Server Component layouts, plus per-request CSP nonces.
+5. Multi-Tenant Orgs — withOrgScope() query helpers, Supabase row-level security, invitations, a personal org auto-created on signup. Optional B2C mode hides the org switcher.
+6. Admin Dashboard — User impersonation with full audit log, org management, subscription overview.
+7. Content — MDX pipeline for marketing, documentation, and legal pages.
+8. UX Patterns — shadcn/ui, loading/error/empty states, toast system, react-hook-form + Zod forms, onboarding flow.
+9. Background Jobs — Postgres-backed queue, Vercel Cron, retry with exponential backoff, dead-letter handling.
+10. API Keys — Hashed at rest, scoped per-org, per-key rate limits (100 req/min default), usage logging, rotation reminder.
+11. Feature Flags — PostHog with server-side and client-side evaluation plus env-var fallback.
+12. Infra & Observability — Sentry, BotID, t3-env validation, Upstash rate limits on every authenticated endpoint, GDPR endpoints, macOS Keychain integration for secrets via the built-in CLI.
+13. AI Integration — Multi-provider SDK (Anthropic, OpenAI, Google) with a per-org credits ledger, usage tracking, and per-org rate limits (30 req/min default).
+14. Growth — Rewardful affiliate tracking, localized/adaptive pricing, Storybook component library.
+15. i18n — next-intl with English, German, Spanish, Italian, French (cookie-based, no URL prefix).
+16. Security — Per-request CSP nonces, HSTS, SSRF-guarded outbound webhooks, AES-256-GCM secret-at-rest encryption, anomaly detection via geo/device/velocity/impossible-travel heuristics, append-only audit trail, optional SCIM 2.0 endpoint.
+
+## Migrating from AI builders (Lovable, Bolt, v0, Base44)
+Already ships a CLI migration command and per-builder guides. The core insight: AI builders (especially Lovable and Base44) generate apps on the same Supabase + shadcn/ui stack Already uses, so migration is mechanical rather than a rewrite.
+
+### How to take a Lovable app to production
+You keep what works — the Supabase Auth and shadcn/ui stack — and add what Lovable does not generate: Stripe billing, multi-tenant row-level security, background jobs, and hardened infrastructure. Already's CLI automates roughly 70% of the technical conversion. A simple app (5–10 routes, basic auth) migrates in 2–4 hours; a complex one (custom RLS, multiple orgs, payment flows) in about a day. Nobody gets logged out, because Already points at your existing Supabase project — sessions, tokens, and RLS policies are unchanged.
+
+What carries over without changes: your users and sessions (both use Supabase Auth), your UI components (both use shadcn/ui + Tailwind), your database schema (tables stay; you add mirroring Drizzle schema files).
+What needs migration work: routing (flat app/ → (app)/(auth)/(public) route groups); data fetching (useEffect client fetches → Server Components); env vars (VITE_SUPABASE_URL → NEXT_PUBLIC_SUPABASE_URL); auth calls (supabase.auth.getUser() in components → await requireAuth() in layout.tsx); removing lovable-tagger and @lovable-dev/* editor packages.
+
+The same approach applies to Bolt, v0 by Vercel, and Base44, each with a dedicated migration guide.
+
+## How Already compares
+Already positions against other Next.js SaaS starters (ShipFast, Supastarter, Makerkit, the T3 stack, and generic Next.js SaaS starters). Differentiators: a true B2B/B2C config switch, multi-tenant RLS done correctly, an AI-integration module with a per-org credits ledger, a security module with anomaly detection and optional SCIM 2.0, an AI-builder migration CLI, and a one-time price with full source ownership versus recurring or per-seat licensing. Example cost framing: a subscription starter kit can run $1,800–$3,600 over a two-year cycle versus Already's $199 one-time.
+
+## Frequently asked questions
+- Will my users get logged out when migrating from Lovable? No — Already connects to your existing Supabase project; sessions and RLS are unchanged.
+- How long does a Lovable-to-Next.js migration take? 2–4 hours for a simple app, about a day for a complex one; the CLI automates ~70%.
+- Do I own the code? Yes — you create your own private copy from the template and own the full source.
+- Is it current for Next.js 15? Yes — Next.js 15 App Router, React 19, React Compiler, Partial Prerendering.
+- B2B or B2C? Both, switched by one config flag with an identical schema.
+
+## Publisher
+Built and sold by "wait, what." (studio of Tobias Temmen). Product site: https://already.wait-what.shop. Sold via Polar.sh (Merchant of Record).

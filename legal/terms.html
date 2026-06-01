@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Terms of Service — Already</title>
+  <meta name="description" content="Already terms of service. One-time licence, no-refund policy, and usage rights.">
+  <link rel="canonical" href="https://alreadykit.com/legal/terms">
+  <meta property="og:title" content="Terms of Service — Already">
+  <meta property="og:url" content="https://alreadykit.com/legal/terms">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; border: none; cursor: pointer; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+    .legal-header { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .legal-header h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); }
+    .legal-meta { font-family: var(--mono); font-size: 12px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 16px; }
+    .legal-body { max-width: 720px; padding: 56px 0 80px; }
+    .legal-body h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); margin: 40px 0 12px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .legal-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .legal-body p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    .legal-body ul { margin: 0 0 16px 0; padding: 0; list-style: none; }
+    .legal-body ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 6px 0 6px 20px; position: relative; }
+    .legal-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 12px; }
+    .legal-body a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .legal-body a:hover { color: var(--signal); }
+    .legal-body strong { font-weight: 600; color: var(--ink); }
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+  </style>
+  <script src="/i18n.js" defer></script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="legal-header">
+    <div class="container">
+      <div class="eyebrow">Legal</div>
+      <h1>Terms of Service</h1>
+      <div class="legal-meta">Last updated: May 25, 2026 · wait, what.</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="legal-body">
+
+      <h2>The product</h2>
+      <p>Already is a Next.js SaaS starter kit sold by <strong>wait, what. LLC</strong> ("Seller"), a Wyoming limited liability company. Purchasing a licence gives you access to a private GitHub repository containing the Already codebase.</p>
+
+      <h2>Licence</h2>
+      <p>When you purchase Already, you receive a <strong>personal, non-exclusive, non-transferable licence</strong> to use the source code to build any number of your own applications — commercial or otherwise.</p>
+      <p>Licence tiers:</p>
+      <ul>
+        <li><strong>Solo</strong> — 1 developer seat. One GitHub collaborator slot on the template repository.</li>
+        <li><strong>Team</strong> — up to 5 developer seats. Up to 5 GitHub collaborator slots.</li>
+      </ul>
+      <p>You may deploy applications built on Already to any hosting provider. You are not required to attribute Already in your product.</p>
+
+      <h2>What you may not do</h2>
+      <ul>
+        <li>Resell, sublicense, or redistribute the Already source code itself (as a starter kit, template, or boilerplate)</li>
+        <li>Share your repository access with developers beyond the seat count for your tier</li>
+        <li>Claim ownership of the Already brand or codebase</li>
+      </ul>
+
+      <h2>What you own</h2>
+      <p>Any application you build using Already as a foundation is entirely yours. You own your product code, your customer data, and your business. The licence covers the starter codebase only.</p>
+
+      <h2>Updates</h2>
+      <p>Licence holders receive lifetime updates at no additional cost.</p>
+
+      <h2>Refund policy</h2>
+      <p>Already is a digital product. All sales are final. No refunds are issued after purchase because the source code is delivered immediately upon payment via private GitHub repository access.</p>
+      <p>If you have questions about whether Already fits your use case before buying, email <a href="mailto:already@wait-what.shop">already@wait-what.shop</a> — we're happy to answer them.</p>
+
+      <h2>Payment and taxes</h2>
+      <p>Payments are processed by <strong>Polar.sh</strong> as Merchant of Record. Polar handles all VAT, GST, and sales tax obligations globally. The price you see at checkout is the final price including applicable taxes.</p>
+
+      <h2>No warranty</h2>
+      <p>Already is provided "as is" without warranty of any kind. The Seller does not warrant that the software will meet your requirements or operate without interruption or error. Use in production is at your own risk.</p>
+
+      <h2>Limitation of liability</h2>
+      <p>To the maximum extent permitted by law, the Seller's total liability for any claims arising under these terms is limited to the amount you paid for your licence. The Seller is not liable for indirect, incidental, or consequential damages.</p>
+
+      <h2>Governing law</h2>
+      <p>These terms are governed by the laws of the State of Wyoming, without regard to conflict-of-law principles.</p>
+
+      <h2>Changes to these terms</h2>
+      <p>Terms may be updated. Material changes will be communicated via email to licence holders. Continued use of the software after notice constitutes acceptance of the updated terms.</p>
+
+      <h2>Contact</h2>
+      <p>Questions: <a href="mailto:already@wait-what.shop">already@wait-what.shop</a></p>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+          </div>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

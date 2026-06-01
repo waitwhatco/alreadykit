@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from Lovable to Production — Already</title>
+  <meta name="description" content="Move your Lovable app to a production-ready Next.js codebase. Your users stay logged in. Your components paste straight across. Step-by-step guide.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/migrate/lovable">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/migrate/lovable">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/migrate/lovable">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/migrate/lovable">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/migrate/lovable">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/migrate/lovable">
+  <link rel="canonical" href="https://alreadykit.com/migrate/lovable">
+  <meta property="og:title" content="Migrate from Lovable to Production — Already">
+  <meta property="og:description" content="Your Lovable app is working. Already is where it grows up. Same auth, same components. Nobody gets logged out.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/migrate/lovable">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Migrate from Lovable to Production — Already">
+  <meta name="twitter:description" content="Your Lovable app is working. Already is where it grows up.">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Migrate from Lovable to Production",
+    "description": "Step-by-step guide to migrating from Lovable to the Already production-ready Next.js starter kit.",
+    "url": "https://alreadykit.com/migrate/lovable",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alreadykit.com/migrate/lovable" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "@id": "https://alreadykit.com/#organization", "name": "wait, what." },
+    "image": { "@type": "ImageObject", "url": "https://alreadykit.com/og.png", "width": 1200, "height": 630 },
+    "proficiencyLevel": "Intermediate",
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2"] }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to migrate from Lovable to Already",
+    "description": "Move your Lovable app to a production-ready Next.js codebase. Your users stay logged in. Your components paste straight across.",
+    "totalTime": "PT4H",
+    "supply": [
+      { "@type": "HowToSupply", "name": "Lovable project with Supabase backend" },
+      { "@type": "HowToSupply", "name": "Already license (alreadykit.com)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "Node.js 20+" },
+      { "@type": "HowToTool", "name": "pnpm" },
+      { "@type": "HowToTool", "name": "Supabase CLI" }
+    ],
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Copy your Supabase project credentials", "text": "Go to Supabase dashboard → Project Settings → API. Copy the project URL and anon key. Add them to Already's .env.local using the NEXT_PUBLIC_ prefix." },
+      { "@type": "HowToStep", "position": 2, "name": "Remove Lovable-specific packages", "text": "Remove lovable-tagger and any @lovable-dev/* packages from package.json — these are editor tooling only." },
+      { "@type": "HowToStep", "position": 3, "name": "Copy your UI components", "text": "Both use shadcn/ui and Tailwind. Copy your components/ directory to Already's components/. Design tokens and variants paste across without modification." },
+      { "@type": "HowToStep", "position": 4, "name": "Recreate your routes in Already's group structure", "text": "Map Lovable routes to Already's route groups: app/dashboard → app/(app)/dashboard, app/login → app/(auth)/login, app/page.tsx → app/(public)/page.tsx." },
+      { "@type": "HowToStep", "position": 5, "name": "Convert useEffect data fetching to Server Components", "text": "Replace useEffect Supabase calls with Server Components using Already's Drizzle helpers and withOrgScope()." },
+      { "@type": "HowToStep", "position": 6, "name": "Add Drizzle schema for your tables", "text": "Add schema definitions in db/schema/ mirroring your Supabase tables. Run pnpm db:push to sync." },
+      { "@type": "HowToStep", "position": 7, "name": "Wire up billing", "text": "Add Stripe keys, run pnpm setup:stripe to create products, wrap paid routes with await requirePlan('pro')." },
+      { "@type": "HowToStep", "position": 8, "name": "Run the migration CLI", "text": "Run: already migrate lovable --source ../my-lovable-app. The CLI automates env var mapping, route inventory, schema introspection, and produces a structured TODO report." }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --code-bg: #111110; --code-text: #E8E8E4; --code-dim: #6E6E68;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 560px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .btn-ghost:hover { color: var(--ink); }
+
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; }
+    .dim { color: var(--code-dim); }
+
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net — ensure code blocks scroll within their container instead of forcing the page wider */
+    @media (max-width: 760px) {
+      .step-box, .step-head, .step-content, .container, .sidebar { min-width: 0; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      h2, p, ul, li, div { max-width: 100%; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate from Lovable",
+        "item": "https://alreadykit.com/migrate/lovable"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <!-- Structured data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will my users get logged out when I migrate from Lovable?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Already connects to your existing Supabase project. Sessions, tokens, and RLS policies are unchanged, so your users will never know anything happened on the backend."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a Lovable to Next.js migration take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A simple Lovable app (5–10 routes, basic auth) typically migrates in 2–4 hours. A more complex app with custom RLS policies, multiple orgs, and payment flows takes about a day. Already's CLI automates roughly 70% of the technical conversion."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "My Lovable app has a src/integrations/supabase/ folder — what do I do?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Copy the credentials out of it (project URL and anon key), but do not copy the client setup code. Already's Supabase client lives in lib/supabase/ and is pre-configured for SSR with cookie-based sessions. Using Lovable's client in an SSR context breaks auth on server renders."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if my Lovable app uses Supabase Storage?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Already includes a file upload helper wrapping Supabase Storage. Your existing buckets and files stay intact — just update the upload calls to use Already's lib/storage helper."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · Lovable → Already</div>
+      <h1 data-i18n="mig_lovable.h1" data-i18n-html>Your Lovable app is working.<br>Now make it <em>production-ready.</em></h1>
+      <p class="lede" data-i18n="mig_lovable.lede" data-i18n-html>Lovable is great for getting to your first users fast. Already is where it grows up — billing, multi-tenancy, and a codebase you can hand to an AI and get real work done. Same auth stack. Nobody gets logged out.</p>
+      <div>
+        <a href="/#pricing" class="btn-primary">Get Already — $199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same auth (Supabase) — users stay</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same UI (shadcn/ui + Tailwind)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same framework (Next.js App Router)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Zero forced sign-outs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+
+        <div>
+          <h2>How do you take a Lovable app to production?</h2>
+          <p>To move a Lovable app to production you keep what already works — the Supabase Auth and shadcn/ui stack — and add what Lovable doesn't generate: Stripe billing, multi-tenant data isolation (row-level security), background jobs, and hardened infrastructure. Because Already runs the same Supabase + Next.js stack as Lovable, the migration is mechanical: Already's CLI automates roughly 70% of the conversion, a typical app is live in 2–4 hours, and nobody gets logged out.</p>
+
+          <h2>Lovable export vs. production-ready: the gap</h2>
+          <table style="width:100%;border-collapse:collapse;margin:8px 0 4px;font-size:14px;">
+            <thead>
+              <tr style="text-align:left;border-bottom:1px solid var(--rule);">
+                <th style="padding:8px 8px 8px 0;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-subtle);font-weight:500;">Capability</th>
+                <th style="padding:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-subtle);font-weight:500;">Lovable export</th>
+                <th style="padding:8px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-subtle);font-weight:500;">Already</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Auth (Supabase)</td><td style="padding:8px;color:var(--ink-muted);">Basic</td><td style="padding:8px;">Passkeys, TOTP, org-MFA</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Billing</td><td style="padding:8px;color:var(--ink-muted);">—</td><td style="padding:8px;">Stripe, idempotent webhooks</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Multi-tenancy / RLS</td><td style="padding:8px;color:var(--ink-muted);">—</td><td style="padding:8px;">Row-level security + query scoping</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Background jobs</td><td style="padding:8px;color:var(--ink-muted);">—</td><td style="padding:8px;">Postgres queue + cron + retries</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Rendering</td><td style="padding:8px;color:var(--ink-muted);">Client (useEffect)</td><td style="padding:8px;">Server Components / SSR</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Security headers</td><td style="padding:8px;color:var(--ink-muted);">—</td><td style="padding:8px;">CSP nonces, HSTS, rate limits</td></tr>
+              <tr style="border-bottom:1px solid var(--rule);"><td style="padding:8px 8px 8px 0;">Admin + audit log</td><td style="padding:8px;color:var(--ink-muted);">—</td><td style="padding:8px;">Impersonation + append-only trail</td></tr>
+              <tr><td style="padding:8px 8px 8px 0;">Code ownership</td><td style="padding:8px;color:var(--ink-muted);">Locked to Lovable</td><td style="padding:8px;">Full source, your repo</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Why migrate?</h2>
+          <p>Lovable is excellent at getting you to a working prototype fast. The moment you need to add billing that doesn't break on edge cases, isolate data between customers, or hand a codebase to a team without months of archaeology — you need a proper foundation.</p>
+          <p>Already is that foundation. It's not a different stack. It's the same Supabase + Next.js setup Lovable uses, with everything your production app actually needs already wired together.</p>
+
+          <h2>What carries over without changes</h2>
+          <ul>
+            <li><strong>Your users and sessions.</strong> Lovable uses Supabase Auth. Already uses Supabase Auth. Point Already at your existing Supabase project and your users are never touched.</li>
+            <li><strong>Your UI components.</strong> Both use shadcn/ui and Tailwind CSS. Copy-paste your buttons, forms, and layouts directly into Already's component directory.</li>
+            <li><strong>Your database schema.</strong> Your Supabase tables stay exactly where they are. You'll add Drizzle schema files that mirror them, but the data doesn't move.</li>
+          </ul>
+
+          <h2>What needs migration work</h2>
+          <ul>
+            <li><strong>Routing.</strong> Lovable uses Next.js App Router but tends to use a flat <code>app/</code> structure. Remap to Already's <code>(app)</code> / <code>(auth)</code> / <code>(public)</code> route groups.</li>
+            <li><strong>Data fetching.</strong> Lovable generates <code>useEffect</code>-based data fetching in client components. Already uses Server Components. See the before/after below.</li>
+            <li><strong>Env vars.</strong> Lovable uses <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>. Already uses <code>NEXT_PUBLIC_SUPABASE_URL</code> and <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.</li>
+            <li><strong>Auth calls.</strong> Lovable calls <code>supabase.auth.getUser()</code> in components. Already centralizes this with <code>await requireAuth()</code> in <code>layout.tsx</code>.</li>
+            <li><strong>Lovable-specific packages.</strong> Remove <code>lovable-tagger</code> and any <code>@lovable-dev/*</code> packages from <code>package.json</code> — these are editor tooling, not application code.</li>
+          </ul>
+
+          <h2>Env var mapping</h2>
+          <p>Rename these in your <code>.env.local</code> — the values stay the same, only the key names change:</p>
+          <pre><code><span class="dim"># Lovable (remove these)</span>
+VITE_SUPABASE_URL=https://xxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGci...
+
+<span class="dim"># Already (add these)</span>
+NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...</code></pre>
+
+          <h2>Data fetching pattern: before / after</h2>
+          <p>Lovable generates client components with <code>useEffect</code> for data fetching. In Already, prefer Server Components — the data arrives at render time with no loading state, no client bundle weight.</p>
+          <pre><code><span class="dim">// Lovable pattern — client component with useEffect</span>
+'use client'
+export default function ProjectList() {
+  const [projects, setProjects] = useState([])
+  useEffect(() => {
+    supabase.from('projects').select('*').then(({ data }) => setProjects(data))
+  }, [])
+  return &lt;ul&gt;{projects.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}
+
+<span class="dim">// Already pattern — Server Component, no useEffect needed</span>
+import { db } from '@/lib/db'
+import { projects } from '@/db/schema'
+import { withOrgScope } from '@/lib/org'
+
+export default async function ProjectList() {
+  const rows = await withOrgScope(db.select().from(projects))
+  return &lt;ul&gt;{rows.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}</code></pre>
+
+          <h2>Auth pattern: before / after</h2>
+          <pre><code><span class="dim">// Lovable pattern — getUser() called per component</span>
+'use client'
+export default function Dashboard() {
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+  }, [])
+  if (!user) return &lt;Redirect to="/login" /&gt;
+  return &lt;div&gt;Hello {user.email}&lt;/div&gt;
+}
+
+<span class="dim">// Already pattern — requireAuth() in layout, user passed as prop</span>
+<span class="dim">// app/(app)/layout.tsx</span>
+import { requireAuth } from '@/lib/auth'
+export default async function AppLayout({ children }) {
+  const user = await requireAuth() <span class="dim">// redirects to /login if not authed</span>
+  return &lt;AppShell user={user}&gt;{children}&lt;/AppShell&gt;
+}</code></pre>
+
+          <h2>Step-by-step migration</h2>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Copy your Supabase project credentials</div></div>
+            <div class="step-content">
+              <p>Go to your Supabase dashboard → Project Settings → API. Copy the project URL and anon key. Add them to Already's <code>.env.local</code> using the <code>NEXT_PUBLIC_</code> prefix (not <code>VITE_</code>). Already will connect to your existing database and users.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Remove Lovable-specific packages</div></div>
+            <div class="step-content">
+              <p>Open your Lovable project's <code>package.json</code> and remove <code>lovable-tagger</code> and any <code>@lovable-dev/*</code> packages. These are Lovable editor tooling — they serve no purpose outside the Lovable environment and will cause confusion in your new codebase.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Copy your UI components</div></div>
+            <div class="step-content">
+              <p>Both use shadcn/ui and Tailwind. Copy your <code>components/</code> directory contents to Already's <code>components/</code>. Your design tokens and variants paste across without modification.</p>
+              <pre><code><span class="dim"># From your Lovable project root:</span>
+cp -r components/ ../your-already-project/components/</code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Recreate your routes in Already's group structure</div></div>
+            <div class="step-content">
+              <p>Map your Lovable routes to Already's route groups:</p>
+              <pre><code>Lovable: app/dashboard/page.tsx
+Already: app/(app)/dashboard/page.tsx
+
+Lovable: app/projects/page.tsx
+Already: app/(app)/projects/page.tsx
+
+Lovable: app/login/page.tsx
+Already: app/(auth)/login/page.tsx  <span class="dim">(usually already done)</span>
+
+Lovable: app/page.tsx  <span class="dim">(marketing)</span>
+Already: app/(public)/page.tsx</code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Convert useEffect data fetching to Server Components</div></div>
+            <div class="step-content">
+              <p>Search your Lovable codebase for <code>useEffect</code> calls that fetch from Supabase. Replace each with a Server Component using Already's Drizzle helpers. The before/after pattern above applies universally. Components that handle user events (clicks, form input) stay as client components with <code>"use client"</code> — only the data-fetching shell moves to the server.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Add Drizzle schema for your tables</div></div>
+            <div class="step-content">
+              <p>Already uses Drizzle ORM. Add schema definitions in <code>db/schema/</code> that mirror your existing Supabase tables. Run <code>pnpm db:push</code> to sync — no data migration, just schema declaration.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">07</div><div class="step-t">Wire up billing</div></div>
+            <div class="step-content">
+              <p>Already's billing is pre-built. Add your Stripe keys, run <code>pnpm setup:stripe</code> to create products, then wrap any paid route with <code>await requirePlan('pro')</code>. That's it.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">08</div><div class="step-t">already migrate lovable</div></div>
+            <div class="step-content">
+              <p>The included CLI command automates 70% of this process — env var mapping, route inventory, schema introspection, and a structured TODO report for what needs manual review.</p>
+              <pre><code>already migrate lovable --source ../my-lovable-app</code></pre>
+            </div>
+          </div>
+
+          <h2>Common questions</h2>
+
+          <h3>Will my users get logged out?</h3>
+          <p>No. Already connects to your existing Supabase project. Sessions, tokens, and RLS policies are unchanged. Your users will never know anything happened on the backend.</p>
+
+          <h3>My Lovable app has a <code>src/integrations/supabase/</code> folder — what do I do?</h3>
+          <p>That folder contains Lovable's auto-generated Supabase client initialization. Copy the credentials out of it (project URL and anon key), but do not copy the client setup code itself. Already's Supabase client lives in <code>lib/supabase/</code> and is pre-configured for SSR with cookie-based session handling. Using Lovable's client in an SSR context will break auth on server renders.</p>
+
+          <h3>What if my Lovable app uses Supabase Storage?</h3>
+          <p>Already includes a file upload helper wrapping Supabase Storage. Your existing buckets and files stay intact — just update the upload calls to use Already's <code>lib/storage</code> helper.</p>
+
+          <h3>How long does a migration take?</h3>
+          <p>A simple Lovable app (5–10 routes, basic auth) typically migrates in 2–4 hours. A more complex app (custom RLS policies, multiple orgs, payment flows) takes a day. The CLI command cuts that in half.</p>
+
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to migrate?</div>
+            <h3>Already — $199</h3>
+            <p>16 production-ready modules. Same auth stack as Lovable. One-time purchase. Your users stay, your components paste across.</p>
+            <a href="/#pricing" class="btn-buy" rel="noopener">Buy Solo — $199 →</a>
+            <div class="note">Early-bird until June 24 · 30-day refund if you haven't cloned</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/base44" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Base44 →</a>
+            <a href="/migrate/bolt" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Bolt →</a>
+            <a href="/migrate/v0" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">v0 by Vercel →</a>
+            <a href="/docs" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">Full setup guide →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+            <span>Tailwind v4</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

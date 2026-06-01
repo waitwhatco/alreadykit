@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from Base44 to Production — Already</title>
+  <meta name="description" content="Move your Base44 app to a production-ready Next.js codebase. Same Supabase auth, same shadcn/ui components. Step-by-step guide.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/migrate/base44">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/migrate/base44">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/migrate/base44">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/migrate/base44">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/migrate/base44">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/migrate/base44">
+  <link rel="canonical" href="https://alreadykit.com/migrate/base44">
+  <meta property="og:title" content="Migrate from Base44 to Production — Already">
+  <meta property="og:description" content="Your Base44 prototype works. Already is the production foundation it needs. Same auth, same components, nobody gets logged out.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/migrate/base44">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Migrate from Base44 to Production",
+    "description": "Step-by-step guide to migrating from Base44 to the Already production-ready Next.js starter kit.",
+    "url": "https://alreadykit.com/migrate/base44",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alreadykit.com/migrate/base44" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "@id": "https://alreadykit.com/#organization", "name": "wait, what." },
+    "image": { "@type": "ImageObject", "url": "https://alreadykit.com/og.png", "width": 1200, "height": 630 },
+    "proficiencyLevel": "Intermediate",
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2"] }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to migrate from Base44 to Already",
+    "description": "Move your Base44 app to a production-ready Next.js codebase. Same Supabase Auth stack, components paste across.",
+    "totalTime": "PT3H",
+    "supply": [
+      { "@type": "HowToSupply", "name": "Base44 project with Supabase backend" },
+      { "@type": "HowToSupply", "name": "Already license (alreadykit.com)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "Node.js 20+" },
+      { "@type": "HowToTool", "name": "pnpm" },
+      { "@type": "HowToTool", "name": "Supabase CLI" }
+    ],
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Connect to your existing Supabase project", "text": "Copy your Supabase project URL and anon key into Already's .env.local with the NEXT_PUBLIC_ prefix. Already connects to your existing database and users." },
+      { "@type": "HowToStep", "position": 2, "name": "Copy your UI components", "text": "Both Base44 and Already use shadcn/ui and Tailwind CSS. Copy your components/ directory — design tokens and variants paste across without modification." },
+      { "@type": "HowToStep", "position": 3, "name": "Copy your API routes", "text": "Move Base44 API routes to Already's app/api/ directory. Update any client references to Supabase to use Already's lib/supabase/ SSR client." },
+      { "@type": "HowToStep", "position": 4, "name": "Remap routes to Already's group structure", "text": "Place authenticated pages in app/(app)/, auth pages in app/(auth)/, marketing pages in app/(public)/. Layout-level guards handle protection automatically." },
+      { "@type": "HowToStep", "position": 5, "name": "Add Drizzle schema for your tables", "text": "Add schema definitions in db/schema/ mirroring your Base44 tables. Run pnpm db:push to register them — no data migration needed." },
+      { "@type": "HowToStep", "position": 6, "name": "Wire billing", "text": "Add Stripe keys, run pnpm setup:stripe to create products, wrap paid routes with await requirePlan()." },
+      { "@type": "HowToStep", "position": 7, "name": "Run the migration CLI", "text": "Run: already migrate base44 --source ../my-base44-app. The CLI automates env mapping, route inventory, and produces a structured TODO report." }
+    ]
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --code-bg: #111110; --code-text: #E8E8E4; --code-dim: #6E6E68;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 560px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; padding: 0; }
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+    .step-content p:last-child { margin-bottom: 0; }
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net — ensure code blocks scroll within their container instead of forcing the page wider */
+    @media (max-width: 760px) {
+      .step-box, .step-head, .step-content, .container, .sidebar { min-width: 0; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      h2, p, ul, li, div { max-width: 100%; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate from Base44",
+        "item": "https://alreadykit.com/migrate/base44"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · Base44 → Already</div>
+      <h1 data-i18n="mig_base44.h1" data-i18n-html>Your Base44 app is working.<br>Now make it <em>production-ready.</em></h1>
+      <p class="lede" data-i18n="mig_base44.lede" data-i18n-html>Base44 gets you to a working prototype fast. Already is where that prototype becomes a real SaaS — billing, multi-tenancy, security hardening, and a codebase ready for a team. Same Supabase auth. Nobody gets logged out.</p>
+      <div>
+        <a href="/#pricing" class="btn-primary">Get Already — $199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Same auth (Supabase) — users stay</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Same UI (shadcn/ui + Tailwind)</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Next.js App Router — same framework</span></div>
+        <div class="compat-item"><span class="compat-check">✓</span><span class="compat-label">Zero forced sign-outs</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+        <div>
+          <h2>Why migrate from Base44?</h2>
+          <p>Base44 gives you a working app without the setup pain. Already gives you everything a paying-customer app actually needs — hardened auth (TOTP, passkeys), idempotent billing webhooks, multi-tenant isolation, rate limiting, and a developer experience that scales past one person.</p>
+          <p>The stack is the same. The difference is 16 production modules that are already wired together rather than 16 separate things you'd eventually build yourself.</p>
+
+          <h2>What carries over</h2>
+          <ul>
+            <li><strong>Your users.</strong> Base44 uses Supabase Auth. Point Already at the same Supabase project URL — your users, sessions, and permissions are untouched.</li>
+            <li><strong>Your UI.</strong> Both use shadcn/ui and Tailwind. Your components paste directly into Already's <code>components/</code> directory.</li>
+            <li><strong>Your data.</strong> Your Supabase tables stay in place. Add Drizzle schema declarations and Already can query them immediately.</li>
+            <li><strong>Your API routes.</strong> Base44-generated API routes under <code>app/api/</code> copy directly into Already's structure — the App Router conventions are identical.</li>
+          </ul>
+
+          <h2>Env var mapping</h2>
+          <p>Base44 may use either a Vite or Next.js prefix depending on how the project was scaffolded. Check your Base44 project's env var names and rename accordingly:</p>
+          <pre><code><span class="dim"># If your Base44 project used Vite prefixes:</span>
+VITE_SUPABASE_URL            → NEXT_PUBLIC_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY       → NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+<span class="dim"># If your Base44 project already used Next.js prefixes:</span>
+NEXT_PUBLIC_SUPABASE_URL     → no change needed
+NEXT_PUBLIC_SUPABASE_ANON_KEY → no change needed</code></pre>
+
+          <h2>What does NOT carry over as-is</h2>
+          <p>Base44 generates a <code>client/</code> and <code>server/</code> separation that roughly maps to Already's Client Component vs Server Component split — but with one critical difference.</p>
+          <p><strong>Base44's server-side queries may bypass RLS.</strong> If your Base44 app queries Supabase using the service role key or without the user's JWT, those queries have no tenant isolation. In Already, <code>withOrgScope()</code> wraps every query with the org context, enforcing row-level isolation automatically. Any Base44 query that touches tenant data needs to be wrapped.</p>
+          <pre><code><span class="dim">// Base44 pattern — direct query, no tenant scope</span>
+const { data } = await supabase.from('projects').select('*')
+
+<span class="dim">// Already pattern — org-scoped query via withOrgScope()</span>
+import { withOrgScope } from '@/lib/org'
+const rows = await withOrgScope(db.select().from(projects))</code></pre>
+          <p>React Query or SWR data fetching in Base44 client components can stay if you prefer client-side fetching, but Already's preferred pattern is Server Components — data arrives at render time, no loading states needed for initial data.</p>
+
+          <h2>Step-by-step</h2>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Connect to your existing Supabase project</div></div>
+            <div class="step-content"><p>Copy your Supabase project URL and anon key from the Supabase dashboard into Already's <code>.env.local</code>. Use <code>NEXT_PUBLIC_</code> prefix regardless of what Base44 used. Run <code>pnpm setup</code> — it validates the connection and runs any new migrations without touching your existing data.</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Copy your UI components</div></div>
+            <div class="step-content"><p>Base44 generates shadcn/ui components with Tailwind classes. Copy your <code>components/</code> directory into Already's. Your design tokens carry over without changes.</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Copy your API routes</div></div>
+            <div class="step-content"><p>Base44-generated <code>app/api/</code> routes use standard Next.js App Router conventions. Copy them directly into Already's <code>app/api/</code>. Review each handler for unscoped Supabase queries and wrap them with <code>withOrgScope()</code> where they access tenant data.</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Remap routes to Already's group structure</div></div>
+            <div class="step-content"><p>Move authenticated pages under <code>app/(app)/</code>, auth pages under <code>app/(auth)/</code>, and public pages under <code>app/(public)/</code>. Already's layout guards automatically protect each group — no per-page auth checks needed.</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Add Drizzle schema for your tables</div></div>
+            <div class="step-content"><p>Declare your existing Supabase tables as Drizzle schema files in <code>db/schema/</code>. No data migration — you're just adding type-safe declarations for tables that already exist. If your column names differ from Drizzle's camelCase default, use the <code>column</code> option to map them explicitly (see FAQ below).</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Wire billing (if not already in Base44)</div></div>
+            <div class="step-content"><p>Run <code>pnpm setup:stripe</code> to create Stripe products. Wrap paid routes with <code>await requirePlan('pro')</code>. The webhook handler, customer portal, and trial logic are pre-built.</p></div>
+          </div>
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">07</div><div class="step-t">already migrate base44</div></div>
+            <div class="step-content"><p>The included CLI command handles Vite/Next.js flavour detection, env var mapping, and generates a structured TODO report for what needs manual attention.</p>
+              <pre><code>already migrate base44 --source ../my-base44-app</code></pre>
+            </div>
+          </div>
+
+          <h2>Frequently asked</h2>
+          <h3>Will my users get logged out?</h3>
+          <p>No. Already connects to your existing Supabase project. Sessions and tokens are unchanged. Your users won't notice.</p>
+
+          <h3>Base44 generated my schema with non-standard column names — what changes?</h3>
+          <p>Nothing changes in Supabase — your tables stay exactly as they are. You add Drizzle schema declarations that match your existing column names. If your column is named <code>created_by_user</code> but Drizzle would default to <code>createdByUser</code>, use the explicit column mapping:</p>
+          <pre><code>export const projects = pgTable('projects', {
+  id: uuid('id').primaryKey(),
+  createdByUser: uuid('created_by_user'),  <span class="dim">// maps Drizzle field → actual column</span>
+})</code></pre>
+          <p>This is purely a TypeScript declaration — no ALTER TABLE, no data movement.</p>
+
+          <h3>My Base44 app uses React Query — do I have to remove it?</h3>
+          <p>No. React Query works fine alongside Already's Server Components. That said, for initial page data Already's pattern is to fetch in Server Components so there's no client-side loading state. React Query is most useful for mutations and optimistic updates — those patterns carry over unchanged.</p>
+
+          <h3>What if Base44 generated non-standard patterns?</h3>
+          <p>The <code>already migrate base44</code> CLI detects Base44-specific patterns and flags them. The migration guide inside the repo covers the common cases. For anything unusual, email <a href="mailto:already@wait-what.shop">already@wait-what.shop</a>.</p>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to migrate?</div>
+            <h3>Already — $199</h3>
+            <p>16 production-ready modules. Same auth and UI stack as Base44. One-time purchase.</p>
+            <a href="/#pricing" class="btn-buy" rel="noopener">Buy Solo — $199 →</a>
+            <div class="note">Early-bird until June 24 · 30-day refund if you haven't cloned</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/lovable" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Lovable →</a>
+            <a href="/migrate/bolt" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Bolt →</a>
+            <a href="/migrate/v0" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">v0 by Vercel →</a>
+            <a href="/docs" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">Full setup guide →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+            <span>Tailwind v4</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

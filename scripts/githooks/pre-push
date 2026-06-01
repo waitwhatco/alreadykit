@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# pre-push — local verify gate for already.wait-what.shop
+#
+# The GHA workflow (.github/workflows/deploy-site.yml) deploys the landing site
+# on push to main. We never want it to fire on an unverified push, so we run the
+# local site verification here. A non-zero exit blocks the push, which means the
+# workflow never triggers. Verification stays local (and free).
+#
+# Enabled via:  git config core.hooksPath scripts/githooks
+# Bypass once:  git push --no-verify   (use sparingly)
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Site verify: build.sh assembles dist/ and asserts no template/ leak and no
+# file over Cloudflare Pages' 25 MiB limit. No --deploy, so it never touches
+# the network or wrangler.
+echo "→ pre-push: verifying landing site (build.sh)..."
+"$REPO_ROOT/build.sh"
+echo "✓ pre-push: local verify passed — allowing push (GHA deploy may run)."

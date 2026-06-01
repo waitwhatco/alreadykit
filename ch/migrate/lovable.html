@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from Lovable to Swiss-sovereign SaaS — Already CH</title>
+  <meta name="description" content="Move your Lovable app to a Swiss-sovereign Next.js codebase. Same Supabase users, Stripe → Payrexx + TWINT, hosted on Exoscale. Data stays in Switzerland.">
+  <link rel="canonical" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/migrate/lovable">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/migrate/lovable">
+  <meta property="og:title" content="Migrate from Lovable to Swiss-sovereign SaaS — Already CH">
+  <meta property="og:description" content="Your Lovable app is working. Already CH is the Swiss-sovereign foundation it can grow into.">
+  <meta property="og:url" content="https://alreadykit.com/ch/migrate/lovable">
+  <meta property="og:site_name" content="Already">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23D40000'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Migrate from Lovable to Swiss-sovereign SaaS",
+    "description": "Step-by-step guide to migrating from Lovable to Already CH, the Swiss-sovereign Next.js starter kit.",
+    "url": "https://alreadykit.com/ch/migrate/lovable",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": { "@type": "Person", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "name": "wait, what." }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4;--code-dim:#6E6E68;--sans:'Inter Tight','Helvetica Neue',Arial,sans-serif;--mono:'JetBrains Mono',ui-monospace,'SF Mono',monospace; }
+    @media (prefers-color-scheme: dark) { :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; } }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 600px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .btn-ghost:hover { color: var(--ink); }
+
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; }
+    .dim { color: var(--code-dim); }
+
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    @media (max-width: 760px) {
+      .step-box, .step-head, .step-content, .container, .sidebar { min-width: 0; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+    }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "From Lovable",
+        "item": "https://alreadykit.com/ch/migrate/lovable"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+    <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · Lovable → Already CH &nbsp;🇨🇭</div>
+      <h1>Your Lovable app is working.<br>Now make it <em>Swiss-sovereign.</em></h1>
+      <p class="lede">Lovable is great for shipping fast. Already CH is where your app moves into a stack you control — Supabase self-hosted on Exoscale, Payrexx for CHF + TWINT billing, Matomo for analytics, nFADP-aligned by default. No US sub-processors. Same Supabase Auth — nobody gets logged out.</p>
+      <div>
+        <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-primary">Get Already CH — CHF 199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same auth (Supabase) — users stay</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same UI (shadcn/ui + Tailwind)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same framework (Next.js App Router)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Data moves to Switzerland 🇨🇭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+
+        <div>
+          <h2>Why migrate to Already CH?</h2>
+          <p>Lovable gets you to a working prototype fast. The moment you need billing in CHF, payments via TWINT, data residency in Switzerland for your Swiss customers, or any kind of nFADP audit trail — Lovable's US-hosted defaults stop working for you.</p>
+          <p>Already CH is the same Supabase + Next.js stack Lovable uses, with every US service swapped for a Swiss or European equivalent. Stripe becomes Payrexx. Resend becomes Infomaniak. Vercel becomes Exoscale (single-VM Docker). PostHog becomes Matomo. The app stays the same. The data moves home.</p>
+
+          <h2>What carries over without changes</h2>
+          <ul>
+            <li><strong>Your users and sessions.</strong> Lovable uses Supabase Auth. Already CH uses Supabase Auth. Point Already CH at your existing Supabase project (or migrate it to self-hosted Supabase on Exoscale) and sessions are untouched.</li>
+            <li><strong>Your UI components.</strong> Both use shadcn/ui and Tailwind CSS. Buttons, forms, and layouts paste straight into Already CH's component directory.</li>
+            <li><strong>Your database schema.</strong> Your Supabase tables stay exactly where they are. You'll add Drizzle schema files that mirror them, but the data doesn't move until you migrate Supabase itself to Exoscale.</li>
+          </ul>
+
+          <h2>What needs migration work</h2>
+          <ul>
+            <li><strong>Supabase hosting.</strong> Lovable uses Supabase Cloud (US/EU multi-region). Already CH ships a self-hosted Supabase recipe on Exoscale (Geneva or Zurich). Same wire protocol, same SDKs — your code does not change.</li>
+            <li><strong>Billing.</strong> Lovable steers you toward Stripe. Already CH ships with Payrexx wired in — credit cards, <strong>TWINT</strong>, PostFinance, CHF, 8.1% VAT, idempotent webhooks. The plan/seat model is identical. You re-create your products inside Payrexx.</li>
+            <li><strong>Routing.</strong> Lovable tends to use a flat <code>app/</code> structure. Remap to Already CH's <code>(app)</code> / <code>(auth)</code> / <code>(public)</code> / <code>(billing)</code> / <code>(admin)</code> route groups.</li>
+            <li><strong>Data fetching.</strong> Lovable generates <code>useEffect</code>-based fetching in client components. Already CH uses Server Components — see the before/after below.</li>
+            <li><strong>Env vars.</strong> Lovable uses <code>VITE_SUPABASE_URL</code> / <code>VITE_SUPABASE_ANON_KEY</code>. Already CH uses <code>NEXT_PUBLIC_SUPABASE_URL</code> / <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, plus Payrexx, Infomaniak SMTP, Matomo, and GlitchTip keys.</li>
+            <li><strong>Analytics.</strong> If you have PostHog or another US analytics tool, swap to the self-hosted Matomo instance that ships with Already CH. Cookie-free mode means no consent banner under nFADP.</li>
+            <li><strong>Lovable-specific packages.</strong> Remove <code>lovable-tagger</code> and any <code>@lovable-dev/*</code> packages — editor tooling, not application code.</li>
+          </ul>
+
+          <h2>Stripe → Payrexx mapping</h2>
+          <p>This is the biggest functional change, and it's the whole point. Payrexx is a Swiss payment gateway that supports CHF, TWINT, PostFinance, credit cards, and Swiss VAT out of the box. There is no Customer object — orgs are identified by <code>referenceId</code> at checkout, and the plan key is derived from the transaction amount (so keep your plan amounts unique).</p>
+          <pre><code><span class="dim"># Lovable (.env.local — Stripe)</span>
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+
+<span class="dim"># Already CH (.env.local — Payrexx)</span>
+PAYREXX_INSTANCE=your-instance
+PAYREXX_API_SECRET=...
+PAYREXX_WEBHOOK_SIGNING_SECRET=...
+BILLING_CURRENCY=CHF
+BILLING_VAT_RATE=0.081</code></pre>
+
+          <h2>Env var mapping</h2>
+          <pre><code><span class="dim"># Lovable (remove these)</span>
+VITE_SUPABASE_URL=https://xxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGci...
+
+<span class="dim"># Already CH (Swiss-hosted Supabase on Exoscale)</span>
+NEXT_PUBLIC_SUPABASE_URL=https://supabase.your-domain.ch
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGci...  <span class="dim"># macOS Keychain, never .env</span>
+
+<span class="dim"># Swiss stack</span>
+INFOMANIAK_SMTP_HOST=mail.infomaniak.com
+INFOMANIAK_SMTP_USER=already-ch@your-domain.ch
+MATOMO_URL=https://matomo.your-domain.ch
+GLITCHTIP_DSN=https://...@glitchtip.your-domain.ch/1
+FRIENDLY_CAPTCHA_SITEKEY=FCM...</code></pre>
+
+          <h2>Data fetching: before / after</h2>
+          <p>Lovable generates client components with <code>useEffect</code> for data fetching. Already CH uses Server Components — data arrives at render, no loading state, no client bundle weight.</p>
+          <pre><code><span class="dim">// Lovable — client component with useEffect</span>
+'use client'
+export default function ProjectList() {
+  const [projects, setProjects] = useState([])
+  useEffect(() =&gt; {
+    supabase.from('projects').select('*').then(({ data }) =&gt; setProjects(data))
+  }, [])
+  return &lt;ul&gt;{projects.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}
+
+<span class="dim">// Already CH — Server Component with org-scoped query</span>
+import { db } from '@/lib/db'
+import { projects } from '@/db/schema'
+import { withOrgScope } from '@/lib/org'
+
+export default async function ProjectList({ orgId }) {
+  const rows = await db.query.projects.findMany(withOrgScope({ orgId }))
+  return &lt;ul&gt;{rows.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}</code></pre>
+
+          <h2>Step-by-step migration</h2>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Stand up self-hosted Supabase on Exoscale</div></div>
+            <div class="step-content">
+              <p>Already CH ships a single-VM Docker compose stack and an Exoscale Marketplace QCOW2 build for self-hosted Supabase. Spin it up in Geneva or Zurich. Then dump your Lovable Supabase database (<code>pg_dump</code>) and restore it. Your users, RLS policies, and tables move intact — Swiss-resident from boot one.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Remove Lovable-specific packages</div></div>
+            <div class="step-content">
+              <p>Remove <code>lovable-tagger</code> and any <code>@lovable-dev/*</code> packages from your <code>package.json</code>. They are Lovable editor tooling — they serve no purpose outside Lovable.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Copy your UI components</div></div>
+            <div class="step-content">
+              <p>Both use shadcn/ui + Tailwind. Copy your <code>components/</code> directory into Already CH's <code>components/</code>. Tokens and variants paste across.</p>
+              <pre><code>cp -r components/ ../your-already-ch-project/components/</code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Recreate routes inside Already CH's group structure</div></div>
+            <div class="step-content">
+              <pre><code>Lovable: app/dashboard/page.tsx
+Already CH: app/(app)/dashboard/page.tsx
+
+Lovable: app/page.tsx  <span class="dim">(marketing)</span>
+Already CH: app/(public)/page.tsx
+
+Lovable: app/billing/page.tsx
+Already CH: app/(billing)/billing/page.tsx  <span class="dim">(requires plan)</span></code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Convert useEffect data fetching to Server Components</div></div>
+            <div class="step-content">
+              <p>Find every <code>useEffect</code> that fetches from Supabase and convert it to the Server Component pattern above. Add <code>withOrgScope()</code> to every tenant-scoped query — RLS is the safety net, not the only layer.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Recreate billing products in Payrexx</div></div>
+            <div class="step-content">
+              <p>Log into your Payrexx instance, create one gateway per plan, set the amounts (unique per plan), and copy the gateway IDs into <code>config/billing.ts</code>. Wire your webhook URL to <code>/api/webhooks/payrexx</code>. Idempotency is already handled via the <code>payment_events</code> table.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">07</div><div class="step-t">Swap PostHog for Matomo</div></div>
+            <div class="step-content">
+              <p>If your Lovable app calls PostHog, replace those calls with the Matomo tracker that ships with Already CH (<code>components/providers/analytics-provider.tsx</code>). Cookie-free mode is the default — no consent banner needed.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">08</div><div class="step-t">Already CH migrate lovable</div></div>
+            <div class="step-content">
+              <p>The included CLI automates env var mapping, route inventory, schema introspection, and a structured TODO report for what still needs manual review.</p>
+              <pre><code>pnpm Already CH migrate lovable --source ../my-lovable-app</code></pre>
+            </div>
+          </div>
+
+          <h2>Common questions</h2>
+
+          <h3>Will my users get logged out?</h3>
+          <p>No. Supabase Auth is preserved across the move. If you migrate the Supabase instance itself (Lovable's Supabase Cloud → self-hosted Exoscale), users see no change — sessions and tokens remain valid because the JWT signing key is migrated with the project.</p>
+
+          <h3>Do I have to use TWINT?</h3>
+          <p>No, but it's enabled by default in Payrexx and your Swiss users will expect it. You can also enable PostFinance, credit cards, Apple Pay, Google Pay — whatever your Payrexx contract allows.</p>
+
+          <h3>What about my existing Stripe subscriptions?</h3>
+          <p>If you have live Stripe subscriptions, you can either run Stripe in parallel until everyone renews, or use Payrexx's import workflow to migrate active subscriptions. The included migration recipe in <code>docs/recipes/stripe-to-payrexx.md</code> walks through both paths.</p>
+
+          <h3>How long does a migration take?</h3>
+          <p>A simple Lovable app (5–10 routes, basic auth, no billing) migrates in 2–4 hours. With Stripe → Payrexx and Supabase Cloud → self-hosted Exoscale, plan a day or two. The CLI cuts the mechanical work roughly in half.</p>
+
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to migrate?</div>
+            <h3>Already CH — CHF 199</h3>
+            <p>16 Swiss-sovereign modules. Same Supabase Auth as Lovable. CHF + TWINT billing via Payrexx. nFADP compliant.</p>
+            <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="btn-buy">Buy Solo — CHF 199 →</a>
+            <div class="note">14-day refund if you haven't cloned · Lifetime v1.x updates</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/base44" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Base44 →</a>
+            <a href="/migrate/bolt" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Bolt →</a>
+            <a href="/migrate/v0" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">v0 by Vercel →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

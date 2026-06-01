@@ -1,0 +1,154 @@
+<!doctype html>
+<!-- OG image source — export at exactly 1200×630 → save as og.png and deploy alongside already-landing.html -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1200">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #FCFCFA;
+      font-family: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .frame {
+      width: 1200px;
+      height: 630px;
+      background: #FCFCFA;
+      border: 2px solid #0A0A0A;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 64px 72px;
+      position: relative;
+    }
+
+    .top {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6E6E68;
+    }
+
+    .headline {
+      font-size: 80px;
+      font-weight: 600;
+      letter-spacing: -0.030em;
+      line-height: 1.0;
+      color: #0A0A0A;
+    }
+
+    .headline em {
+      font-style: normal;
+      color: #D40000;
+    }
+
+    .sub {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: #3A3A38;
+      max-width: 700px;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .modules {
+      display: flex;
+      gap: 0;
+    }
+
+    .module-pill {
+      font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: #6E6E68;
+      padding: 8px 16px;
+      border: 1px solid #D8D8D0;
+      border-right: none;
+    }
+
+    .module-pill:first-child { border-left: 1px solid #D8D8D0; }
+    .module-pill:last-child { border-right: 1px solid #D8D8D0; }
+
+    .brand {
+      text-align: right;
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.020em;
+      color: #0A0A0A;
+    }
+
+    .brand-url {
+      font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+      font-size: 14px;
+      font-weight: 400;
+      color: #A8A8A0;
+      letter-spacing: 0.02em;
+    }
+
+    .price-tag {
+      position: absolute;
+      top: 64px;
+      right: 72px;
+      background: #0A0A0A;
+      color: #FCFCFA;
+      padding: 14px 28px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.010em;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="frame">
+
+    <div class="top">
+      <div class="eyebrow">Next.js SaaS starter kit</div>
+      <div class="headline">It's <em>already</em> done.</div>
+      <div class="sub">16 modules. Auth, billing, multi-tenancy, AI integration. Production-ready from day one.</div>
+    </div>
+
+    <div class="bottom">
+      <div class="modules">
+        <div class="module-pill">Auth</div>
+        <div class="module-pill">Billing</div>
+        <div class="module-pill">Multi-tenant</div>
+        <div class="module-pill">AI</div>
+        <div class="module-pill">Jobs</div>
+        <div class="module-pill">+ 11 more</div>
+      </div>
+      <div class="brand">
+        <div class="brand-name">Already</div>
+        <div class="brand-url">alreadykit.com</div>
+      </div>
+    </div>
+
+    <div class="price-tag">from $199</div>
+
+  </div>
+</body>
+</html>

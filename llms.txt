@@ -1,0 +1,90 @@
+# Already
+> Already is a production-ready Next.js 15 SaaS starter kit sold as a one-time $199 purchase. It ships 16 pre-wired modules covering Supabase Auth (with passkeys, TOTP, and org-level MFA mandate), Stripe billing, multi-tenant orgs with row-level security, AI integration with per-org rate limits, SAML SSO, anomaly detection, background jobs, feature flags, i18n (5 locales), and macOS Keychain integration for secrets. A single config flag switches the kit between B2B (org switcher, invitations) and B2C (one personal workspace per user) modes. An optional $299 Enterprise add-on unlocks the SCIM 2.0 provisioning endpoint for Okta and Microsoft Entra. Built on Supabase, Stripe, Drizzle ORM, shadcn/ui, and Vercel. Includes a CLI migration tool for Lovable, Base44, Bolt, and v0 projects.
+
+Already is a Next.js 15 SaaS starter kit sold by wait, what. It includes 16 production-ready modules covering every layer of a modern SaaS: authentication, billing, multi-tenant organizations, AI integration, background jobs, feature flags, security, and more. Sold as a one-time license via Polar.sh. Buyers receive an automated GitHub invite to a private repository on purchase, then click "Use this template" to create their own private copy with full source ownership. Polar acts as Merchant of Record and handles tax compliance globally. All sales are final.
+
+## Pricing
+- Solo: $199 early-bird (1 developer seat) — standard $249 after June 24, 2026
+- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 24, 2026
+- Enterprise add-on: $299 one-time, stacks on Solo or Team. Adds the SCIM 2.0 provisioning endpoint, the SAML SSO recipe wired to Supabase Auth, the org-wide MFA mandate, and the SOC 2-aligned audit log retention guide.
+- One-time payment. No subscription. Lifetime updates within v1.x included.
+- All sales are final. Source code is delivered immediately on purchase.
+- Sold via Polar.sh (Merchant of Record — global tax handled).
+
+## 16 modules
+1. Auth — Supabase Auth with email/password, Google OAuth, magic links, TOTP (authenticator app), passkeys (WebAuthn), and an owner-only org setting that mandates MFA for every member
+2. Messaging — Unified notify() API across email (Resend + React Email) and in-app (Supabase Realtime)
+3. Billing — Stripe subscriptions with idempotent webhooks, plan gating, customer portal, org or user billing modes
+4. Route Protection — requireAuth(), requireOrg(), requirePlan() helpers in Server Component layouts
+5. Multi-Tenant Orgs — withOrgScope() query helpers, Supabase RLS, invitations, personal org auto-created on signup. Optional B2C mode (config/app.ts) hides the org switcher and skips invitations while keeping the schema identical
+6. Admin Dashboard — User impersonation with full audit log, org management, subscription overview
+7. Content — MDX pipeline for marketing, documentation, and legal pages
+8. UX Patterns — shadcn/ui, loading/error/empty states, toast system, onboarding flow
+9. Background Jobs — Postgres-backed queue, Vercel Cron, retry with exponential backoff, dead-letter handling
+10. API Keys — Hashed at rest, scoped per-org, per-key rate limits (100 req/min default), usage logging
+11. Feature Flags — PostHog with server-side and client-side evaluation, plan-gating integration
+12. Infra & Observability — Sentry, t3-env validation, Upstash rate limits on every authenticated endpoint, macOS Keychain integration for secrets via the built-in CLI
+13. AI Integration — Multi-provider SDK (Anthropic, OpenAI, Google) with per-org credits ledger, usage tracking, and per-org rate limits (30 req/min default) so one tenant cannot pin provider quota
+14. Growth — Rewardful affiliate tracking, localized pricing, Storybook component library
+15. i18n — next-intl with English, German, Spanish, Italian, and French (5 locales, cookie-based, no URL prefix)
+16. Security — Per-request CSP nonces, HSTS, SSRF-guarded outbound webhooks, AES-256-GCM secret-at-rest encryption, anomaly detection via geo, device, velocity, and impossible-travel heuristics, append-only audit trail, optional SCIM 2.0 endpoint (Enterprise add-on)
+
+## Tech stack
+- Framework: Next.js 15 App Router + React 19 + React Compiler
+- Database / ORM: Supabase (Postgres) + Drizzle ORM
+- Auth: Supabase Auth + @supabase/ssr
+- Billing: Stripe + Polar.sh
+- Email: Resend + React Email
+- UI: shadcn/ui + Tailwind CSS v4
+- Observability: Sentry + PostHog
+- Deploy: Vercel
+- Tooling: Biome, Vitest, Playwright, t3-env, Renovate, Husky pre-commit hook that blocks live secrets from landing in .env files
+
+## AI-native integration
+Already is the only Next.js starter that ships a pre-written CLAUDE.md, seven scoped Cursor rules, a vendor-neutral AGENTS.md, GitHub Copilot instructions, ten Claude Code slash commands (/add-page, /add-table, /add-plan, /add-message, /add-job, /add-flag, /run-migration, /debug-webhook, /deploy, /already-update), and pre-wired MCP servers for Supabase, Stripe, and GitHub. Buyers can add a page, billing plan, or API route with a single AI prompt from day one.
+
+## Who it's for
+- Solo developers about to scaffold their first paid SaaS
+- Small teams (2–5 developers) building a client SaaS or internal tool
+- Developers migrating from AI builders: Lovable, Base44, Bolt.new, v0 by Vercel — Lovable and Base44 both use Supabase Auth and shadcn/ui, the same stack as Already, so the migration is frictionless
+- Founders building B2C apps (Already's B2C mode flag hides org UI entirely)
+- Teams selling into enterprise: Already covers SAML SSO out of the box, and the Enterprise add-on unlocks SCIM provisioning for Okta and Entra
+
+## How it works
+1. Purchase on Polar.sh
+2. Polar automatically sends a GitHub invite to the private repo at github.com/waitwhatco/already-template — accept it (invites expire after 7 days)
+3. On the private repo, click "Use this template" → "Create a new repository" → creates a clean private copy in your account with no shared git history
+4. Clone your new repo and run `pnpm install`
+5. (Optional, recommended for production) Run `pnpm already secrets push` to store Stripe, Supabase, and Resend keys in your macOS Keychain instead of .env files
+6. Run `pnpm setup` → validates env vars, runs DB migrations, bootstraps Stripe products
+7. Run `pnpm dev` → full stack runs locally (no cloud accounts required)
+8. Run `vercel deploy` → one-command Vercel deployment
+
+## Security posture
+Already's security baseline exceeds the bar set by ShipFast, Makerkit, Supastarter, and Vercel's own Next.js SaaS Starter on every measurable dimension: per-request CSP nonces with strict-dynamic (others ship plain headers), SSRF-guarded outbound webhooks with HMAC and dead-letter (none of the four ship this), anomaly detection with six signals, append-only audit log via RLS, GDPR Article 17 and 20 endpoints with 30-day soft-delete window, AES-256-GCM secret-at-rest, rate limits on every authenticated endpoint, BotID on signup, zxcvbn password policy, TOTP, passkeys, and backup codes.
+
+## Documentation
+- [Quickstart guide](https://already.wait-what.shop/docs/): Full setup walkthrough from purchase to deployed SaaS
+- [Beginner's Handbook](https://already.wait-what.shop/guide/): Step-by-step from zero to running — every term explained, expected outcomes per step, troubleshooting
+
+## Production SaaS Checklist
+- [62-point SaaS checklist](https://already.wait-what.shop/checklist/): Tool-agnostic production readiness checklist for SaaS founders
+
+## Legal
+- [Privacy Policy](https://already.wait-what.shop/legal/privacy): Data handling and GDPR information
+- [Terms of Service](https://already.wait-what.shop/legal/terms): Usage terms and no-refund policy
+
+## Contact
+- Support: already@wait-what.shop
+- Made by: wait, what.
+
+## Optional
+- [Already vs ShipFast](https://already.wait-what.shop/vs/shipfast): Feature and price comparison
+- [Already vs Supastarter](https://already.wait-what.shop/vs/supastarter): Feature and price comparison
+- [Already vs MakerKit](https://already.wait-what.shop/vs/makerkit): Feature and price comparison
+- [Already vs T3 Stack](https://already.wait-what.shop/vs/t3-stack): Feature and price comparison
+- [Already vs Next.js SaaS Starter](https://already.wait-what.shop/vs/nextjs-saas-starter): Feature and price comparison
+- [Migrate from Lovable](https://already.wait-what.shop/migrate/lovable): Step-by-step migration guide
+- [Migrate from Base44](https://already.wait-what.shop/migrate/base44): Step-by-step migration guide
+- [Migrate from Bolt](https://already.wait-what.shop/migrate/bolt): Step-by-step migration guide
+- [Migrate from v0](https://already.wait-what.shop/migrate/v0): Step-by-step migration guide

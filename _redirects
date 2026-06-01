@@ -1,0 +1,21 @@
+# EU migrate pages → global canonical (content is identical, avoid duplicate)
+/eu/migrate/lovable    /migrate/lovable    301
+/eu/migrate/base44     /migrate/base44     301
+/eu/migrate/bolt       /migrate/bolt       301
+/eu/migrate/v0         /migrate/v0         301
+
+# EU vs pages → global (content identical)
+/eu/vs/*               /vs/:splat          301
+
+# CH vs pages → global (content identical)
+/ch/vs/*               /vs/:splat          301
+
+# Legacy alias
+/vs/create-t3-app      /vs/t3-stack        301
+
+# Removed pages
+/changelog             /                   301
+/changelog/            /                   301
+
+# Catch-all 404
+/*                     /404.html           404

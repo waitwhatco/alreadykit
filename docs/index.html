@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Already Docs — Next.js SaaS starter kit setup &amp; reference</title>
+  <meta name="description" content="Already documentation: quickstart, env vars, macOS Keychain secret storage, module reference, migration guides for Lovable, Base44, Bolt, and v0. From clone to deployed in under 30 minutes.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/docs/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/docs/">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/docs/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/docs/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/docs/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/docs/">
+  <link rel="canonical" href="https://alreadykit.com/docs/">
+  <meta property="og:title" content="Quickstart — Already Docs">
+  <meta property="og:description" content="From purchase to deployed SaaS in under an hour. Step-by-step Already setup guide.">
+  <meta property="og:url" content="https://alreadykit.com/docs/">
+  <meta property="og:site_name" content="Already">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --code-bg: #111110; --code-text: #E8E8E4;
+      --code-dim: #6E6E68; --code-green: #4ADE80;
+      --code-blue: #93C5FD; --code-yellow: #FCD34D;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    /* — Dark mode — */
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; border: none; cursor: pointer; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .doc-header h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin-bottom: 16px; }
+    .doc-header p { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 580px; }
+
+    .doc-layout { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 56px 0 80px; align-items: start; }
+    .doc-layout > * { min-width: 0; }
+    @media (max-width: 860px) { .doc-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+    .doc-nav { position: sticky; top: 72px; }
+    .doc-nav-section { margin-bottom: 28px; }
+    .doc-nav-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 8px; }
+    .doc-nav a { display: block; font-size: 14px; font-weight: 400; color: var(--ink-muted); text-decoration: none; padding: 5px 0; border-left: 2px solid transparent; padding-left: 12px; margin-left: -12px; transition: color 0.1s; }
+    .doc-nav a:hover { color: var(--ink); border-color: var(--rule); }
+    .doc-nav a.active { color: var(--ink); font-weight: 500; border-color: var(--signal); }
+
+    .doc-content h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    .doc-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .doc-content h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); margin: 28px 0 10px; }
+    .doc-content p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    .doc-content ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    .doc-content ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    .doc-content ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 12px; }
+    .doc-content a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .doc-content a:hover { color: var(--signal); }
+    .doc-content strong { font-weight: 600; color: var(--ink); }
+
+    .step { border: 1px solid var(--rule); margin-bottom: 16px; }
+    .step-header { display: grid; grid-template-columns: 40px 1fr; background: var(--paper-subtle); padding: 16px 20px; align-items: center; gap: 16px; border-bottom: 1px solid var(--rule); }
+    .step-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-title { font-size: 15px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); }
+    .step-body { padding: 20px 20px 20px 76px; }
+    @media (max-width: 640px) { .step-body { padding: 16px 20px; } }
+    .step-body p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 12px; }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    pre code {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--code-text);
+      white-space: pre;
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+
+    .note { background: var(--paper-subtle); border: 1px solid var(--rule); border-left: 3px solid var(--signal); padding: 14px 18px; margin: 20px 0; }
+    .note p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin: 0; }
+    .note strong { font-weight: 600; color: var(--ink); }
+
+    .prereq-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); margin: 20px 0; }
+    @media (max-width: 640px) { .prereq-grid { grid-template-columns: 1fr; } }
+    .prereq { padding: 16px 20px; border-right: 1px solid var(--rule); }
+    .prereq:last-child { border-right: none; }
+    @media (max-width: 640px) { .prereq { border-right: none; border-bottom: 1px solid var(--rule); } .prereq:last-child { border-bottom: none; } }
+    .prereq-name { font-size: 14px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); margin-bottom: 4px; }
+    .prereq-note { font-size: 12.5px; color: var(--ink-muted); line-height: 1.45; }
+
+    /* ─── Install block ─────────────────────────────────── */
+    .install-block {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--code-bg);
+      margin: 20px 0;
+    }
+    .install-block-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #6E6E68;
+      padding: 10px 20px 0;
+    }
+    .install-block pre {
+      border: none;
+      margin: 0;
+      padding: 12px 20px 16px;
+      background: transparent;
+    }
+    .install-block pre code {
+      font-size: 14px;
+      color: #E8E8E4;
+    }
+
+    /* ─── Setup call nudge ───────────────────────────────── */
+    .setup-call-nudge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--paper-subtle);
+      border: 1px solid var(--rule);
+      padding: 16px 20px;
+      margin: 32px 0;
+      flex-wrap: wrap;
+    }
+    .setup-call-nudge-body { font-size: 14px; line-height: 1.55; color: var(--ink-secondary); }
+    .setup-call-nudge-body strong { color: var(--ink); font-weight: 600; }
+    .setup-call-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      white-space: nowrap;
+      transition: border-color 0.12s, color 0.12s;
+    }
+    .setup-call-link:hover { color: var(--signal); border-color: var(--signal); }
+
+    /* ─── Method divider ─────────────────────────────────── */
+    .method-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0 24px;
+    }
+    .method-divider::before,
+    .method-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+    .method-divider span {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      white-space: nowrap;
+    }
+
+    /* ─── Copy button ──────────────────────────────────── */
+    .pre-wrap { position: relative; }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.07);
+      color: #6E6E68;
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 4px 9px;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      z-index: 1;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.13); color: #E8E8E4; border-color: rgba(255,255,255,0.20); }
+    .copy-btn.copied { color: #4ADE80; border-color: #4ADE80; background: rgba(74,222,128,0.08); }
+    .inline-copy-btn {
+      display: inline-block; vertical-align: middle; margin-left: 6px;
+      font-family: var(--mono); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: transparent; color: var(--ink-muted);
+      border: 1px solid var(--rule);
+      padding: 2px 6px; cursor: pointer; line-height: 1.5;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .inline-copy-btn:hover { color: var(--ink); border-color: var(--ink-secondary); }
+    .inline-copy-btn.copied { color: #22c55e; border-color: #22c55e; }
+
+    /* ─── Copy tip banner ───────────────────────────────── */
+    .copy-tip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--paper-subtle);
+      border: 1px solid var(--rule);
+      padding: 11px 16px;
+      margin-bottom: 36px;
+      font-size: 13.5px;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+    .copy-tip-icon {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--ink-subtle);
+      flex-shrink: 0;
+    }
+    .copy-tip kbd {
+      font-family: var(--mono);
+      font-size: 11px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #E8E8E4;
+      padding: 1px 6px;
+      vertical-align: middle;
+    }
+    html[data-theme="light"] .copy-tip kbd { background: var(--paper); border-color: var(--rule); color: var(--ink-secondary); }
+    @media (prefers-color-scheme: light) { .copy-tip kbd { background: var(--paper); border-color: var(--rule); color: var(--ink-secondary); } }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-brand:hover { color: var(--ink); }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Already", "item": "https://alreadykit.com" },
+      { "@type": "ListItem", "position": 2, "name": "Documentation", "item": "https://alreadykit.com/docs/" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link active">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link active">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="doc-header">
+    <div class="container">
+      <div class="eyebrow">Documentation</div>
+      <h1>Quickstart</h1>
+      <p>One command installs every prerequisite and gets your project running locally. Purchase first — the installer handles the rest.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="doc-layout">
+
+      <nav class="doc-nav">
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Install</div>
+          <a href="#install" class="active">Quick install</a>
+          <a href="#after-install">After install</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Manual setup</div>
+          <a href="#prerequisites">Prerequisites</a>
+          <a href="#purchase">1. Purchase</a>
+          <a href="#clone">2. Clone</a>
+          <a href="#setup">3. Run setup</a>
+          <a href="#dev">4. Local dev</a>
+          <a href="#deploy">5. Deploy</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Reference</div>
+          <a href="#env-vars">Env vars</a>
+          <a href="#keychain">Keychain secrets</a>
+          <a href="#commands">Commands</a>
+          <a href="#modules">Modules</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Migrations</div>
+          <a href="/migrate/lovable">From Lovable</a>
+          <a href="/migrate/base44">From Base44</a>
+          <a href="/migrate/bolt">From Bolt</a>
+          <a href="/migrate/v0">From v0</a>
+        </div>
+      </nav>
+
+      <div class="doc-content">
+
+        <div class="copy-tip">
+          <span class="copy-tip-icon">⌘</span>
+          Every code block has a <kbd>copy</kbd> button in the top-right corner. Click it to copy, then paste straight into your terminal.
+        </div>
+
+        <!-- ── Quick install ─────────────────────────────── -->
+        <h2 id="install" style="margin-top:0;padding-top:0;border-top:none;">Quick install</h2>
+        <p>The installer checks and sets up every prerequisite automatically — Node.js 20+, pnpm, and the Supabase CLI. Then it clones your repo, installs dependencies, and copies <code>.env.example</code> to get you to your first <code>pnpm dev</code> in minutes.</p>
+
+        <p><strong>Before running:</strong> <a href="#purchase">purchase a licence</a>, accept the GitHub invite Polar sends, and click <strong>"Use this template"</strong> on the private repo to create your own copy. You'll paste that URL when the installer asks.</p>
+
+        <div class="install-block">
+          <div class="install-block-label">macOS &amp; Linux</div>
+          <pre><code>curl -fsSL https://alreadykit.com/install.sh | bash</code></pre>
+        </div>
+
+        <p>The installer is a plain shell script — <a href="/install.sh" rel="noopener">read it first</a> if you prefer. No remote execution beyond Homebrew and npm.</p>
+
+        <h3>What the script does</h3>
+        <ul>
+          <li>Checks for Homebrew (macOS) — installs if missing</li>
+          <li>Checks Node.js 20+ — installs or upgrades via Homebrew</li>
+          <li>Checks pnpm 9+ — installs via npm if missing</li>
+          <li>Checks Supabase CLI — installs via Homebrew if missing</li>
+          <li>Asks for your GitHub repo URL and a local folder name</li>
+          <li>Clones, runs <code>pnpm install</code>, copies <code>.env.example → .env.local</code></li>
+          <li>Prints the three commands to finish setup</li>
+        </ul>
+
+        <!-- ── After install ──────────────────────────────── -->
+        <h2 id="after-install">After install</h2>
+        <p>The installer leaves you at a working directory with dependencies installed and a blank <code>.env.local</code>. Three more steps to a running app:</p>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">01</div>
+            <div class="step-title">Fill in .env.local</div>
+          </div>
+          <div class="step-body">
+            <p>Open <code>.env.local</code> and add your Supabase and Stripe credentials. The minimum required keys are listed in the <a href="#env-vars">env vars reference</a> below.</p>
+            <p>Don't have cloud accounts yet? Already runs fully locally — use <code>supabase start</code> for a local Postgres + Auth stack, and Stripe test-mode keys (no live account needed).</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">02</div>
+            <div class="step-title">pnpm setup</div>
+          </div>
+          <div class="step-body">
+            <p>Validates env vars, runs DB migrations, and bootstraps Stripe products. Safe to re-run.</p>
+            <pre><code>pnpm setup</code></pre>
+            <p>Writes Stripe price IDs back to <code>.env.local</code> automatically.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">03</div>
+            <div class="step-title">pnpm dev</div>
+          </div>
+          <div class="step-body">
+            <p>Starts Next.js, local Supabase, the Stripe CLI webhook listener, and the email preview server in one command.</p>
+            <pre><code>pnpm dev</code></pre>
+            <ul>
+              <li><code>localhost:3000</code> — your app</li>
+              <li><code>localhost:54323</code> — Supabase Studio (local DB)</li>
+              <li><code>localhost:3001</code> — React Email preview</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="setup-call-nudge">
+          <div class="setup-call-nudge-body">
+            <strong>Prefer a guided walkthrough?</strong> Book a 15-min setup call ($49) — screen share, walk through your environment together, get running fast.
+          </div>
+          <a href="https://cal.com/wait-what/already-installation" class="setup-call-link" rel="noopener">Book a slot →</a>
+        </div>
+
+        <!-- ── Manual setup divider ───────────────────────── -->
+        <div class="method-divider">
+          <span>Manual setup — prefer to do it yourself?</span>
+        </div>
+
+        <p>If you'd rather control each step, skip the installer and follow the steps below. Same end result.</p>
+
+        <h2 id="prerequisites">Prerequisites</h2>
+        <p>You need these installed before you start. All free.</p>
+        <div class="prereq-grid">
+          <div class="prereq">
+            <div class="prereq-name">Node.js 20+</div>
+            <div class="prereq-note">Check: <code>node --version</code></div>
+          </div>
+          <div class="prereq">
+            <div class="prereq-name">pnpm 9+</div>
+            <div class="prereq-note"><code>npm i -g pnpm</code></div>
+          </div>
+          <div class="prereq">
+            <div class="prereq-name">Supabase CLI</div>
+            <div class="prereq-note"><code>brew install supabase/tap/supabase</code></div>
+          </div>
+        </div>
+        <p>You'll also need accounts with Supabase (free tier), Stripe (test mode), and Vercel (free tier). None require billing information to start.</p>
+
+        <h2 id="purchase">Step 1 — Purchase</h2>
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">01</div>
+            <div class="step-title">Buy on Polar → use the template</div>
+          </div>
+          <div class="step-body">
+            <p>Purchase a Solo or Team licence at <a href="/#pricing">alreadykit.com/#pricing</a>. Polar (Merchant of Record) processes the payment and handles tax globally.</p>
+            <p>Within 1–2 minutes you'll receive an email from GitHub with a repository invite. Accept it, then click <strong>"Use this template" → "Create a new repository"</strong> on the private Already repo to get your own clean copy.</p>
+          </div>
+        </div>
+
+        <h2 id="clone">Step 2 — Clone</h2>
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">02</div>
+            <div class="step-title">Clone and install</div>
+          </div>
+          <div class="step-body">
+            <pre><code>git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+cd YOUR_REPO_NAME
+pnpm install</code></pre>
+          </div>
+        </div>
+
+        <h2 id="setup">Step 3 — Run setup</h2>
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">03</div>
+            <div class="step-title">pnpm setup</div>
+          </div>
+          <div class="step-body">
+            <pre><code>cp .env.example .env.local
+# Edit .env.local — add your Supabase and Stripe keys
+pnpm setup</code></pre>
+            <p>For billing, run the Stripe bootstrapper after setup:</p>
+            <pre><code>pnpm setup:stripe</code></pre>
+          </div>
+        </div>
+
+        <h2 id="dev">Step 4 — Local dev</h2>
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">04</div>
+            <div class="step-title">pnpm dev</div>
+          </div>
+          <div class="step-body">
+            <pre><code>pnpm dev</code></pre>
+            <ul>
+              <li><code>localhost:3000</code> — your app</li>
+              <li><code>localhost:54323</code> — Supabase Studio</li>
+              <li><code>localhost:3001</code> — React Email preview</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="deploy">Step 5 — Deploy</h2>
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">05</div>
+            <div class="step-title">vercel deploy</div>
+          </div>
+          <div class="step-body">
+            <p>Already's <code>vercel.json</code> is pre-configured. Connect your repo to a Vercel project and add the production env vars from your <code>.env.local</code>.</p>
+            <pre><code>vercel deploy --prod</code></pre>
+            <p>CI/CD is pre-wired via GitHub Actions. Every PR gets a Vercel preview deploy. Playwright E2E tests run against it.</p>
+          </div>
+        </div>
+
+        <h2 id="env-vars">Required env vars</h2>
+        <p>All vars are documented in <code>.env.example</code> with inline comments. The minimum set for local dev:</p>
+        <pre><code><span style="color:#93C5FD"># Supabase (local: run supabase start)</span>
+<span style="color:#E8E8E4">NEXT_PUBLIC_SUPABASE_URL=</span>
+<span style="color:#E8E8E4">NEXT_PUBLIC_SUPABASE_ANON_KEY=</span>
+<span style="color:#E8E8E4">SUPABASE_SERVICE_ROLE_KEY=</span>
+<span style="color:#E8E8E4">DATABASE_URL=</span>
+<span style="color:#E8E8E4">DATABASE_URL_DIRECT=</span>
+
+<span style="color:#93C5FD"># Stripe (test mode keys from dashboard)</span>
+<span style="color:#E8E8E4">STRIPE_SECRET_KEY=</span>
+<span style="color:#E8E8E4">STRIPE_WEBHOOK_SECRET=</span>
+<span style="color:#E8E8E4">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=</span>
+
+<span style="color:#93C5FD"># Resend (dev mode — emails logged, not sent)</span>
+<span style="color:#E8E8E4">RESEND_API_KEY=</span>
+
+<span style="color:#93C5FD"># Webhook signing key — required. Generate with: openssl rand -base64 32</span>
+<span style="color:#E8E8E4">WEBHOOK_SIGNING_KEY=</span>
+
+<span style="color:#93C5FD"># Cron secret — must match Vercel Cron's Authorization header</span>
+<span style="color:#E8E8E4">CRON_SECRET=</span></code></pre>
+
+        <h2 id="keychain">Keep secrets out of <code>.env</code> files</h2>
+        <p>Optional but recommended once you go to production. Already ships a CLI that stores production credentials in your OS keychain (macOS Keychain or <code>pass</code> on Linux) instead of <code>.env.local</code>. A stolen laptop or an accidental <code>git add .env</code> can no longer leak a live Stripe key.</p>
+        <pre><code>pnpm already secrets push        <span style="color:#6E6E68"># interactive prompt → keychain</span>
+eval "$(pnpm already secrets export)"   <span style="color:#6E6E68"># inject into the current shell</span>
+pnpm already secrets scan        <span style="color:#6E6E68"># check .env files for live keys</span></code></pre>
+        <p>The pre-commit hook runs <code>secrets scan</code> automatically. If a <code>.env*</code> file contains anything that looks like a real Stripe live key, a Resend API key, or a Postgres URL with embedded credentials, the commit is blocked. Test-mode keys and explicit placeholders are allowlisted.</p>
+        <p>Full recipe: <code>docs/recipes/keychain-secrets.md</code> in your repo.</p>
+
+        <h2 id="commands">Useful commands</h2>
+        <pre><code>pnpm dev                     # start everything
+pnpm db:seed                 # seed local DB with demo data
+pnpm db:studio               # open Drizzle Studio (local DB UI)
+pnpm reset                   # drop DB → migrate → seed (~5s)
+pnpm email                   # React Email preview server
+pnpm test                    # Vitest unit + integration tests
+pnpm test:e2e                # Playwright E2E tests
+pnpm already doctor          # health check: env, DB, Stripe, deps
+pnpm already secrets push    # store credentials in macOS Keychain
+pnpm already secrets export  # emit `export KEY=value` lines for shell eval
+pnpm already secrets scan    # detect live keys in .env files (pre-commit hook)
+pnpm already changelog       # compare your fork against the latest release</code></pre>
+
+        <h2 id="modules">What's in the repo</h2>
+        <p>Already ships 16 modules. Each has its own docs inside the repo. Here's the map:</p>
+        <ul>
+          <li><strong>Auth</strong> &mdash; <code>lib/auth/</code>, <code>app/(auth)/</code>. Includes the owner-only org MFA mandate at <code>/app/settings/security</code>.</li>
+          <li><strong>Billing</strong> &mdash; <code>lib/billing/</code>, <code>config/billing.ts</code>, <code>app/(billing)/</code></li>
+          <li><strong>Multi-tenant orgs</strong> &mdash; <code>lib/orgs/</code>, <code>db/schema/orgs.ts</code>. B2B and B2C mode toggle in <code>config/app.ts</code>.</li>
+          <li><strong>Messaging</strong> &mdash; <code>messaging/</code>, <code>lib/messaging/</code></li>
+          <li><strong>Background jobs</strong> &mdash; <code>lib/jobs/</code>, <code>app/api/cron/</code></li>
+          <li><strong>AI integration</strong> &mdash; <code>lib/ai/</code>, per-org credits ledger, per-org rate limits at <code>lib/auth/rate-limit.ts</code></li>
+          <li><strong>Feature flags</strong> &mdash; <code>lib/flags/</code>, <code>config/flags.ts</code></li>
+          <li><strong>Admin</strong> &mdash; <code>app/(admin)/</code>, impersonation, append-only audit log</li>
+          <li><strong>Security</strong> &mdash; <code>lib/security/</code>, anomaly detection, AES-256-GCM secret-at-rest, SSRF-guarded outbound webhooks</li>
+          <li><strong>SSO + SCIM (Enterprise add-on)</strong> &mdash; <code>lib/auth/sso.ts</code>, <code>lib/scim/</code>, endpoint at <code>app/api/scim/v2/</code></li>
+          <li><strong>i18n</strong> &mdash; <code>lib/i18n/</code>, <code>messages/</code> (en, de, es, it, fr)</li>
+          <li><strong>Secrets CLI</strong> &mdash; <code>cli/commands/secrets.ts</code>. Push to macOS Keychain, pre-commit scanner blocks live keys from <code>.env</code> files.</li>
+        </ul>
+        <p>Full module reference docs are inside the repo at <code>docs/recipes/</code>, readable by Claude Code and Cursor out of the box. Two recipes worth flagging up front: <code>docs/recipes/keychain-secrets.md</code> (production-grade secret handling) and <code>docs/recipes/scim-provisioning.md</code> (Okta and Entra integration).</p>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://wait-what.shop" rel="noopener" class="footer-bottom-brand">wait, what. · 2026</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // Copy buttons — wire every <pre> block
+  document.addEventListener('DOMContentLoaded', function() {
+    // Block code: pre elements
+    document.querySelectorAll('pre').forEach(function(pre) {
+      var wrap = document.createElement('div');
+      wrap.className = 'pre-wrap';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      wrap.appendChild(btn);
+
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code') || pre;
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+    // Inline code inside prereq cards and callouts
+    document.querySelectorAll('.prereq-note code, .note code, .trouble code').forEach(function(code) {
+      if (code.closest('pre')) return;
+      if (code.textContent.trim().length < 8) return;
+      var btn = document.createElement('button');
+      btn.className = 'inline-copy-btn';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      code.insertAdjacentElement('afterend', btn);
+      btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'copied!';
+          btn.classList.add('copied');
+          setTimeout(function() { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+        });
+      });
+    });
+  });
+  </script>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

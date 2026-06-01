@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from Bolt to Production — Already</title>
+  <meta name="description" content="Move your Bolt.new app to a production-ready Next.js codebase. Your components copy across directly. Step-by-step guide.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/migrate/bolt">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/migrate/bolt">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/migrate/bolt">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/migrate/bolt">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/migrate/bolt">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/migrate/bolt">
+  <link rel="canonical" href="https://alreadykit.com/migrate/bolt">
+  <meta property="og:title" content="Migrate from Bolt to Production — Already">
+  <meta property="og:description" content="Your Bolt prototype is working. Already is where it becomes a real product — billing, multi-tenancy, and a Next.js codebase you can hand to a team.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/migrate/bolt">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Migrate from Bolt to Production — Already">
+  <meta name="twitter:description" content="Your Bolt prototype is working. Already is where it grows up.">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Migrate from Bolt to Production",
+    "description": "Step-by-step guide to migrating from Bolt to the Already production-ready Next.js starter kit.",
+    "url": "https://alreadykit.com/migrate/bolt",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alreadykit.com/migrate/bolt" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "@id": "https://alreadykit.com/#organization", "name": "wait, what." },
+    "image": { "@type": "ImageObject", "url": "https://alreadykit.com/og.png", "width": 1200, "height": 630 },
+    "proficiencyLevel": "Intermediate",
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2"] }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to migrate from Bolt to Already",
+    "description": "Move your Bolt project to a production-ready Next.js codebase with auth, billing, multi-tenancy, and background jobs pre-wired.",
+    "totalTime": "PT6H",
+    "supply": [
+      { "@type": "HowToSupply", "name": "Bolt project (StackBlitz or downloaded)" },
+      { "@type": "HowToSupply", "name": "Already license (alreadykit.com)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "Node.js 20+" },
+      { "@type": "HowToTool", "name": "pnpm" }
+    ],
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Delete .bolt/ and reinstall dependencies locally", "text": "Remove the .bolt/ directory — it is StackBlitz editor tooling only. Clone or download your project, run pnpm install to get a local node_modules." },
+      { "@type": "HowToStep", "position": 2, "name": "Set up or connect Supabase Auth", "text": "Bolt projects may use Supabase, Firebase, or no auth. If using Supabase, point Already at your existing project. If using another provider, migrate users to Supabase Auth first." },
+      { "@type": "HowToStep", "position": 3, "name": "Convert Vite env vars", "text": "Rename VITE_* env vars to NEXT_PUBLIC_* in .env.local. Values stay identical — only prefixes change." },
+      { "@type": "HowToStep", "position": 4, "name": "Copy your UI components", "text": "If your Bolt project uses shadcn/ui and Tailwind, copy components/ to Already's components/. Otherwise adapt styling to shadcn/ui components." },
+      { "@type": "HowToStep", "position": 5, "name": "Remap routes to Already's group structure", "text": "Move pages into app/(app)/, app/(auth)/, and app/(public)/ route groups. Guards are applied at the layout level automatically." },
+      { "@type": "HowToStep", "position": 6, "name": "Add Drizzle schema for your tables", "text": "Add schema definitions in db/schema/ mirroring your existing database tables. Run pnpm db:push to sync." },
+      { "@type": "HowToStep", "position": 7, "name": "Wire billing", "text": "Add Stripe keys, run pnpm setup:stripe to create products, wrap paid routes with await requirePlan()." },
+      { "@type": "HowToStep", "position": 8, "name": "Run the migration CLI", "text": "Run: already migrate bolt --source ../my-bolt-app. The CLI maps env vars, inventories routes, and produces a TODO report for manual steps." }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --code-bg: #111110; --code-text: #E8E8E4; --code-dim: #6E6E68;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 560px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .btn-ghost:hover { color: var(--ink); }
+
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; padding: 0; }
+
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net — ensure code blocks scroll within their container instead of forcing the page wider */
+    @media (max-width: 760px) {
+      .step-box, .step-head, .step-content, .container, .sidebar { min-width: 0; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      h2, p, ul, li, div { max-width: 100%; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate from Bolt",
+        "item": "https://alreadykit.com/migrate/bolt"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · Bolt → Already</div>
+      <h1 data-i18n="mig_bolt.h1" data-i18n-html>Your Bolt app is working.<br>Now make it <em>production-ready.</em></h1>
+      <p class="lede" data-i18n="mig_bolt.lede" data-i18n-html>Bolt is exceptional at shipping a working prototype in hours. Already is where that prototype becomes a real SaaS — proper auth, billing, multi-tenancy, and a Next.js codebase you can hand to a team. Your shadcn/ui components copy across directly.</p>
+      <div>
+        <a href="/#pricing" class="btn-primary">Get Already — $199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same UI (shadcn/ui + Tailwind)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same framework (Next.js App Router)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Supabase Auth ready to connect</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Zero redesign needed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+
+        <div>
+          <h2>First: what kind of Bolt project do you have?</h2>
+          <p><strong>Bolt.new can output two very different things</strong> — a Vite + React SPA, or a Next.js App Router project. The migration path differs significantly between them. Check before you start:</p>
+          <pre><code><span class="dim"># Look at your project root:</span>
+vite.config.ts present, no next.config.*  → You have a Vite project
+next.config.ts or next.config.js present  → You have a Next.js project</code></pre>
+          <p>If you have a <strong>Vite project</strong>, there's a framework-level difference to bridge before anything else. If you have a <strong>Next.js project</strong>, you're on the same framework as Already — the migration is mostly mechanical.</p>
+
+          <h2>If your Bolt project is Vite: convert env vars first</h2>
+          <p>Vite uses <code>import.meta.env.VITE_*</code> to access env vars. Next.js uses <code>process.env.NEXT_PUBLIC_*</code>. You need to rename these throughout your codebase before copying code into Already:</p>
+          <pre><code><span class="dim"># Search and replace in your Bolt project:</span>
+import.meta.env.VITE_SUPABASE_URL    → process.env.NEXT_PUBLIC_SUPABASE_URL
+import.meta.env.VITE_SUPABASE_ANON_KEY → process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+import.meta.env.VITE_*               → process.env.NEXT_PUBLIC_*</code></pre>
+          <p>Your <code>.env</code> key names change the same way: <code>VITE_FOO</code> → <code>NEXT_PUBLIC_FOO</code>.</p>
+
+          <h2>The <code>.bolt/</code> directory</h2>
+          <p>Delete it. The <code>.bolt/</code> directory contains Bolt's editor metadata and configuration — it's not application code. It has no function outside the Bolt.new environment.</p>
+
+          <h2>Bolt auth varies — check which one you have</h2>
+          <ul>
+            <li><strong>Supabase Auth.</strong> Best case. Copy the project URL and anon key into Already's <code>.env.local</code>, point at the same Supabase project, and your users are untouched.</li>
+            <li><strong>Clerk.</strong> See the FAQ below. Requires a decision: keep Clerk for auth and wire Supabase separately, or migrate to Supabase Auth.</li>
+            <li><strong>No auth.</strong> Fresh setup. Already's quickstart has you running with Supabase Auth in ~20 minutes.</li>
+          </ul>
+
+          <h2>Cloning from StackBlitz</h2>
+          <p>Bolt runs in StackBlitz's browser-based Node environment. When you export and clone the project locally, do not copy <code>node_modules/</code>. StackBlitz installs packages differently from a local environment — you'll get mismatched binaries.</p>
+          <pre><code><span class="dim"># Always install fresh after cloning:</span>
+pnpm install</code></pre>
+
+          <h2>Why migrate from Bolt?</h2>
+          <p>Bolt is outstanding at getting you to a working demo without setup friction. The moment you need to charge customers, isolate their data, or run the app reliably under load — you need a production foundation that Bolt doesn't ship.</p>
+          <p>Already is that foundation. It's the same shadcn/ui + Next.js stack Bolt uses, with auth, billing, multi-tenancy, background jobs, and 12 more production modules already wired in. Move your product logic in; leave the plumbing to Already.</p>
+
+          <h2>What carries over without changes</h2>
+          <ul>
+            <li><strong>Your UI components.</strong> Bolt generates shadcn/ui components with Tailwind. Copy your <code>components/</code> directory into Already's — zero redesign, zero re-theming.</li>
+            <li><strong>Your business logic.</strong> Server actions, API routes, and utility functions translate directly into Already's App Router structure.</li>
+            <li><strong>Your Supabase data.</strong> If your Bolt app uses Supabase, point Already at the same project. Your tables, RLS policies, and data stay exactly where they are.</li>
+          </ul>
+
+          <h2>What needs migration work</h2>
+          <ul>
+            <li><strong>Auth setup.</strong> If your Bolt app didn't use Supabase Auth, you'll set it up fresh in Already — about 20 minutes with the quickstart guide. Your UI stays untouched.</li>
+            <li><strong>Route remapping.</strong> Move pages into Already's group structure: authenticated product under <code>app/(app)/</code>, auth flows under <code>app/(auth)/</code>, public pages under <code>app/(public)/</code>. Bolt tends to use flat <code>app/</code> routes.</li>
+            <li><strong>Data layer.</strong> Add Drizzle schema declarations for your existing tables so Already's query helpers can use them with full type safety.</li>
+            <li><strong>Env vars (Vite only).</strong> Replace all <code>import.meta.env.VITE_*</code> with <code>process.env.NEXT_PUBLIC_*</code>.</li>
+          </ul>
+
+          <h2>Step-by-step migration</h2>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Delete <code>.bolt/</code>, reinstall dependencies locally</div></div>
+            <div class="step-content">
+              <p>Export your Bolt project, clone it locally, delete the <code>.bolt/</code> directory, and run <code>pnpm install</code> fresh. Do not copy <code>node_modules/</code> from the StackBlitz export.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Set up (or connect) Supabase Auth</div></div>
+            <div class="step-content">
+              <p>If your Bolt app uses Supabase, copy the project URL and anon key into Already's <code>.env.local</code>. If not, create a new Supabase project — Already's quickstart has you running in about 20 minutes. Run <code>pnpm setup</code> to validate and run migrations.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Convert Vite env vars (if applicable)</div></div>
+            <div class="step-content">
+              <p>If your Bolt project used Vite, do a project-wide find-and-replace: <code>import.meta.env.VITE_</code> → <code>process.env.NEXT_PUBLIC_</code>. Also rename keys in your <code>.env</code> file. No other code changes are needed for this step.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Copy your UI components</div></div>
+            <div class="step-content">
+              <p>Bolt generates standard shadcn/ui components. Copy your <code>components/</code> directory directly into Already's. Tailwind tokens and design system are compatible — no class name changes needed.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Remap routes to Already's group structure</div></div>
+            <div class="step-content">
+              <p>Move authenticated pages under <code>app/(app)/</code>, sign-in and signup under <code>app/(auth)/</code>, and marketing pages under <code>app/(public)/</code>. Already's layout guards run automatically at each group boundary — no manual auth checks in page components.</p>
+              <pre><code>Bolt: app/dashboard/page.tsx  → Already: app/(app)/dashboard/page.tsx
+Bolt: app/login/page.tsx     → Already: app/(auth)/login/page.tsx
+Bolt: app/page.tsx           → Already: app/(public)/page.tsx</code></pre>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Add Drizzle schema for your tables</div></div>
+            <div class="step-content">
+              <p>Declare your Supabase tables as Drizzle schema files in <code>db/schema/</code>. Already can query them immediately with type-safe helpers. No data migration — the tables stay exactly where they are.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">07</div><div class="step-t">Wire billing</div></div>
+            <div class="step-content">
+              <p>Run <code>pnpm setup:stripe</code> to create Stripe products in your account. Wrap paid routes with <code>await requirePlan('pro')</code>. The webhook handler, customer portal, and trial logic are pre-built and tested.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">08</div><div class="step-t">already migrate bolt</div></div>
+            <div class="step-content">
+              <p>The included CLI command inspects your Bolt export, detects Vite vs Next.js, maps env variables, and generates a structured TODO report for what needs manual attention.</p>
+              <pre><code>already migrate bolt --source ../my-bolt-app</code></pre>
+            </div>
+          </div>
+
+          <h2>Frequently asked</h2>
+          <h3>My Bolt project uses Clerk for auth, not Supabase. What do I do?</h3>
+          <p>Already is built entirely around Supabase Auth — the middleware, RLS policies, and multi-tenant model all assume it. You can technically keep Clerk for the auth layer and wire the user identity into Supabase manually for the DB layer, but in practice most teams find it cleaner to migrate to Supabase Auth. Clerk's user export tool (under Dashboard → Users → Export) gives you a CSV you can import into Supabase. Passwords don't transfer (Clerk uses their own hashing), so users will need to reset via email — a one-time friction most teams send a simple email about.</p>
+          <h3>My Bolt app doesn't use Supabase. Is that a problem?</h3>
+          <p>Already is built on Supabase Auth throughout. If you're coming from a different auth setup, you'll set up a new Supabase project and migrate users. The quickstart covers this. For apps with a small user base it's a one-evening job.</p>
+          <h3>Will my Tailwind styles transfer cleanly?</h3>
+          <p>Yes. Bolt and Already both use Tailwind CSS v4. Your utility classes and component styles transfer without modification.</p>
+          <h3>What if my Bolt app uses a different database?</h3>
+          <p>Already's Drizzle ORM layer connects to Supabase's Postgres. If your Bolt app uses a different database, you'll need to migrate the data to Supabase. The Drizzle schema files make this straightforward — declare your schema, run migrations, import your data.</p>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to migrate?</div>
+            <h3>Already — $199</h3>
+            <p>16 production-ready modules. Same shadcn/ui + Tailwind stack as Bolt. One-time purchase.</p>
+            <a href="/#pricing" class="btn-buy" rel="noopener">Buy Solo — $199 →</a>
+            <div class="note">Early-bird until June 24 · 30-day refund if you haven't cloned</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/lovable" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Lovable →</a>
+            <a href="/migrate/base44" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Base44 →</a>
+            <a href="/migrate/v0" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">v0 by Vercel →</a>
+            <a href="/docs" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">Full setup guide →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+            <span>Tailwind v4</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

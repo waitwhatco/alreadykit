@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Migrate from v0 to Production — Already</title>
+  <meta name="description" content="Your v0 components are shadcn/ui. Already is the Next.js production base they slot into. No redesign. Step-by-step guide.">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/migrate/v0">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/migrate/v0">
+  <link rel="alternate" hreflang="es" href="https://alreadykit.com/migrate/v0">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/migrate/v0">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/migrate/v0">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/migrate/v0">
+  <link rel="canonical" href="https://alreadykit.com/migrate/v0">
+  <meta property="og:title" content="Migrate from v0 to Production — Already">
+  <meta property="og:description" content="Your v0 components are already shadcn/ui. Already is the production Next.js base they slot straight into — auth, billing, multi-tenancy included.">
+  <meta property="og:image" content="https://alreadykit.com/og.png">
+  <meta property="og:url" content="https://alreadykit.com/migrate/v0">
+  <meta property="og:site_name" content="Already">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Migrate from v0 to Production — Already">
+  <meta name="twitter:description" content="Your v0 components are shadcn/ui. Already is the production base they slot into.">
+  <meta name="twitter:image" content="https://alreadykit.com/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%230A0A0A'/><text x='90' y='130' text-anchor='middle' font-family='Georgia,serif' font-size='120' fill='%23FCFCFA'>‽</text></svg>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Migrate from v0 to Production",
+    "description": "Step-by-step guide to migrating from v0 to the Already production-ready Next.js starter kit.",
+    "url": "https://alreadykit.com/migrate/v0",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://alreadykit.com/migrate/v0" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-26",
+    "author": { "@type": "Person", "@id": "https://alreadykit.com/#founder", "name": "Tobias Temmen" },
+    "publisher": { "@type": "Organization", "@id": "https://alreadykit.com/#organization", "name": "wait, what." },
+    "image": { "@type": "ImageObject", "url": "https://alreadykit.com/og.png", "width": 1200, "height": 630 },
+    "proficiencyLevel": "Intermediate",
+    "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", "h2"] }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to integrate v0 components into Already",
+    "description": "Use v0 by Vercel to generate UI, then drop it into Already's production-ready Next.js codebase with auth, billing, and background jobs pre-wired.",
+    "totalTime": "PT2H",
+    "supply": [
+      { "@type": "HowToSupply", "name": "v0-generated components" },
+      { "@type": "HowToSupply", "name": "Already license (alreadykit.com)" }
+    ],
+    "tool": [
+      { "@type": "HowToTool", "name": "Node.js 20+" },
+      { "@type": "HowToTool", "name": "pnpm" }
+    ],
+    "step": [
+      { "@type": "HowToStep", "position": 1, "name": "Clone Already and run pnpm setup", "text": "Use the GitHub template to create your private copy. Run pnpm setup to validate env vars, run migrations, and bootstrap the project." },
+      { "@type": "HowToStep", "position": 2, "name": "Copy your v0 components into components/", "text": "Paste your v0-generated components directly into Already's components/ directory. v0 uses shadcn/ui and Tailwind — the same stack as Already, so no restyling needed." },
+      { "@type": "HowToStep", "position": 3, "name": "Audit 'use client' directives", "text": "v0 marks most components 'use client'. Anything that only renders data (no onClick, no useState) can be converted to a Server Component to reduce bundle size." },
+      { "@type": "HowToStep", "position": 4, "name": "Place pages into the right route groups", "text": "Drop v0 page files into app/(app)/ for authenticated views, app/(public)/ for marketing, app/(auth)/ for login/signup. Already's layout guards handle protection." },
+      { "@type": "HowToStep", "position": 5, "name": "Declare your schema and replace mock data", "text": "Add Drizzle schema definitions in db/schema/ for each entity v0 mocked. Replace mock arrays with withOrgScope(db.select().from(table)) in Server Components." },
+      { "@type": "HowToStep", "position": 6, "name": "Gate features behind billing plans", "text": "Wrap any premium route or action with await requirePlan('pro'). Already's Stripe billing is pre-wired — add your price IDs and you're done." }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --code-bg: #111110; --code-text: #E8E8E4; --code-dim: #6E6E68;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ADE80;--green-bg:#0D2218;--code-bg:#0A0A0A;--code-text:#E8E8E4;--code-dim:#5A5A56; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#1A6632;--green-bg:#EEF8F1;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    .page-header { padding: 56px 0 48px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .page-header h1 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--ink); margin-bottom: 20px; max-width: 760px; }
+    .page-header h1 em { font-style: normal; color: var(--signal); }
+    .page-header .lede { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 560px; margin-bottom: 36px; }
+    .btn-primary { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 15px; font-weight: 500; padding: 13px 24px; text-decoration: none; letter-spacing: -0.005em; transition: background 0.12s; }
+    .btn-primary:hover { background: var(--signal); }
+    .btn-ghost { font-size: 14px; font-weight: 500; color: var(--ink-muted); text-decoration: none; margin-left: 20px; }
+    .btn-ghost:hover { color: var(--ink); }
+
+    .compat-strip { border-bottom: 1px solid var(--rule); background: var(--paper-subtle); padding: 20px 0; }
+    .compat-inner { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .compat-item { display: flex; align-items: center; gap: 10px; padding: 10px 24px; border-right: 1px solid var(--rule); }
+    .compat-item:first-child { border-left: 1px solid var(--rule); }
+    .compat-check { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--signal); }
+    .compat-label { font-size: 13px; font-weight: 500; color: var(--ink-secondary); }
+
+    .content { padding: 56px 0 80px; }
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 64px; align-items: start; }
+    .content-grid > * { min-width: 0; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+
+    h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 16px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    h3 { font-size: 16px; font-weight: 600; color: var(--ink); margin: 24px 0 10px; }
+    p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    ul { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    ul li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 20px; position: relative; }
+    ul li::before { content: '→'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); font-size: 11px; font-weight: 600; top: 7px; }
+    a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--signal); }
+    strong { font-weight: 600; color: var(--ink); }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+    pre { background: var(--code-bg); padding: 18px 20px; margin: 16px 0; overflow-x: auto; max-width: 100%; }
+    pre code { background: none; border: none; color: var(--code-text); font-size: 13px; line-height: 1.7; white-space: pre; padding: 0; }
+
+    .sidebar { position: sticky; top: 72px; }
+    .cta-box { border: 1px solid var(--rule); padding: 32px 28px; }
+    .cta-box-tag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 16px; }
+    .cta-box h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 0 0 12px; }
+    .cta-box p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin-bottom: 24px; }
+    .cta-box .btn-buy { display: flex; align-items: center; justify-content: center; width: 100%; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 14px; font-weight: 500; padding: 14px 24px; text-decoration: none; transition: background 0.12s; }
+    .cta-box .btn-buy:hover { background: var(--signal); }
+    .cta-box .note { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; margin-top: 12px; line-height: 1.5; }
+
+    .step-box { border: 1px solid var(--rule); margin-bottom: 12px; }
+    .step-head { display: grid; grid-template-columns: 36px 1fr; gap: 14px; padding: 14px 18px; background: var(--paper-subtle); border-bottom: 1px solid var(--rule); align-items: center; }
+    .step-n { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-t { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-content { padding: 16px 18px 16px 68px; }
+    @media (max-width: 640px) { .step-content { padding: 14px 18px; } }
+    .step-content p { font-size: 14px; margin-bottom: 12px; }
+    .step-content p:last-child { margin-bottom: 0; }
+
+    /* ─── Site Footer ──────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net — ensure code blocks scroll within their container instead of forcing the page wider */
+    @media (max-width: 760px) {
+      .step-box, .step-head, .step-content, .container, .sidebar { min-width: 0; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      h2, p, ul, li, div { max-width: 100%; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Migrate from v0",
+        "item": "https://alreadykit.com/migrate/v0"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — $199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already — $199 →</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="eyebrow">Migration guide · v0 → Already</div>
+      <h1 data-i18n="mig_v0.h1" data-i18n-html>Your v0 components are done.<br>Now <em>wire them together.</em></h1>
+      <p class="lede" data-i18n="mig_v0.lede" data-i18n-html>v0 generates production-quality shadcn/ui components for Next.js. Already is the production base they slot directly into — auth, billing, multi-tenancy, background jobs. Drop your components in. Everything else is already wired.</p>
+      <div>
+        <a href="/#pricing" class="btn-primary">Get Already — $199 →</a>
+        <a href="/docs" class="btn-ghost">Read the quickstart ↓</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="compat-strip">
+    <div class="container">
+      <div class="compat-inner">
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same UI (shadcn/ui + Tailwind)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same framework (Next.js App Router)</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Same TypeScript conventions</span>
+        </div>
+        <div class="compat-item">
+          <span class="compat-check">✓</span>
+          <span class="compat-label">Zero redesign needed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+      <div class="content-grid">
+
+        <div>
+          <h2>Starting point vs full stack</h2>
+          <p>v0 is a UI generator. It gives you components, not a product. Already is the production stack those components slot into. You're not migrating a running app — you're wiring polished UI into a production foundation.</p>
+          <p>This means there's no data to move, no users to preserve, no auth to untangle. You start with Already fully configured, then drop your v0 components in and connect them to real data.</p>
+
+          <h2>What v0 generates (and what it doesn't)</h2>
+          <p>v0 by Vercel is a UI generation tool — it creates high-quality shadcn/ui components and pages for Next.js App Router. What it doesn't give you is the full-stack production foundation: no auth, no billing, no multi-tenancy, no background jobs.</p>
+          <p>Already is exactly that foundation. It's Next.js 15 App Router with 16 production modules pre-wired. Your v0 components drop in without modification — they were built for the same stack.</p>
+
+          <h2>What carries over without changes</h2>
+          <ul>
+            <li><strong>All your UI components.</strong> v0 generates shadcn/ui with standard Tailwind. Copy them into Already's <code>components/</code> directory — no class changes, no re-theming, no adapting.</li>
+            <li><strong>Your page layouts.</strong> v0 uses Next.js App Router conventions. Already uses the same — your route layouts slot in directly.</li>
+            <li><strong>Your TypeScript types.</strong> v0 follows standard TypeScript patterns. Already's codebase is fully typed and uses the same conventions. v0-generated <code>interface</code> definitions can seed your Drizzle schema declarations directly.</li>
+            <li><strong>Next.js <code>Image</code> usage.</strong> v0 sometimes generates <code>&lt;Image /&gt;</code> from <code>next/image</code>. That works directly in Already — no changes needed.</li>
+            <li><strong>Tailwind design tokens.</strong> v0's Tailwind classes are fully compatible with Already's Tailwind v4 setup.</li>
+          </ul>
+
+          <h2>Replacing mock data with real queries</h2>
+          <p>v0 often generates components with inline mock data. Replacing it with real Server Component queries is the main wiring task.</p>
+          <pre><code><span class="dim">// v0 pattern — mock data inline</span>
+const mockProjects = [
+  { id: 1, name: "Website Redesign", status: "active" },
+  { id: 2, name: "Mobile App", status: "draft" },
+]
+export default function ProjectList() {
+  return &lt;ul&gt;{mockProjects.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}
+
+<span class="dim">// Already pattern — Server Component with Drizzle query</span>
+import { db } from '@/lib/db'
+import { projects } from '@/db/schema'
+import { withOrgScope } from '@/lib/org'
+
+export default async function ProjectList() {
+  const rows = await withOrgScope(db.select().from(projects))
+  return &lt;ul&gt;{rows.map(p =&gt; &lt;li key={p.id}&gt;{p.name}&lt;/li&gt;)}&lt;/ul&gt;
+}</code></pre>
+
+          <h2>TypeScript interfaces → Drizzle schema</h2>
+          <p>v0 generates TypeScript interfaces for its data shapes. These can seed your Drizzle schema declarations directly — the field names and types map across cleanly.</p>
+          <pre><code><span class="dim">// v0 generated interface</span>
+interface Project {
+  id: number
+  name: string
+  status: 'active' | 'draft'
+  createdAt: Date
+}
+
+<span class="dim">// Drizzle schema in db/schema/projects.ts</span>
+import { pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
+export const projects = pgTable('projects', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  status: text('status', { enum: ['active', 'draft'] }).notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})</code></pre>
+
+          <h2>When to keep vs remove <code>"use client"</code></h2>
+          <p>v0 marks many components <code>"use client"</code> even when they don't need to be — it's a safe default for a UI generator with no backend context. In Already, Server Components are preferred for anything that doesn't need browser APIs or interactivity.</p>
+          <ul>
+            <li><strong>Keep <code>"use client"</code></strong> if the component uses: <code>useState</code>, <code>useEffect</code>, event handlers (<code>onClick</code>, <code>onChange</code>), browser APIs (<code>window</code>, <code>localStorage</code>), or third-party hooks.</li>
+            <li><strong>Remove <code>"use client"</code></strong> if the component only renders data passed as props, uses no React hooks, and has no event handlers. Make it async and fetch data directly.</li>
+          </ul>
+
+          <h2>What Already adds on top</h2>
+          <ul>
+            <li><strong>Auth.</strong> Supabase Auth with email, OAuth, magic links, TOTP, and passkeys. Server Component middleware, RLS policies, and <code>requireAuth()</code> layout guards.</li>
+            <li><strong>Billing.</strong> Stripe subscriptions with idempotent webhooks, customer portal, and plan-gating via <code>requirePlan('pro')</code>.</li>
+            <li><strong>Multi-tenancy.</strong> <code>withOrgScope()</code> query helpers, RLS isolation, invitation flow, and per-org billing — all pre-wired.</li>
+            <li><strong>Background jobs, API keys, feature flags, i18n, AI integration</strong> — 16 modules total, all included.</li>
+          </ul>
+
+          <h2>Step-by-step integration</h2>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">01</div><div class="step-t">Clone Already and run pnpm setup</div></div>
+            <div class="step-content">
+              <p>Buy a Solo or Team licence, clone the repository, create a Supabase project, and run <code>pnpm setup</code>. It validates env vars, runs DB migrations, and gets you to a running local app in about 20 minutes.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">02</div><div class="step-t">Copy your v0 components into components/</div></div>
+            <div class="step-content">
+              <p>Drop your v0-generated components into Already's <code>components/</code> directory. shadcn/ui and Tailwind v4 are already installed — nothing to add, nothing to configure. Your component imports will resolve immediately.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">03</div><div class="step-t">Audit <code>"use client"</code> directives</div></div>
+            <div class="step-content">
+              <p>Go through your v0 components and remove <code>"use client"</code> from any that only display data without hooks or event handlers. Convert those to async Server Components. Keep it on components that use <code>useState</code>, <code>useEffect</code>, or browser event handlers.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">04</div><div class="step-t">Place pages into the right route groups</div></div>
+            <div class="step-content">
+              <p>Move authenticated product pages under <code>app/(app)/</code>, auth flows under <code>app/(auth)/</code>, and marketing or public pages under <code>app/(public)/</code>. Layout guards at each group boundary handle auth checking automatically — no per-page <code>getSession()</code> calls.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">05</div><div class="step-t">Declare your schema and replace mock data</div></div>
+            <div class="step-content">
+              <p>Use your v0 TypeScript interfaces as a starting point for Drizzle schema files in <code>db/schema/</code>. Then replace each component's mock data array with a Server Component query using <code>withOrgScope(db.select().from(yourTable))</code>.</p>
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-head"><div class="step-n">06</div><div class="step-t">Gate features behind billing plans</div></div>
+            <div class="step-content">
+              <p>Run <code>pnpm setup:stripe</code> to create Stripe products. Wrap premium routes or server actions with <code>await requirePlan('pro')</code>. The webhook handler, upgrade flow, and customer portal are pre-built and tested.</p>
+            </div>
+          </div>
+
+          <h2>Frequently asked</h2>
+          <h3>My v0 component uses mock API calls (<code>fetch('/api/data')</code>) — what now?</h3>
+          <p>Replace the fetch with a Server Component that queries your Drizzle schema directly using <code>withOrgScope()</code>. The data flows in at render time — no client-side fetch needed. If you need a client-side API route for a mutation (form submit, button click), Already's <code>app/api/</code> structure is ready to use.</p>
+
+          <h3>I used v0 to generate a full app, not just components — does that change anything?</h3>
+          <p>No. Whether you have individual components or full pages from v0, the process is the same. Move page files into the appropriate route group and connect them to Already's data layer. The component code is identical regardless of scope.</p>
+          <h3>Do I need to keep using v0 after migrating?</h3>
+          <p>Entirely up to you. Already's CLAUDE.md is pre-written so Claude Code can generate new components in the same shadcn/ui style. Many buyers use v0 to sketch a component and Claude Code to integrate it — they're fully compatible workflows.</p>
+          <h3>Will v0's Tailwind classes conflict with Already's?</h3>
+          <p>No. Already ships Tailwind CSS v4. v0 also targets Tailwind v4. All utility classes are compatible. Already's design tokens (<code>--paper</code>, <code>--ink</code>, <code>--signal</code>) live in custom properties you can optionally use for semantic theming on top of the standard Tailwind classes.</p>
+        </div>
+
+        <div class="sidebar">
+          <div class="cta-box">
+            <div class="cta-box-tag">Ready to wire it together?</div>
+            <h3>Already — $199</h3>
+            <p>16 production-ready modules. The production Next.js base your v0 components need. One-time purchase.</p>
+            <a href="/#pricing" class="btn-buy" rel="noopener">Buy Solo — $199 →</a>
+            <div class="note">Early-bird until June 24 · 30-day refund if you haven't cloned</div>
+          </div>
+          <div style="margin-top: 20px; padding: 20px 0; border-top: 1px solid var(--rule);">
+            <div style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 12px;">Also migrating from</div>
+            <a href="/migrate/lovable" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Lovable →</a>
+            <a href="/migrate/base44" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Base44 →</a>
+            <a href="/migrate/bolt" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--rule);">Bolt →</a>
+            <a href="/docs" style="display: block; font-size: 14px; color: var(--ink-muted); text-decoration: none; padding: 8px 0;">Full setup guide →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already</a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Stripe</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-bottom-brand">wait, what. · 2026</span>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+</body>
+</html>

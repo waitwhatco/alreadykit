@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Student Discount — Already EU</title>
+  <meta property="og:title" content="Student Discount — Already EU">
+  <meta property="og:image" content="https://alreadykit.com/eu/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://alreadykit.com/eu/og.png">
+  <meta name="description" content="Already is 50% off for students. Verify your .edu email to unlock the discount.">
+  <link rel="canonical" href="https://alreadykit.com/eu/student/">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23003399'/><text x='16' y='21' text-anchor='middle' font-family='Inter,Helvetica,Arial,sans-serif' font-weight='800' font-size='14' fill='%23FCFCFA'>EU</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #003399;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#003399; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    html, body { overflow-x: clip; }
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+
+    nav { border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; max-width: 760px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .nav-inner { padding: 0 24px; } }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover { color: var(--ink); }
+
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 64px 24px; }
+    .card { width: 100%; max-width: 480px; }
+    .card-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .card-title { font-size: 28px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 12px; }
+    .card-body { font-size: 14px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 32px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--ink-muted); margin-bottom: 6px; }
+    .form-input {
+      display: block; width: 100%;
+      background: var(--paper); color: var(--ink);
+      border: 1px solid var(--rule);
+      font-family: var(--sans); font-size: 14px;
+      padding: 10px 14px;
+      transition: border-color 0.12s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--ink); }
+    .form-input::placeholder { color: var(--ink-subtle); }
+
+    .btn-submit {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; background: var(--ink); color: var(--paper);
+      font-family: var(--sans); font-size: 14px; font-weight: 500;
+      padding: 12px 24px; border: none; cursor: pointer;
+      transition: background 0.12s; margin-top: 8px;
+    }
+    .btn-submit:hover:not(:disabled) { background: var(--signal); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .message { padding: 14px 18px; margin-top: 20px; font-size: 14px; line-height: 1.55; border: 1px solid var(--rule); border-left-width: 3px; display: none; }
+    .message.success { border-left-color: #22c55e; color: var(--ink-secondary); }
+    .message.error   { border-left-color: var(--signal); color: var(--signal); }
+    .message.visible { display: block; }
+
+    .fine-print { font-size: 12px; color: var(--ink-muted); margin-top: 20px; line-height: 1.55; }
+    .fine-print a { color: var(--ink-muted); text-decoration: underline; }
+        .eu-flag { display: inline-block; font-size: 1.1em; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">Already EU <span class="eu-flag" aria-hidden="true">🇪🇺</span></a>
+      <a href="/docs" class="nav-link">Docs</a>
+      <a href="/guide" class="nav-link">Handbook</a>
+      <a href="/checklist" class="nav-link">Checklist</a>
+      <a href="/calculator" class="nav-link">Calculator</a>
+      <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language" style="margin-left:auto;background:transparent;border:1px solid var(--rule);color:var(--ink);font-family:var(--mono);font-size:11px;padding:4px 8px;cursor:pointer;"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+    </div>
+  </nav>
+
+  <main>
+    <div class="card" id="formCard">
+      <div class="card-eyebrow">Student discount</div>
+      <h1 class="card-title">50% off with a .edu email</h1>
+      <p class="card-body">
+        Enter your institutional email. We'll send a one-click verification link.
+        No account needed — just click the link and you'll land directly at checkout with the discount applied.
+      </p>
+
+      <form id="verifyForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">Your name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Ada Lovelace" autocomplete="name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">.edu email address</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="ada@university.edu" autocomplete="email" required>
+        </div>
+        <button class="btn-submit" type="submit" id="submitBtn">
+          Send verification link
+        </button>
+      </form>
+
+      <div class="message" id="message"></div>
+
+      <p class="fine-print">
+        One discount per person. Valid for Solo licence only.
+        By submitting you agree to the <a href="/legal/terms/">Terms of Service</a>.
+      </p>
+    </div>
+  </main>
+
+  <script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var error  = params.get('error');
+    if (error) {
+      var msg = document.getElementById('message');
+      msg.textContent = error === 'expired'
+        ? 'This verification link has expired. Please submit the form again.'
+        : 'Invalid verification link. Please submit the form again.';
+      msg.className = 'message error visible';
+    }
+
+    document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn   = document.getElementById('submitBtn');
+      var msg   = document.getElementById('message');
+      var name  = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim().toLowerCase();
+
+      msg.className = 'message';
+      msg.textContent = '';
+
+      if (!name) {
+        msg.textContent = 'Please enter your name.';
+        msg.className = 'message error visible';
+        return;
+      }
+      if (!email.endsWith('.edu')) {
+        msg.textContent = 'Please use a .edu email address.';
+        msg.className = 'message error visible';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        var res  = await fetch('/api/student-verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, email: email }),
+        });
+        var data = await res.json();
+        if (data.ok) {
+          document.getElementById('verifyForm').style.display = 'none';
+          msg.innerHTML = '<strong>Check your inbox.</strong> We sent a verification link to <strong>' + escapeHtml(email) + '</strong>. Click it to unlock your discount. The link expires in 24 hours.';
+          msg.className = 'message success visible';
+        } else {
+          msg.textContent = data.error || 'Something went wrong. Please try again.';
+          msg.className = 'message error visible';
+          btn.disabled = false;
+          btn.textContent = 'Send verification link';
+        }
+      } catch (err) {
+        msg.textContent = 'Network error. Please try again.';
+        msg.className = 'message error visible';
+        btn.disabled = false;
+        btn.textContent = 'Send verification link';
+      }
+    });
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  })();
+  </script>
+  <script src="/i18n.js" defer></script>
+</body>
+</html>

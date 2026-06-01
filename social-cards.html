@@ -1,0 +1,424 @@
+<!doctype html>
+<!--
+  social-cards.html — Already social card generator
+  Export at exactly 1080×1080 (square) for X, Threads, LinkedIn.
+
+  URL parameters:
+    type     = hook | feature | list | comparison   (default: hook)
+    theme    = dark | light                          (default: dark)
+    eyebrow  = small mono label at top              (default: "ALREADY")
+    headline = main statement text
+    body     = supporting text (optional)
+    url      = URL shown at bottom                  (default: alreadykit.com)
+    product  = already | already-eu | already-ch    (default: already)
+    items    = comma-separated list (for type=list)
+    left     = left label (for type=comparison)
+    right    = right label (for type=comparison)
+
+  Examples:
+    ?type=hook&headline=I've rebuilt the same SaaS stack 7 times.
+    ?type=feature&eyebrow=PASSKEYS&headline=Already ships passkeys out of the box.&body=WebAuthn. No third-party service. Works in every modern browser.
+    ?type=list&eyebrow=16 MODULES&items=Auth,Billing,Orgs,AI,Jobs,Admin,SSO,Security
+    ?type=comparison&eyebrow=ALREADY vs SHIPFAST&left=First deploy&right=Production-grade
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ──────────────────────────────────────────── */
+    :root {
+      --paper:   #0F0F0E;
+      --paper-2: #191917;
+      --ink:     #F0F0EC;
+      --ink-2:   #BEBEB8;
+      --ink-3:   #787870;
+      --rule:    #2C2C28;
+      --signal:  #FF5050;
+      --sans:    'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono:    'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    .theme-light {
+      --paper:   #FCFCFA;
+      --paper-2: #F4F4F0;
+      --ink:     #0A0A0A;
+      --ink-2:   #3A3A38;
+      --ink-3:   #6E6E68;
+      --rule:    #D8D8D0;
+      --signal:  #D40000;
+    }
+    .product-eu  { --signal: #2563EB; }
+    .product-ch  { --signal: #D40000; }
+
+    html, body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--paper);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Card shell ──────────────────────────────────────── */
+    .card {
+      width: 1080px;
+      height: 1080px;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 80px 88px;
+      position: relative;
+    }
+
+    /* subtle grid lines — editorial texture */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--rule) 1px, transparent 1px),
+        linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+      background-size: 108px 108px;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    /* ── Eyebrow ─────────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Content area ────────────────────────────────────── */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+      padding: 40px 0;
+    }
+
+    /* ── Hook card ───────────────────────────────────────── */
+    .headline {
+      font-size: 72px;
+      font-weight: 600;
+      letter-spacing: -0.028em;
+      line-height: 1.08;
+      color: var(--ink);
+    }
+    .headline .accent { color: var(--signal); }
+
+    .body-text {
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--ink-2);
+      max-width: 840px;
+    }
+
+    /* ── Feature card ────────────────────────────────────── */
+    .feature-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--signal);
+      border: 1px solid var(--signal);
+      padding: 8px 18px;
+      width: fit-content;
+    }
+    .feature-headline {
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: -0.028em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .feature-body {
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--ink-2);
+      max-width: 800px;
+    }
+
+    /* ── List card ───────────────────────────────────────── */
+    .list-headline {
+      font-size: 52px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .list-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--ink-2);
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+      line-height: 1.2;
+    }
+    .list-item:first-child { border-top: 1px solid var(--rule); }
+    .list-item .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--signal);
+      flex-shrink: 0;
+    }
+
+    /* ── Comparison card ─────────────────────────────────── */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--rule);
+    }
+    .comparison-col {
+      background: var(--paper);
+      padding: 40px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .comparison-col-label {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .comparison-col.col-right .comparison-col-label {
+      color: var(--signal);
+    }
+    .comparison-col-headline {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.020em;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .comparison-col-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .comparison-col-item {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink-2);
+      line-height: 1.3;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .comparison-col-item .check {
+      font-family: var(--mono);
+      font-size: 16px;
+      color: var(--signal);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .comparison-col.col-left .check { color: var(--ink-3); }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-brand {
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .footer-url {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--ink-3);
+    }
+    .footer-signal {
+      width: 12px;
+      height: 48px;
+      background: var(--signal);
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="eyebrow" id="eyebrow">ALREADY</div>
+  <div class="content" id="content"></div>
+  <div class="footer">
+    <div class="footer-brand" id="footer-brand">wait, what.</div>
+    <div style="display:flex;align-items:center;gap:0">
+      <div class="footer-url" id="footer-url">alreadykit.com</div>
+      <div class="footer-signal"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const p = new URLSearchParams(window.location.search);
+  const type     = p.get('type')     || 'hook';
+  const theme    = p.get('theme')    || 'dark';
+  const eyebrow  = p.get('eyebrow')  !== null ? p.get('eyebrow')  : 'ALREADY';
+  const headline = p.get('headline') !== null ? p.get('headline') : 'Already is live.';
+  const body     = p.get('body')     !== null ? p.get('body')     : '';
+  const url      = p.get('url')      || 'alreadykit.com';
+  const product  = p.get('product')  || 'already';
+  const items    = p.get('items')    ? p.get('items').split(',').map(s => s.trim()) : [];
+  const left     = p.get('left')     || 'Before';
+  const right    = p.get('right')    || 'Already';
+  const leftItems  = p.get('leftItems')  ? p.get('leftItems').split(',').map(s => s.trim())  : ['Manual auth setup','Billing from scratch','No org isolation','No admin tools'];
+  const rightItems = p.get('rightItems') ? p.get('rightItems').split(',').map(s => s.trim()) : ['Supabase Auth + passkeys','Stripe + webhooks','Multi-tenant RLS','Admin dashboard'];
+
+  const card = document.getElementById('card');
+  if (theme === 'light') card.classList.add('theme-light');
+  if (product === 'already-eu') card.classList.add('product-eu');
+  if (product === 'already-ch') card.classList.add('product-ch');
+
+  document.getElementById('eyebrow').textContent = eyebrow;
+  document.getElementById('footer-url').textContent = url;
+
+  // Footer brand per product
+  const brands = { 'already': 'wait, what.', 'already-eu': 'wait, what. EU', 'already-ch': 'wait, what. CH' };
+  document.getElementById('footer-brand').textContent = brands[product] || 'wait, what.';
+
+  const content = document.getElementById('content');
+
+  // ── HOOK ──
+  if (type === 'hook') {
+    // Accent: wrap first sentence (up to first period or newline) in signal color
+    const lines = headline.split('\n');
+    const first = lines[0];
+    const rest  = lines.slice(1).join('\n');
+    const headlineEl = document.createElement('div');
+    headlineEl.className = 'headline';
+    headlineEl.innerHTML = '<span class="accent">' + esc(first) + '</span>' + (rest ? '<br>' + esc(rest).replace(/\n/g, '<br>') : '');
+    content.appendChild(headlineEl);
+    if (body) {
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'body-text';
+      bodyEl.textContent = body;
+      content.appendChild(bodyEl);
+    }
+  }
+
+  // ── FEATURE ──
+  else if (type === 'feature') {
+    const labelEl = document.createElement('div');
+    labelEl.className = 'feature-label';
+    labelEl.textContent = eyebrow;
+    content.appendChild(labelEl);
+
+    const headlineEl = document.createElement('div');
+    headlineEl.className = 'feature-headline';
+    headlineEl.innerHTML = esc(headline).replace(/\n/g, '<br>');
+    content.appendChild(headlineEl);
+
+    if (body) {
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'feature-body';
+      bodyEl.textContent = body;
+      content.appendChild(bodyEl);
+    }
+  }
+
+  // ── LIST ──
+  else if (type === 'list') {
+    const headlineEl = document.createElement('div');
+    headlineEl.className = 'list-headline';
+    headlineEl.innerHTML = esc(headline).replace(/\n/g, '<br>');
+    content.appendChild(headlineEl);
+
+    if (items.length) {
+      const listEl = document.createElement('div');
+      listEl.className = 'list-items';
+      items.forEach(item => {
+        const li = document.createElement('div');
+        li.className = 'list-item';
+        li.innerHTML = '<div class="dot"></div><span>' + esc(item) + '</span>';
+        listEl.appendChild(li);
+      });
+      content.appendChild(listEl);
+    }
+  }
+
+  // ── COMPARISON ──
+  else if (type === 'comparison') {
+    const grid = document.createElement('div');
+    grid.className = 'comparison-grid';
+
+    // Left col
+    const colL = document.createElement('div');
+    colL.className = 'comparison-col col-left';
+    colL.innerHTML = '<div class="comparison-col-label">' + esc(left) + '</div>'
+      + '<div class="comparison-col-items">'
+      + leftItems.map(i => '<div class="comparison-col-item"><span class="check">✗</span><span>' + esc(i) + '</span></div>').join('')
+      + '</div>';
+
+    // Right col
+    const colR = document.createElement('div');
+    colR.className = 'comparison-col col-right';
+    colR.innerHTML = '<div class="comparison-col-label">' + esc(right) + '</div>'
+      + '<div class="comparison-col-items">'
+      + rightItems.map(i => '<div class="comparison-col-item"><span class="check">✓</span><span>' + esc(i) + '</span></div>').join('')
+      + '</div>';
+
+    grid.appendChild(colL);
+    grid.appendChild(colR);
+
+    // Optional headline above grid
+    if (headline) {
+      const headlineEl = document.createElement('div');
+      headlineEl.className = 'list-headline';
+      headlineEl.style.marginBottom = '32px';
+      headlineEl.innerHTML = esc(headline).replace(/\n/g, '<br>');
+      content.appendChild(headlineEl);
+    }
+    content.appendChild(grid);
+  }
+
+  function esc(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+})();
+</script>
+</body>
+</html>

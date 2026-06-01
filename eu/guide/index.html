@@ -1,0 +1,1251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
+  <title>Beginner's Handbook — Already EU</title>
+  <meta name="description" content="Step-by-step Already EU handbook — clone, configure Mollie + Brevo + Supabase, run your first SaaS in 30 minutes. Plain language, no jargon skipped.">
+  <link rel="canonical" href="https://alreadykit.com/eu/guide/">
+  <meta property="og:title" content="Beginner's Handbook — Already">
+  <meta property="og:description" content="Step-by-step guide to getting Already running. Every term explained. Expected outcomes after every step.">
+  <meta property="og:url" content="https://alreadykit.com/eu/guide/">
+  <meta property="og:site_name" content="Already">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://alreadykit.com/eu/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://alreadykit.com/eu/og.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23003399'/><text x='16' y='21' text-anchor='middle' font-family='Inter,Helvetica,Arial,sans-serif' font-weight='800' font-size='14' fill='%23FCFCFA'>EU</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='36' fill='%23003399'/><text x='90' y='112' text-anchor='middle' font-family='Inter,Helvetica,Arial,sans-serif' font-weight='800' font-size='72' fill='%23FCFCFA'>EU</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #003399;
+      --code-bg: #111110; --code-text: #E8E8E4;
+      --code-dim: #6E6E68; --code-green: #4ADE80;
+      --code-blue: #93C5FD; --code-yellow: #FCD34D;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#3D6FFF;--code-bg:#0A0A0A;--code-text:#E8E8E4; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#003399;--code-bg:#111110;--code-text:#E8E8E4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    html, body { overflow-x: clip; }
+    body { min-height: 100vh; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+
+    /* ─── Nav ───────────────────────────────────────────── */
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; border: none; cursor: pointer; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+
+    /* ─── Header ────────────────────────────────────────── */
+    .doc-header { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .eyebrow { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+    .doc-header h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin-bottom: 16px; }
+    .doc-header p { font-size: 18px; font-weight: 400; line-height: 1.55; color: var(--ink-secondary); max-width: 600px; }
+
+    /* ─── Layout ────────────────────────────────────────── */
+    .doc-layout { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 56px 0 80px; align-items: start; }
+    .doc-layout > * { min-width: 0; }
+    @media (max-width: 860px) { .doc-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+    .doc-nav { position: sticky; top: 72px; }
+    .doc-nav-section { margin-bottom: 28px; }
+    .doc-nav-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-subtle); margin-bottom: 8px; }
+    .doc-nav a { display: block; font-size: 14px; font-weight: 400; color: var(--ink-muted); text-decoration: none; padding: 5px 0; border-left: 2px solid transparent; padding-left: 12px; margin-left: -12px; transition: color 0.1s; }
+    .doc-nav a:hover { color: var(--ink); border-color: var(--rule); }
+    .doc-nav a.active { color: var(--ink); font-weight: 500; border-color: var(--signal); }
+
+    /* ─── Content typography ────────────────────────────── */
+    .doc-content h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--ink); margin: 48px 0 8px; padding-top: 48px; border-top: 1px solid var(--rule); }
+    .doc-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+    .doc-content .h2-sub { font-size: 14px; color: var(--ink-muted); margin-bottom: 24px; }
+    .doc-content h3 { font-size: 16px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); margin: 28px 0 10px; }
+    .doc-content p { font-size: 15px; font-weight: 400; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 16px; }
+    .doc-content ul, .doc-content ol { margin: 0 0 20px 0; padding: 0; list-style: none; }
+    .doc-content ol { counter-reset: ol-counter; }
+    .doc-content ul li, .doc-content ol li { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 24px; position: relative; }
+    .doc-content ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 12px; }
+    .doc-content ol li { counter-increment: ol-counter; }
+    .doc-content ol li::before { content: counter(ol-counter) '.'; position: absolute; left: 0; color: var(--ink-muted); font-family: var(--mono); font-size: 12px; font-weight: 500; }
+    .doc-content a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .doc-content a:hover { color: var(--signal); }
+    .doc-content strong { font-weight: 600; color: var(--ink); }
+
+    /* ─── Steps ─────────────────────────────────────────── */
+    .step { border: 1px solid var(--rule); margin-bottom: 16px; }
+    .step-header { display: grid; grid-template-columns: 40px 1fr; background: var(--paper-subtle); padding: 16px 20px; align-items: center; gap: 16px; border-bottom: 1px solid var(--rule); }
+    .step-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--signal); }
+    .step-title { font-size: 15px; font-weight: 600; letter-spacing: -0.010em; color: var(--ink); }
+    .step-body { padding: 20px 20px 20px 76px; }
+    @media (max-width: 640px) { .step-body { padding: 16px 20px; } }
+    .step-body p { font-size: 14px; line-height: 1.65; color: var(--ink-secondary); margin-bottom: 12px; }
+    .step-body p:last-child { margin-bottom: 0; }
+    .step-body ul { margin: 0 0 12px 0; padding: 0; list-style: none; }
+    .step-body ul li { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); padding: 4px 0 4px 20px; position: relative; }
+    .step-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--ink-subtle); font-family: var(--mono); font-size: 11px; }
+    .step-body ol { margin: 0 0 12px 0; padding: 0; list-style: none; counter-reset: step-ol; }
+    .step-body ol li { counter-increment: step-ol; font-size: 14px; line-height: 1.65; color: var(--ink-secondary); padding: 5px 0 5px 24px; position: relative; }
+    .step-body ol li::before { content: counter(step-ol) '.'; position: absolute; left: 0; color: var(--ink-muted); font-family: var(--mono); font-size: 12px; font-weight: 500; }
+
+    /* ─── Code ──────────────────────────────────────────── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 20px;
+      margin: 16px 0;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+    pre code {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--code-text);
+      white-space: pre;
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+    code { font-family: var(--mono); font-size: 13px; background: var(--paper-subtle); padding: 1px 6px; color: var(--ink-secondary); border: 1px solid var(--rule); }
+
+    /* ─── Callouts ──────────────────────────────────────── */
+    .note { background: var(--paper-subtle); border: 1px solid var(--rule); border-left: 3px solid var(--signal); padding: 14px 18px; margin: 20px 0; }
+    .note p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin: 0 0 8px; }
+    .note p:last-child { margin: 0; }
+    .note strong { font-weight: 600; color: var(--ink); }
+
+    .outcome { background: var(--paper-subtle); border: 1px solid var(--rule); border-left: 3px solid #22c55e; padding: 14px 18px; margin: 20px 0; }
+    .outcome-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: #22c55e; margin-bottom: 6px; }
+    .outcome p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin: 0; }
+    .outcome strong { font-weight: 600; color: var(--ink); }
+
+    .trouble { background: var(--paper-subtle); border: 1px solid var(--rule); border-left: 3px solid var(--code-yellow, #d97706); padding: 14px 18px; margin: 20px 0; }
+    .trouble-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: var(--code-yellow, #d97706); margin-bottom: 6px; }
+    .trouble p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin: 0 0 8px; }
+    .trouble p:last-child { margin: 0; }
+    .trouble strong { font-weight: 600; color: var(--ink); }
+
+    /* ─── Explainer box ─────────────────────────────────── */
+    .explainer { border: 1px solid var(--rule); padding: 16px 20px; margin: 20px 0; background: var(--paper); }
+    .explainer-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px; }
+    .explainer p { font-size: 14px; line-height: 1.6; color: var(--ink-secondary); margin: 0; }
+
+    /* ─── Service grid ──────────────────────────────────── */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); margin: 20px 0; }
+    @media (max-width: 640px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-card { padding: 18px 20px; border-right: 1px solid var(--rule); }
+    .service-card:last-child { border-right: none; }
+    @media (max-width: 640px) { .service-card { border-right: none; border-bottom: 1px solid var(--rule); } .service-card:last-child { border-bottom: none; } }
+    .service-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .service-role { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); margin-bottom: 8px; letter-spacing: 0.02em; }
+    .service-note { font-size: 13px; color: var(--ink-secondary); line-height: 1.5; }
+    .service-link { display: inline-block; margin-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-muted); text-decoration: none; border-bottom: 1px solid var(--rule); transition: color 0.12s, border-color 0.12s; }
+    .service-link:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ─── Progress strip ────────────────────────────────── */
+    .progress-strip { display: flex; gap: 0; margin: 0 0 32px; border: 1px solid var(--rule); overflow-x: auto; }
+    .progress-item { flex: 1; min-width: 80px; padding: 10px 14px; border-right: 1px solid var(--rule); text-align: center; }
+    .progress-item:last-child { border-right: none; }
+    .progress-item.done { background: var(--paper-subtle); }
+    .progress-num { font-family: var(--mono); font-size: 10px; color: var(--ink-subtle); margin-bottom: 2px; }
+    .progress-label { font-size: 11px; color: var(--ink-muted); white-space: nowrap; }
+    .progress-item.done .progress-num { color: #22c55e; }
+    .progress-item.done .progress-label { color: var(--ink-secondary); }
+
+    /* ─── Setup call nudge ───────────────────────────────── */
+    .setup-call-nudge { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: var(--paper-subtle); border: 1px solid var(--rule); padding: 16px 20px; margin: 0 0 36px; flex-wrap: wrap; }
+    .setup-call-nudge-body { font-size: 14px; line-height: 1.55; color: var(--ink-secondary); }
+    .setup-call-nudge-body strong { color: var(--ink); font-weight: 600; }
+    .setup-call-link { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px; white-space: nowrap; transition: border-color 0.12s, color 0.12s; }
+    .setup-call-link:hover { color: var(--signal); border-color: var(--signal); }
+
+    /* ─── Copy buttons ──────────────────────────────────── */
+    .pre-wrap { position: relative; }
+    .copy-btn {
+      position: absolute; top: 10px; right: 10px;
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: rgba(255,255,255,0.07); color: #6E6E68;
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 4px 9px; cursor: pointer; line-height: 1.4;
+      transition: background 0.12s, color 0.12s, border-color 0.12s; z-index: 1;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.13); color: #E8E8E4; border-color: rgba(255,255,255,0.20); }
+    .copy-btn.copied { color: #4ADE80; border-color: #4ADE80; background: rgba(74,222,128,0.08); }
+    .inline-copy-btn {
+      display: inline-block; vertical-align: middle; margin-left: 6px;
+      font-family: var(--mono); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: transparent; color: var(--ink-muted);
+      border: 1px solid var(--rule);
+      padding: 2px 6px; cursor: pointer; line-height: 1.5;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .inline-copy-btn:hover { color: var(--ink); border-color: var(--ink-secondary); }
+    .inline-copy-btn.copied { color: #22c55e; border-color: #22c55e; }
+
+    /* ─── Site Footer ───────────────────────────────────── */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-brand:hover { color: var(--ink); }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+
+    /* Mobile safety net */
+    @media (max-width: 760px) {
+      img, video, svg, table { max-width: 100%; height: auto; }
+      pre { max-width: 100%; overflow-x: auto; }
+      pre code { white-space: pre-wrap; word-break: break-word; }
+      code { overflow-wrap: anywhere; word-break: break-word; }
+      p, li, .step-body, h2, h3 { overflow-wrap: anywhere; }
+    }
+        .eu-flag { display: inline-block; font-size: 1.1em; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+  </style>
+  <script src="/i18n.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Already",
+        "item": "https://alreadykit.com/eu/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Handbook"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already EU <span class="eu-flag" aria-hidden="true">🇪🇺</span></a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link">Docs</a>
+          <a href="/guide" class="nav-link active">Handbook</a>
+          <a href="/checklist" class="nav-link">Checklist</a>
+          <a href="/calculator" class="nav-link">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang&&window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+          <a href="/#pricing" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy Already EU — €199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      
+      <a href="/docs" class="nav-mobile-link">Docs</a>
+      <a href="/guide" class="nav-mobile-link active">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link">Calculator</a>
+<div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang&&window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option><option value="it">IT</option><option value="fr">FR</option></select>
+      </div>
+      <a href="/#pricing" class="nav-mobile-cta" rel="noopener">Buy Already EU — €199 →</a>
+    </div>
+  </nav>
+
+  <div class="doc-header">
+    <div class="container">
+      <div class="eyebrow">Beginner's Handbook</div>
+      <h1>From zero to running SaaS</h1>
+      <p>Plain language. Every term explained. Expected outcome after every step. If you've bought Already and don't know where to start — start here.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="doc-layout">
+
+      <nav class="doc-nav">
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Before you start</div>
+          <a href="#what-is-this">What is this?</a>
+          <a href="#what-youll-need">What you'll need</a>
+          <a href="#install-tools">Install the tools</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Getting the code</div>
+          <a href="#accept-invite">1. Accept the invite</a>
+          <a href="#create-your-repo">2. Create your repo</a>
+          <a href="#clone">3. Clone it</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Connect your services</div>
+          <a href="#supabase">4. Supabase</a>
+          <a href="#mollie">5. Mollie</a>
+          <a href="#brevo">6. Brevo</a>
+          <a href="#env-file">7. Wire it up</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Running it</div>
+          <a href="#first-run">8. First run</a>
+          <a href="#whats-in-the-box">9. What's in the box</a>
+          <a href="#make-it-yours">10. Make it yours</a>
+          <a href="#go-live">11. Go live</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Going pro</div>
+          <a href="#keychain-secrets">Move secrets to Keychain</a>
+          <a href="#org-mfa">Require MFA for your team</a>
+        </div>
+        <div class="doc-nav-section">
+          <div class="doc-nav-label">Help</div>
+          <a href="#common-problems">Common problems</a>
+          <a href="#ask-claude">Ask Claude Code</a>
+        </div>
+      </nav>
+
+      <div class="doc-content">
+
+        <div class="setup-call-nudge">
+          <div class="setup-call-nudge-body">
+            <strong>Want a guided walkthrough?</strong> Book a 15-min setup call (€49). Screen share with the team, walk through every step together, and get your app running without the guesswork.
+          </div>
+          <a href="https://cal.com/wait-what/already-installation" class="setup-call-link" rel="noopener">Book a slot →</a>
+        </div>
+
+        <!-- ── WHAT IS THIS ──────────────────────────────── -->
+        <h2 id="what-is-this">What is Already?</h2>
+        <p>Already is a complete, working web application — built with modern tools — that you can use as the starting point for your own SaaS product.</p>
+        <p>Think of it like buying a fully furnished apartment instead of an empty one. The structure is there, the plumbing works, the wiring is done. You move in and redecorate — you don't lay pipes.</p>
+
+        <div class="explainer">
+          <div class="explainer-label">What is a SaaS?</div>
+          <p>SaaS stands for "Software as a Service". It means a web app people pay to use — usually with a monthly or yearly subscription. Examples: Notion, Figma, Linear. Already gives you the foundation to build one of these.</p>
+        </div>
+
+        <p>Specifically, Already gives you: user login, team accounts, Mollie payments, email sending, a database, an admin panel, and a lot more — all pre-built and production-quality. You add the parts that are unique to your product.</p>
+
+        <div class="explainer">
+          <div class="explainer-label">What is a "starter kit"?</div>
+          <p>A starter kit (also called a boilerplate or template) is a pre-written codebase that solves common, repetitive problems so you can focus on what makes your product unique. Without one, every new project starts with weeks of setting up auth, billing, and email from scratch.</p>
+        </div>
+
+        <!-- ── WHAT YOU'LL NEED ─────────────────────────── -->
+        <h2 id="what-youll-need">What you'll need</h2>
+        <p class="h2-sub">All free to sign up. No credit card required for any of these services to start.</p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-name">GitHub account</div>
+            <div class="service-role">Where your code lives</div>
+            <div class="service-note">GitHub stores your code and tracks changes. Already is delivered as a private GitHub repository you get invited to after purchase.</div>
+            <a href="https://github.com/signup" rel="noopener" class="service-link" target="_blank">github.com/signup →</a>
+          </div>
+          <div class="service-card">
+            <div class="service-name">Supabase account</div>
+            <div class="service-role">Your database + user login</div>
+            <div class="service-note">Supabase is your database (where all app data is stored) and handles user accounts and passwords. Free tier covers most small apps.</div>
+            <a href="https://supabase.com" rel="noopener" class="service-link" target="_blank">supabase.com →</a>
+          </div>
+          <div class="service-card">
+            <div class="service-name">Mollie account</div>
+            <div class="service-role">Payments</div>
+            <div class="service-note">Mollie handles charging your customers. You can develop and test without a live business account — test mode is fully functional.</div>
+            <a href="https://mollie.com" rel="noopener" class="service-link" target="_blank">mollie.com →</a>
+          </div>
+        </div>
+        <div class="services-grid" style="margin-top:-1px">
+          <div class="service-card">
+            <div class="service-name">Brevo account</div>
+            <div class="service-role">Sending emails</div>
+            <div class="service-note">Brevo sends transactional emails — things like "confirm your email address" or "your invoice is ready". Free tier: 3,000 emails/month.</div>
+            <a href="https://brevo.com" rel="noopener" class="service-link" target="_blank">brevo.com →</a>
+          </div>
+          <div class="service-card">
+            <div class="service-name">Vercel account</div>
+            <div class="service-role">Hosting your app</div>
+            <div class="service-note">Vercel puts your app on the internet. It reads your code from GitHub and deploys it automatically every time you push changes. Free tier works.</div>
+            <a href="https://vercel.com" rel="noopener" class="service-link" target="_blank">vercel.com →</a>
+          </div>
+          <div class="service-card">
+            <div class="service-name">~2 hours</div>
+            <div class="service-role">First-time setup</div>
+            <div class="service-note">Most of this is account setup and copy-pasting keys. Once you've done it once it'll be 15 minutes next time. Don't rush — read each step.</div>
+          </div>
+        </div>
+
+        <!-- ── INSTALL TOOLS ────────────────────────────── -->
+        <h2 id="install-tools">Install the tools</h2>
+        <p class="h2-sub">Do this once. Takes about 10 minutes.</p>
+
+        <div class="explainer">
+          <div class="explainer-label">What is a terminal?</div>
+          <p>A terminal (also called command line or shell) is a text-based way to control your computer. You type commands, press Enter, and things happen. On Mac: open Spotlight (⌘ Space), type "Terminal", press Enter. On Windows: install <a href="https://learn.microsoft.com/en-us/windows/wsl/install" rel="noopener" target="_blank">WSL</a>, then use the Ubuntu terminal.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Install Node.js (the JavaScript runtime)</div>
+          </div>
+          <div class="step-body">
+            <p>Node.js lets your computer run JavaScript code. Already is built with JavaScript, so this is required.</p>
+            <p>Go to <a href="https://nodejs.org" rel="noopener" target="_blank">nodejs.org</a> and download the LTS version (the one that says "Recommended For Most Users"). Install it like a normal app.</p>
+            <p>Verify it worked — open your terminal and type:</p>
+            <pre><code>node --version</code></pre>
+            <p>You should see something like <code>v20.11.0</code>. Any version starting with 20 or higher is fine.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Install pnpm (a package manager)</div>
+          </div>
+          <div class="step-body">
+            <div class="explainer" style="margin-top:0">
+              <div class="explainer-label">What is a package manager?</div>
+              <p>Your app uses thousands of small pieces of code written by other people (called "packages" or "dependencies"). A package manager downloads and manages all of these for you automatically. pnpm is faster and more efficient than the default npm.</p>
+            </div>
+            <p>In your terminal:</p>
+            <pre><code>npm install -g pnpm</code></pre>
+            <p>Verify:</p>
+            <pre><code>pnpm --version</code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Install Git (version control)</div>
+          </div>
+          <div class="step-body">
+            <div class="explainer" style="margin-top:0">
+              <div class="explainer-label">What is Git?</div>
+              <p>Git tracks every change you make to your code, like a detailed save history. It also lets you download code from GitHub. On Mac, Git is usually already installed. On Windows, download from <a href="https://git-scm.com" rel="noopener" target="_blank">git-scm.com</a>.</p>
+            </div>
+            <p>Check if you have it:</p>
+            <pre><code>git --version</code></pre>
+            <p>If you see a version number, you're good.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Install the Supabase CLI</div>
+          </div>
+          <div class="step-body">
+            <p>This tool lets you run Supabase (your database) on your own laptop while you're building — so you don't need an internet connection to test things.</p>
+            <p>On Mac (using Homebrew):</p>
+            <pre><code>brew install supabase/tap/supabase</code></pre>
+            <div class="note"><p><strong>Don't have Homebrew?</strong> It's the standard Mac package manager. Install it first: paste this into your terminal and press Enter:</p><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre></div>
+            <p>On Windows (WSL) or Linux:</p>
+            <pre><code>brew install supabase/tap/supabase</code></pre>
+            <p>Verify:</p>
+            <pre><code>supabase --version</code></pre>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>All four commands return version numbers without errors. You're ready to get the code.</p>
+        </div>
+
+        <!-- ── STEP 1: USE THE TEMPLATE ──────────────────── -->
+        <h2 id="accept-invite">Step 1 — Accept the GitHub invite</h2>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">01</div>
+            <div class="step-title">Check your email after purchasing</div>
+          </div>
+          <div class="step-body">
+            <p>After buying Already, Polar (the payment processor) automatically sends a GitHub repository invite to the email address you used at checkout. This usually arrives within 1–2 minutes.</p>
+            <p>The email is from GitHub (not from Already). Subject line will say something like: "You've been invited to collaborate on a repository".</p>
+            <div class="trouble">
+              <div class="trouble-label">Didn't get the email?</div>
+              <p>Check your spam folder first. Still nothing after 5 minutes? Email <a href="mailto:already-eu@wait-what.shop">already-eu@wait-what.shop</a> with your order confirmation and we'll sort it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">01b</div>
+            <div class="step-title">Accept the invite — don't wait</div>
+          </div>
+          <div class="step-body">
+            <p>Click the "Accept invitation" button in the email, or go to <a href="https://github.com/waitwhatco/already-eu-template" rel="noopener" target="_blank">github.com/waitwhatco/already-eu-template</a> while logged into GitHub and accept it there.</p>
+            <p><strong>Important:</strong> GitHub invites expire after 7 days. Accept it now.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>You can see the private repository at <strong>github.com/waitwhatco/already-eu-template</strong> and it shows "You are a collaborator on this repository".</p>
+        </div>
+
+        <!-- ── STEP 2: CREATE YOUR REPO ──────────────────── -->
+        <h2 id="create-your-repo">Step 2 — Create your own copy</h2>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">02</div>
+            <div class="step-title">Use the template to create a new repo</div>
+          </div>
+          <div class="step-body">
+            <div class="explainer" style="margin-top:0">
+              <div class="explainer-label">Why not just fork it?</div>
+              <p>A fork stays linked to the original. A template creates a fresh, independent repository — your own history from commit one. That's what you want for a product you'll build on.</p>
+            </div>
+            <p>On the Already template page on GitHub:</p>
+            <ol>
+              <li>Click the green <strong>"Use this template"</strong> button (top right)</li>
+              <li>Choose <strong>"Create a new repository"</strong></li>
+              <li>Give it a name — this will be your project name (e.g. <code>my-saas-app</code>)</li>
+              <li>Set it to <strong>Private</strong> (important — this is your product code)</li>
+              <li>Click <strong>"Create repository"</strong></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>You now have a repository at <strong>github.com/YOUR_USERNAME/YOUR_REPO_NAME</strong> that's entirely yours. No connection to the original.</p>
+        </div>
+
+        <!-- ── STEP 3: CLONE ─────────────────────────────── -->
+        <h2 id="clone">Step 3 — Download the code to your computer</h2>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">03</div>
+            <div class="step-title">Clone the repository</div>
+          </div>
+          <div class="step-body">
+            <div class="explainer" style="margin-top:0">
+              <div class="explainer-label">What does "clone" mean?</div>
+              <p>"Cloning" a repository downloads a copy of all the code to your computer and keeps it connected to GitHub so you can sync changes back and forth.</p>
+            </div>
+            <p>Open your terminal. Navigate to where you keep your projects (e.g. <code>cd ~/projects</code>), then:</p>
+            <pre><code>git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME
+cd YOUR_REPO_NAME</code></pre>
+            <p>Replace <code>YOUR_USERNAME</code> and <code>YOUR_REPO_NAME</code> with your actual values. You can copy the exact URL from the green "Code" button on your GitHub repo page.</p>
+            <p>Then install all the dependencies:</p>
+            <pre><code>pnpm install</code></pre>
+            <p>This downloads all the packages your app needs. It may take 1–2 minutes the first time.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>You see a folder on your computer with all the code. Running <code>ls</code> shows files like <code>package.json</code>, <code>CLAUDE.md</code>, <code>app/</code>, <code>lib/</code>.</p>
+        </div>
+
+        <!-- ── STEP 4: SUPABASE ──────────────────────────── -->
+        <h2 id="supabase">Step 4 — Set up Supabase (your database)</h2>
+
+        <div class="explainer">
+          <div class="explainer-label">What is Supabase?</div>
+          <p>Supabase is a service that gives you a Postgres database (where all your app's data is stored — users, subscriptions, everything) plus user authentication (login/signup) already built. Already is deeply integrated with it. You can start with the free tier and upgrade only if you need to.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">04a</div>
+            <div class="step-title">Create a Supabase project</div>
+          </div>
+          <div class="step-body">
+            <ol>
+              <li>Go to <a href="https://supabase.com" rel="noopener" target="_blank">supabase.com</a> and sign in</li>
+              <li>Click <strong>"New project"</strong></li>
+              <li>Give it a name (anything — this is just for you)</li>
+              <li>Set a strong database password and <strong>save it somewhere safe</strong> — you'll need it later</li>
+              <li>Choose a region close to your users</li>
+              <li>Click <strong>"Create new project"</strong> and wait ~2 minutes for it to spin up</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">04b</div>
+            <div class="step-title">Get your Supabase API keys</div>
+          </div>
+          <div class="step-body">
+            <p>Once your project is ready, go to <strong>Project Settings → API</strong>. You'll see three values you need:</p>
+            <ul>
+              <li><strong>Project URL</strong> — looks like <code>https://abcdefgh.supabase.co</code></li>
+              <li><strong>anon / public key</strong> — a long string starting with <code>eyJ...</code></li>
+              <li><strong>service_role key</strong> — another long string. <strong>Keep this secret — never put it in public code.</strong></li>
+            </ul>
+            <p>Also go to <strong>Project Settings → Database</strong> to get your connection strings. You'll need the "Connection string" (URI format) — there are two: Session mode (for most things) and Direct (for migrations).</p>
+            <div class="note"><p><strong>Don't share these keys.</strong> The service_role key gives full access to your database. It goes in your private <code>.env.local</code> file only.</p></div>
+          </div>
+        </div>
+
+        <!-- ── STEP 5: MOLLIE ────────────────────────────── -->
+        <h2 id="mollie">Step 5 — Set up Mollie (payments)</h2>
+
+        <div class="explainer">
+          <div class="explainer-label">What is Mollie?</div>
+          <p>Mollie is the most widely used payment processor for internet businesses. It handles credit cards, invoices, subscriptions, and tax. Already uses Mollie for all billing. You develop against "test mode" — fake cards, no real money — until you're ready to go live.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">05a</div>
+            <div class="step-title">Create a Mollie account and get test keys</div>
+          </div>
+          <div class="step-body">
+            <ol>
+              <li>Go to <a href="https://mollie.com" rel="noopener" target="_blank">mollie.com</a> and create an account</li>
+              <li>Stay in <strong>Test mode</strong> — there's a toggle in the top right. Make sure it says "Test mode" with an orange badge</li>
+              <li>Go to <strong>Developers → API keys</strong></li>
+              <li>Copy the <strong>Publishable key</strong> (starts with <code>pk_test_</code>)</li>
+              <li>Reveal and copy the <strong>Secret key</strong> (starts with <code>sk_test_</code>)</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">05b</div>
+            <div class="step-title">Set up the Mollie webhook secret (for local dev)</div>
+          </div>
+          <div class="step-body">
+            <div class="explainer" style="margin-top:0">
+              <div class="explainer-label">What is a webhook?</div>
+              <p>When something happens in Mollie (a payment succeeds, a subscription cancels), Mollie sends a notification to your app. This is called a webhook. Your app needs to listen for these to keep its database in sync with Mollie.</p>
+            </div>
+            <p>For local development, Already uses the Mollie CLI to forward webhooks to your laptop. Install it:</p>
+            <pre><code><span style="color:var(--code-dim)"># Mac</span>
+brew install mollie/mollie-cli/mollie
+
+<span style="color:var(--code-dim)"># Windows/Linux: see mollie.com/docs/mollie-cli</span></code></pre>
+            <p>Log in to the CLI:</p>
+            <pre><code>mollie login</code></pre>
+            <p>When you later run <code>pnpm dev</code>, it will automatically start the webhook listener and print a webhook secret that starts with <code>whsec_</code>. You'll add that to your env file in step 7.</p>
+          </div>
+        </div>
+
+        <!-- ── STEP 6: BREVO ────────────────────────────── -->
+        <h2 id="brevo">Step 6 — Set up Brevo (email sending)</h2>
+
+        <div class="explainer">
+          <div class="explainer-label">What is Brevo?</div>
+          <p>Brevo is a developer-friendly service for sending transactional emails — things your app sends automatically, like "confirm your email", "your payment failed", "you've been invited to a team". Already uses React Email to write these templates. Brevo's free tier covers 3,000 emails/month.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">06</div>
+            <div class="step-title">Get a Brevo API key</div>
+          </div>
+          <div class="step-body">
+            <ol>
+              <li>Go to <a href="https://brevo.com" rel="noopener" target="_blank">brevo.com</a> and create an account</li>
+              <li>Go to <strong>API Keys</strong> → <strong>Create API key</strong></li>
+              <li>Give it a name (e.g. "Already dev") and click <strong>Create</strong></li>
+              <li>Copy the key immediately — it's only shown once. It starts with <code>re_</code></li>
+            </ol>
+            <div class="note"><p><strong>For local development</strong>, you don't need a verified domain. Emails won't actually send — they'll appear in the React Email preview instead. You only need a real domain when you go live.</p></div>
+          </div>
+        </div>
+
+        <!-- ── STEP 7: ENV FILE ──────────────────────────── -->
+        <h2 id="env-file">Step 7 — Wire it all up</h2>
+
+        <div class="explainer">
+          <div class="explainer-label">What is an .env file?</div>
+          <p>An environment file (<code>.env.local</code>) is a plain text file where you store your secret keys and configuration. The app reads from this file when it starts. It's never committed to GitHub — it stays only on your computer (and on Vercel when you deploy). Think of it as the keys to your services.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">07</div>
+            <div class="step-title">Create your .env.local file</div>
+          </div>
+          <div class="step-body">
+            <p>Already includes a template file called <code>.env.example</code> that lists every variable you need with comments explaining each one. Copy it:</p>
+            <pre><code>cp .env.example .env.local</code></pre>
+            <p>Now open <code>.env.local</code> in any text editor (VS Code, Notepad, TextEdit) and fill in the values you collected in steps 4–6.</p>
+            <p>The file looks like this — replace the empty values:</p>
+            <pre><code><span style="color:var(--code-dim)"># Supabase — from Project Settings → API</span>
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
+SUPABASE_SERVICE_ROLE_KEY=eyJh...
+DATABASE_URL=postgresql://postgres:PASSWORD@db.YOUR_PROJECT.supabase.co:5432/postgres
+DATABASE_URL_DIRECT=postgresql://postgres:PASSWORD@db.YOUR_PROJECT.supabase.co:5432/postgres
+
+<span style="color:var(--code-dim)"># Mollie — from Developers → API keys (use test keys to start)</span>
+MOLLIE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_MOLLIE_PUBLISHABLE_KEY=pk_test_...
+MOLLIE_WEBHOOK_SECRET=whsec_...
+
+<span style="color:var(--code-dim)"># Brevo — from API Keys page</span>
+BREVO_API_KEY=re_...</code></pre>
+            <div class="note"><p><strong>The .env.example file has every variable with inline documentation.</strong> Read the comments — they explain what each one does and where to find it.</p></div>
+          </div>
+        </div>
+
+        <!-- ── STEP 8: FIRST RUN ─────────────────────────── -->
+        <h2 id="first-run">Step 8 — Run it for the first time</h2>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">08a</div>
+            <div class="step-title">Run the setup script</div>
+          </div>
+          <div class="step-body">
+            <p>Already includes a setup script that checks your config, runs database migrations, and bootstraps Mollie products. Run it once:</p>
+            <pre><code>pnpm setup</code></pre>
+            <p>It's interactive — it will tell you if anything is missing from your <code>.env.local</code> and explain what to fix. Follow the prompts.</p>
+            <p>For Mollie billing, also run:</p>
+            <pre><code>pnpm setup:mollie</code></pre>
+            <p>This creates the subscription plans in your Mollie test account and writes their IDs back to your <code>.env.local</code>.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">08b</div>
+            <div class="step-title">Start the development server</div>
+          </div>
+          <div class="step-body">
+            <pre><code>pnpm dev</code></pre>
+            <p>This starts everything at once: your app, the local database, the Mollie webhook listener, and the email preview server.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>Open your browser and go to:</p>
+          <ul style="margin-top:8px">
+            <li><strong><code>localhost:3000</code></strong> — your app, showing a marketing page</li>
+            <li><strong><code>localhost:54323</code></strong> — Supabase Studio, a visual database browser</li>
+            <li><strong><code>localhost:3001</code></strong> — React Email preview (your email templates)</li>
+          </ul>
+        </div>
+
+        <div class="trouble">
+          <div class="trouble-label">If pnpm dev fails</div>
+          <p><strong>"Missing env variable X"</strong> — you have a typo or missing value in <code>.env.local</code>. Re-check step 7.</p>
+          <p><strong>"Cannot connect to database"</strong> — double-check your <code>DATABASE_URL</code>. Make sure you replaced <code>PASSWORD</code> with your actual Supabase DB password.</p>
+          <p><strong>"Port 3000 already in use"</strong> — something else is running on that port. Quit other dev servers or restart your terminal.</p>
+          <p>Still stuck? Run <code>pnpm already doctor</code> — it checks your setup and tells you exactly what's wrong.</p>
+        </div>
+
+        <!-- ── STEP 9: WHAT'S IN THE BOX ─────────────────── -->
+        <h2 id="whats-in-the-box">Step 9 — Understand what you have</h2>
+
+        <p>Here's a map of what Already ships with and where to find each part.</p>
+
+        <h3>The app routes</h3>
+        <p>Open the <code>app/</code> folder. Routes are grouped by who can access them:</p>
+        <pre><code>app/
+  (public)/      ← Anyone can see this: marketing pages, pricing
+  (auth)/        ← Login, signup, forgot password, MFA setup
+  (app)/         ← Logged-in users with an org account
+  (billing)/     ← Paid subscribers only
+  (admin)/       ← Admin users only: user management, impersonation</code></pre>
+
+        <h3>The 16 modules</h3>
+        <p>Already ships 16 complete features. You can use all of them, ignore the ones you don't need, or delete them entirely:</p>
+        <ul>
+          <li><strong>Auth</strong> — signup, login, magic link, passkeys, two-factor (in <code>app/(auth)/</code>)</li>
+          <li><strong>Multi-tenant orgs</strong> — team accounts, invitations, role management</li>
+          <li><strong>Billing</strong> — Mollie subscriptions, plan gates, customer portal</li>
+          <li><strong>Admin panel</strong> — manage users and orgs, impersonate any user</li>
+          <li><strong>Email</strong> — transactional templates in <code>messaging/templates/</code></li>
+          <li><strong>Background jobs</strong> — async task queue in <code>lib/jobs/</code></li>
+          <li><strong>AI integration</strong> — multi-provider AI with a per-org usage ledger</li>
+          <li><strong>Feature flags</strong> — turn features on/off per user or org in <code>config/flags.ts</code></li>
+          <li>…and 8 more. Full list in the repo's <code>docs/</code> folder.</li>
+        </ul>
+
+        <h3>Useful commands for exploring</h3>
+        <pre><code>pnpm db:seed      # fill your local database with demo users and data
+pnpm db:studio    # open a visual database browser
+pnpm email        # preview your email templates in the browser
+pnpm reset        # wipe and re-seed the database (safe — local only)</code></pre>
+
+        <!-- ── STEP 10: MAKE IT YOURS ─────────────────────── -->
+        <h2 id="make-it-yours">Step 10 — Make it yours</h2>
+        <p class="h2-sub">First things to change before you start building your actual product.</p>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">10a</div>
+            <div class="step-title">Change the app name and description</div>
+          </div>
+          <div class="step-body">
+            <p>Open <code>config/app.ts</code>. Change <code>name</code>, <code>description</code>, and <code>url</code> to match your product.</p>
+            <p>This value flows through the app — it appears in email subjects, page titles, and the admin panel. Change it once here and it updates everywhere.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">10b</div>
+            <div class="step-title">Set up your billing plans</div>
+          </div>
+          <div class="step-body">
+            <p>Open <code>config/billing.ts</code>. This file defines your pricing tiers — names, prices, and which features each tier unlocks. Change these to match your actual product plans.</p>
+            <p>Then re-run <code>pnpm setup:mollie</code> to sync the new plan config to Mollie.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">10c</div>
+            <div class="step-title">Update the marketing page</div>
+          </div>
+          <div class="step-body">
+            <p>The public marketing page lives at <code>app/(public)/page.tsx</code>. Replace the placeholder copy with your product's actual value proposition.</p>
+            <p>The legal pages (privacy policy, terms of service) are at <code>content/legal/</code>. Update them with your company details before you go live.</p>
+          </div>
+        </div>
+
+        <!-- ── STEP 11: GO LIVE ──────────────────────────── -->
+        <h2 id="go-live">Step 11 — Deploy to the internet</h2>
+
+        <div class="explainer">
+          <div class="explainer-label">What is Vercel?</div>
+          <p>Vercel is the hosting service Already is built for. You connect your GitHub repository, set your environment variables, and Vercel automatically deploys your app every time you push code. Free tier is enough for most early-stage products.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">11a</div>
+            <div class="step-title">Create a Vercel project</div>
+          </div>
+          <div class="step-body">
+            <ol>
+              <li>Go to <a href="https://vercel.com" rel="noopener" target="_blank">vercel.com</a> and sign in with GitHub</li>
+              <li>Click <strong>"Add New → Project"</strong></li>
+              <li>Import your GitHub repository</li>
+              <li>Vercel auto-detects it's a Next.js app — click <strong>"Deploy"</strong></li>
+            </ol>
+            <p>The first deploy will fail because your environment variables aren't set yet. That's expected.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">11b</div>
+            <div class="step-title">Add environment variables to Vercel</div>
+          </div>
+          <div class="step-body">
+            <p>In your Vercel project, go to <strong>Settings → Environment Variables</strong>. Add every variable from your <code>.env.local</code> file.</p>
+            <p><strong>Important differences for production:</strong></p>
+            <ul>
+              <li>Use live Mollie keys (<code>pk_live_</code>, <code>sk_live_</code>) instead of test keys</li>
+              <li>Create a production Mollie webhook endpoint in your Mollie dashboard pointing to <code>https://YOUR_DOMAIN.com/api/webhooks/mollie</code></li>
+              <li>Use your Supabase cloud project keys (not the local ones from <code>supabase start</code>)</li>
+              <li>Verify a sending domain in Brevo and update <code>BREVO_FROM_EMAIL</code></li>
+            </ul>
+            <p>After saving, trigger a new deployment from the Vercel dashboard.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">11c</div>
+            <div class="step-title">Connect a custom domain (optional but recommended)</div>
+          </div>
+          <div class="step-body">
+            <p>In Vercel project settings, go to <strong>Domains</strong> and add your domain. Vercel will give you DNS records to add at your domain registrar (wherever you bought the domain — Namecheap, GoDaddy, Cloudflare, etc.).</p>
+            <p>DNS changes can take up to 24 hours to propagate, but usually take minutes.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>Your app is live at your Vercel URL (and your custom domain if you set one). Real users can sign up. Real payments go through Mollie.</p>
+        </div>
+
+        <!-- ── GOING PRO: KEYCHAIN ────────────────────────── -->
+        <h2 id="keychain-secrets">Move your secrets to the macOS Keychain</h2>
+
+        <p>Once you have a live Mollie key sitting in <code>.env.local</code>, that file is a liability. A stolen laptop, a careless backup, or one wrong <code>git add</code> and the key is out in the open. The fix takes about three minutes.</p>
+
+        <div class="explainer">
+          <div class="explainer-label">What this changes</div>
+          <p>Your credentials move from a plain text file into the macOS Keychain — the same secure store Safari uses for your saved passwords. Already's CLI pushes them in, pulls them out as environment variables before <code>pnpm dev</code>, and refuses to let you commit a <code>.env</code> file that contains real production keys.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">A</div>
+            <div class="step-title">Push your real keys into the Keychain</div>
+          </div>
+          <div class="step-body">
+            <p>From your project directory:</p>
+            <pre><code>pnpm already secrets push</code></pre>
+            <p>The CLI prompts you for each managed key (Mollie, Supabase, Brevo, Upstash, and so on). Press Enter to skip any you don't have yet. The values never touch the filesystem.</p>
+            <p><strong>Linux:</strong> install <code>pass</code> first (<code>apt install pass</code> on Debian or Ubuntu, <code>brew install pass</code> on macOS Homebrew), then run the same command.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">B</div>
+            <div class="step-title">Remove the now-stored keys from <code>.env.local</code></div>
+          </div>
+          <div class="step-body">
+            <p>Open <code>.env.local</code> and delete the lines for every key you stored. Leave the public ones in place: <code>NEXT_PUBLIC_*</code>, app name, feature flags. Those are not secrets.</p>
+            <p>Confirm nothing live remains:</p>
+            <pre><code>pnpm already secrets scan</code></pre>
+            <p>Exit code 0 means you're clean. Exit code 1 lists the file and line of anything that still looks like a live key.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">C</div>
+            <div class="step-title">Load Keychain values before running the dev server</div>
+          </div>
+          <div class="step-body">
+            <p>Add this alias to your shell rc file (<code>~/.zshrc</code> on macOS by default):</p>
+            <pre><code>alias already-env='eval "$(pnpm already secrets export)"'</code></pre>
+            <p>Then in any new terminal session:</p>
+            <pre><code>already-env &amp;&amp; pnpm dev</code></pre>
+            <p>The first time the Keychain serves a value, macOS shows a permission dialog — click <strong>Always Allow</strong> so it doesn't ask again for that key.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>Your secrets live in the Keychain. Your <code>.env.local</code> contains only public, non-credential config. The pre-commit hook blocks any future accident before it leaves your machine.</p>
+        </div>
+
+        <!-- ── GOING PRO: ORG MFA ─────────────────────────── -->
+        <h2 id="org-mfa">Require MFA for your whole team</h2>
+
+        <p>When your customer is an enterprise buyer (or you're shipping into a regulated industry), the security questionnaire asks one question every time: <strong>can the org admin force every member to use two-factor authentication?</strong> Already's answer is yes, and it's one toggle.</p>
+
+        <div class="explainer">
+          <div class="explainer-label">What MFA is</div>
+          <p>Multi-factor authentication. The user signs in with their password, then proves they hold a second factor — usually a six-digit code from an app like 1Password or Authy, or a passkey saved in their phone. Already supports both.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">A</div>
+            <div class="step-title">Sign in as an org owner</div>
+          </div>
+          <div class="step-body">
+            <p>Only owners can change this policy. If you're the founder and only member, that's you. If you joined as an admin or member, ask the owner.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">B</div>
+            <div class="step-title">Go to Settings → Security and flip the toggle</div>
+          </div>
+          <div class="step-body">
+            <p>Inside the app at <code>/app/settings/security</code>, click <strong>Require MFA</strong>. Confirm the prompt. The change is instant — Already writes it to the <code>orgs.mfa_required</code> column and reloads the page.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">C</div>
+            <div class="step-title">What happens to members without MFA</div>
+          </div>
+          <div class="step-body">
+            <p>On their next request to any <code>/app/*</code> route, Already's layout guard redirects them to <code>/mfa/verify?reason=org_policy</code>. They set up an authenticator app or a passkey, the redirect lifts, and they're back in the app. No data loss, no forced sign-out, no support ticket.</p>
+            <p>Every flip of this setting is written to the org audit log so you can prove the policy was active during any given period &mdash; useful for SOC 2 and ISO 27001 audits.</p>
+          </div>
+        </div>
+
+        <div class="outcome">
+          <div class="outcome-label">Expected outcome</div>
+          <p>Every member of your workspace passes MFA at next sign-in. The "MFA mandate" question on the next enterprise security questionnaire takes ten seconds to answer with a screenshot.</p>
+        </div>
+
+        <!-- ── COMMON PROBLEMS ────────────────────────────── -->
+        <h2 id="common-problems">Common problems</h2>
+
+        <h3>"I get a blank page or error at localhost:3000"</h3>
+        <p>Run <code>pnpm already doctor</code> — it checks your setup and tells you exactly what's misconfigured. Most problems are a missing or wrong value in <code>.env.local</code>.</p>
+
+        <h3>"pnpm setup fails with a database error"</h3>
+        <p>Your <code>DATABASE_URL</code> is wrong. Go back to Supabase → Project Settings → Database and copy the connection string again. Make sure you replace <code>[YOUR-PASSWORD]</code> with your actual password (the one you set when creating the project).</p>
+
+        <h3>"Emails aren't sending"</h3>
+        <p>In local dev, emails don't actually send — they appear in the React Email preview at <code>localhost:3001</code>. If you're in production, check that your Brevo API key is correct and that you've verified a sending domain.</p>
+
+        <h3>"Mollie webhooks aren't working"</h3>
+        <p>In local dev, make sure <code>pnpm dev</code> is running (it starts the Mollie webhook forwarder). In production, make sure you've created a webhook endpoint in the Mollie dashboard pointing to <code>/api/webhooks/mollie</code> and that <code>MOLLIE_WEBHOOK_SECRET</code> matches the <code>whsec_</code> secret from that endpoint.</p>
+
+        <h3>"I changed something and now nothing works"</h3>
+        <p>Run <code>pnpm reset</code> (resets the local database) and <code>pnpm dev</code> again. If it's a code change causing a TypeScript error, run <code>pnpm typecheck</code> to see the exact error.</p>
+
+        <!-- ── ASK CLAUDE ─────────────────────────────────── -->
+        <h2 id="ask-claude">Ask Claude Code</h2>
+
+        <p>Already ships with deep Claude Code integration. Once you're in the project directory, Claude Code understands the full architecture — you can ask it anything about the codebase in plain language.</p>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Start Claude Code with the project's MCP servers</div>
+          </div>
+          <div class="step-body">
+            <p>From your project directory, open Claude Code (the desktop app or <code>claude</code> in terminal). Point it at your project folder. It will automatically load the <code>CLAUDE.md</code> and connect to the MCP servers defined in <code>mcp.json</code>.</p>
+            <p>Things you can ask:</p>
+            <ul>
+              <li>"Explain the multi-tenant architecture to me in simple terms"</li>
+              <li>"How do I add a new page that only paying users can see?"</li>
+              <li>"Show me all the users who signed up in the last 7 days"</li>
+              <li>"Why is this webhook failing?"</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <div class="step-num">→</div>
+            <div class="step-title">Use the built-in slash commands</div>
+          </div>
+          <div class="step-body">
+            <p>Already includes 10 Claude Code skills — slash commands that understand the project structure:</p>
+            <pre><code>/add-page       ← scaffold a new route with correct auth guards
+/add-table      ← create a DB table + RLS policy + query helpers
+/add-plan       ← add a Mollie pricing tier
+/add-message    ← add an email template
+/add-job        ← create a background job
+/add-flag       ← add a feature flag
+/deploy         ← pre-deploy checklist
+/run-migration  ← run pending DB migrations
+/debug-webhook  ← diagnose a webhook problem
+/already-update ← check for Already updates</code></pre>
+            <p>Type any of these in Claude Code and it will walk you through the task step by step, creating all the right files in the right places.</p>
+          </div>
+        </div>
+
+        <div class="note">
+          <p><strong>Not sure how something works?</strong> Just ask. The <code>CLAUDE.md</code> in the project root contains architecture rules, common pitfalls, and module maps — Claude Code reads it at the start of every session and will answer questions about any part of the codebase.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already EU <span class="eu-flag" aria-hidden="true">🇪🇺</span></a>
+          <p class="footer-tagline">Production-ready Next.js SaaS starter. 16 modules. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span>Next.js 16</span>
+            <span>Supabase</span>
+            <span>Mollie</span>
+            <span>TypeScript</span>
+            <span>Drizzle</span>
+            <span>shadcn/ui</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Product</div>
+          <a href="/">Home</a>
+          <a href="/docs">Documentation</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">SaaS Checklist</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Compare</div>
+          <a href="/vs/t3-stack">vs T3 Stack</a>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label">Migrate</div>
+          <a href="/migrate/lovable">From Lovable</a>
+          <a href="/migrate/base44">From Base44</a>
+          <a href="/migrate/bolt">From Bolt</a>
+          <a href="/migrate/v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">Legal</div>
+          <a href="/legal/privacy">Privacy Policy</a>
+          <a href="/legal/terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label">Contact</div>
+          <a href="mailto:already-eu@wait-what.shop">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://wait-what.shop" rel="noopener" class="footer-bottom-brand"><span class="eu-flag" aria-hidden="true">🇪🇺</span> Built in the EU · wait, what. · 2026</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · EU VAT handled · Made with <a href="https://cursor.com/referral?code=EYV5XU1BZSAL" rel="noopener" target="_blank">Cursor</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Block code: pre elements
+    document.querySelectorAll('pre').forEach(function(pre) {
+      var wrap = document.createElement('div');
+      wrap.className = 'pre-wrap';
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      wrap.appendChild(btn);
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code') || pre;
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.textContent = 'copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      });
+    });
+    // Inline code inside callouts: .note code, .trouble code, .outcome code
+    document.querySelectorAll('.note code, .trouble code, .outcome code').forEach(function(code) {
+      if (code.closest('pre')) return;
+      if (code.textContent.trim().length < 8) return;
+      var btn = document.createElement('button');
+      btn.className = 'inline-copy-btn';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code');
+      code.insertAdjacentElement('afterend', btn);
+      btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'copied!';
+          btn.classList.add('copied');
+          setTimeout(function() { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+        });
+      });
+    });
+  });
+  </script>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _sync();
+    };
+    function _sync(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+
+    // Scroll spy
+    var navLinks=D.querySelectorAll('.doc-nav a');
+    var headings=[];
+    navLinks.forEach(function(a){
+      var id=a.getAttribute('href');
+      if(id&&id.startsWith('#')){
+        var el=D.getElementById(id.slice(1));
+        if(el)headings.push({el:el,a:a});
+      }
+    });
+    function onScroll(){
+      var scrollY=window.scrollY+80;
+      var active=null;
+      for(var i=0;i<headings.length;i++){
+        if(headings[i].el.offsetTop<=scrollY)active=headings[i];
+      }
+      navLinks.forEach(function(a){a.classList.remove('active');});
+      if(active)active.a.classList.add('active');
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});
+    onScroll();
+
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_sync();}});}
+    _sync();
+  })();
+  </script>
+</body>
+</html>

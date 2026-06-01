@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script>!function(){var t=localStorage.getItem('al-th'),d=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;document.documentElement.setAttribute('data-theme',t||(d?'dark':'light'))}()</script>
+  <meta charset="utf-8">
+  <meta name="author" content="Tobias Temmen — wait, what.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Time Saved Calculator — Already CH 🇨🇭</title>
+  <meta name="description" content="See exactly how many days and francs Already CH saves you. Select the features you'd build from scratch and get a conservative estimate.">
+  <link rel="canonical" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="fr" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="it" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/calculator/">
+  <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/calculator/">
+  <meta property="og:title" content="How much time does Already CH save you?">
+  <meta property="og:description" content="Conservative estimate: select the features you'd build and see the real cost of doing it yourself.">
+  <meta property="og:url" content="https://alreadykit.com/ch/calculator/">
+  <meta property="og:site_name" content="Already">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://alreadykit.com/ch/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23D40000'/><text x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='22' fill='%23FCFCFA'>‽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FCFCFA; --paper-subtle: #F4F4F0;
+      --ink: #0A0A0A; --ink-secondary: #3A3A38;
+      --ink-muted: #6E6E68; --ink-subtle: #A8A8A0;
+      --rule: #D8D8D0; --signal: #D40000;
+      --green: #16a34a; --green-bg: #f0fdf4;
+      --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+      --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ade80;--green-bg:#052e16; }
+    }
+    html[data-theme="dark"] { --paper:#0F0F0E;--paper-subtle:#191917;--ink:#F0F0EC;--ink-secondary:#BEBEB8;--ink-muted:#787870;--ink-subtle:#4A4A46;--rule:#2C2C28;--signal:#FF5050;--green:#4ade80;--green-bg:#052e16; }
+    html[data-theme="light"] { --paper:#FCFCFA;--paper-subtle:#F4F4F0;--ink:#0A0A0A;--ink-secondary:#3A3A38;--ink-muted:#6E6E68;--ink-subtle:#A8A8A0;--rule:#D8D8D0;--signal:#D40000;--green:#16a34a;--green-bg:#f0fdf4; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100vh; }
+
+    nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .container { padding: 0 24px; } }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-size: 15px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-decoration: none; }
+    .nav-cta { display: inline-flex; align-items: center; background: var(--ink); color: var(--paper); font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0.01em; padding: 8px 16px; border: none; cursor: pointer; text-decoration: none; transition: background 0.12s; }
+    .nav-cta:hover { background: var(--signal); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-link { font-size: 14px; color: var(--ink-muted); text-decoration: none; transition: color 0.12s; }
+    .nav-link:hover, .nav-link.active { color: var(--ink); }
+    .nav-controls { display: flex; align-items: center; gap: 4px; }
+    .nav-icon-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-size: 15px; cursor: pointer; font-family: inherit; line-height: 1; transition: border-color 0.12s, color 0.12s; }
+    .nav-icon-btn:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang { appearance: none; -webkit-appearance: none; background: transparent; border: 1px solid transparent; color: var(--ink-muted); font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; padding: 0 20px 0 8px; height: 32px; min-width: 52px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; transition: border-color 0.12s, color 0.12s; }
+    .nav-lang:hover { border-color: var(--rule); color: var(--ink); }
+    .nav-lang:focus { outline: none; border-color: var(--ink); }
+    .nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; background: transparent; border: 1px solid transparent; cursor: pointer; padding: 0 7px; transition: border-color 0.12s; }
+    .nav-hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink-muted); transition: transform 0.2s, opacity 0.2s; }
+    .nav-hamburger:hover { border-color: var(--rule); }
+    .nav-hamburger:hover span { background: var(--ink); }
+    .nav-mobile { display: none; background: var(--paper); border-top: 1px solid var(--rule); }
+    .nav-mobile.open { display: block; }
+    .nav-mobile-link { display: block; font-size: 15px; color: var(--ink-secondary); text-decoration: none; padding: 14px 40px; border-bottom: 1px solid var(--rule); transition: color 0.1s, background 0.1s; }
+    .nav-mobile-link:hover { color: var(--ink); background: var(--paper-subtle); }
+    .nav-mobile-footer { display: flex; align-items: center; gap: 10px; padding: 12px 40px; border-bottom: 1px solid var(--rule); }
+    .nav-mobile-footer select { appearance: none; -webkit-appearance: none; background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-secondary); font-family: var(--mono); font-size: 11px; padding: 6px 24px 6px 10px; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' fill='none'%3E%3Cpath d='M0 0l4 4 4-4' stroke='%236E6E68' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
+    .nav-mobile-footer button { background: var(--paper-subtle); border: 1px solid var(--rule); color: var(--ink-muted); font-family: var(--sans); font-size: 12px; padding: 6px 12px; cursor: pointer; }
+    .nav-mobile-cta { display: block; margin: 12px 40px 16px; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 12px; text-decoration: none; transition: background 0.12s; }
+    .nav-mobile-cta:hover { background: var(--signal); }
+    @media (max-width: 768px) { .nav-links { display: none !important; } .nav-lang { display: none !important; } nav nav .nav-cta { display: none !important; } .nav-hamburger { display: flex; } }
+    .ch-flag { display: inline-block; font-size: 13px; line-height: 1; vertical-align: -1px; letter-spacing: 0; margin-right: 4px; }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 64px 40px 96px; }
+    @media (max-width: 640px) { .page { padding: 40px 24px 64px; } }
+
+    .page-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .page-title { font-size: clamp(28px, 4vw, 42px); font-weight: 600; letter-spacing: -0.030em; line-height: 1.15; margin-bottom: 14px; }
+    .page-sub { font-size: 15px; line-height: 1.65; color: var(--ink-secondary); max-width: 560px; margin-bottom: 48px; }
+
+    /* Layout */
+    .calc-layout { display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+    @media (max-width: 900px) { .calc-layout { grid-template-columns: 1fr; } }
+
+    /* Feature list */
+    .features-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .features-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); }
+    .toggle-all { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); background: none; border: 1px solid var(--rule); padding: 4px 10px; cursor: pointer; transition: color 0.12s, border-color 0.12s; }
+    .toggle-all:hover { color: var(--ink); border-color: var(--ink-secondary); }
+
+    .feature-row {
+      display: grid; grid-template-columns: 20px 1fr auto; gap: 14px;
+      align-items: start; padding: 14px 0;
+      border-bottom: 1px solid var(--rule); cursor: pointer;
+      transition: background 0.08s;
+    }
+    .feature-row:first-child { border-top: 1px solid var(--rule); }
+    .feature-row:hover { background: var(--paper-subtle); margin: 0 -8px; padding-left: 8px; padding-right: 8px; }
+
+    .feature-check {
+      width: 16px; height: 16px; border: 1.5px solid var(--rule);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px; flex-shrink: 0; transition: background 0.12s, border-color 0.12s;
+    }
+    .feature-row.checked .feature-check { background: var(--ink); border-color: var(--ink); }
+    .feature-row.checked .feature-check::after { content: ''; width: 8px; height: 8px; background: var(--paper); clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); }
+
+    .feature-info { min-width: 0; }
+    .feature-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+    .feature-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+    .feature-row:not(.checked) .feature-name { color: var(--ink-muted); }
+
+    .feature-time { text-align: right; flex-shrink: 0; }
+    .feature-days { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink-secondary); white-space: nowrap; }
+    .feature-row:not(.checked) .feature-days { color: var(--ink-subtle); text-decoration: line-through; }
+
+    /* Sticky result panel */
+    .result-panel { position: sticky; top: 72px; }
+
+    .result-card { border: 1px solid var(--rule); padding: 28px; background: var(--paper-subtle); }
+
+    .result-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 20px; }
+
+    .result-primary { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .result-big { font-size: 40px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
+    .result-big span { font-size: 22px; }
+    .result-label { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
+
+    .result-secondary { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .result-price { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; color: var(--green); }
+    .result-price-label { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+
+    .rate-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+    .rate-label { font-size: 12px; color: var(--ink-muted); white-space: nowrap; }
+    .rate-input { width: 80px; background: var(--paper); border: 1px solid var(--rule); color: var(--ink); font-family: var(--mono); font-size: 13px; font-weight: 500; padding: 6px 10px; outline: none; text-align: right; transition: border-color 0.12s; }
+    .rate-input:focus { border-color: var(--ink); }
+    .rate-unit { font-size: 12px; color: var(--ink-muted); }
+
+    .result-breakdown { }
+    .breakdown-row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; font-size: 12px; }
+    .breakdown-label { color: var(--ink-muted); }
+    .breakdown-val { font-family: var(--mono); font-weight: 500; color: var(--ink-secondary); }
+    .breakdown-none { font-size: 12px; color: var(--ink-subtle); font-style: italic; padding: 8px 0; }
+
+    .result-cta { margin-top: 24px; }
+    .btn-buy { display: block; text-align: center; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500; padding: 13px 20px; text-decoration: none; transition: background 0.12s; }
+    .btn-buy:hover { background: var(--signal); }
+    .btn-buy-sub { font-size: 11px; color: var(--ink-muted); text-align: center; margin-top: 8px; }
+
+    .footnote { font-size: 11px; color: var(--ink-subtle); line-height: 1.6; margin-top: 48px; max-width: 600px; }
+    .footnote a { color: var(--ink-subtle); }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
+    .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+    @media (max-width: 640px) { .footer-wrap { padding: 0 24px; } }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--rule); }
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo { display: inline-block; font-size: 17px; font-weight: 600; letter-spacing: -0.020em; color: var(--ink); text-decoration: none; margin-bottom: 12px; }
+    .footer-tagline { font-size: 13px; line-height: 1.65; color: var(--ink-muted); margin-bottom: 16px; max-width: 260px; }
+    .footer-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .footer-chips span { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-subtle); border: 1px solid var(--rule); padding: 3px 7px; }
+    .footer-col-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+    .footer-col-spacer { height: 20px; }
+    .footer-col a { display: block; font-size: 14px; color: var(--ink-secondary); text-decoration: none; padding: 4px 0; transition: color 0.12s; line-height: 1.5; }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 20px 0; }
+    .footer-bottom-brand { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; text-decoration: none; }
+    .footer-bottom-brand:hover { color: var(--ink); }
+    .footer-bottom-mor { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); letter-spacing: 0.04em; }
+    .footer-bottom-mor a { color: var(--ink-subtle); text-decoration: none; }
+    .footer-bottom-mor a:hover { color: var(--ink); }
+  
+    /* ── Mobile polish: iOS no-zoom inputs + 44px touch targets ── */
+    @media (max-width: 768px) {
+      input[type="text"], input[type="email"], input[type="password"],
+      input[type="search"], input[type="number"], input[type="tel"],
+      input[type="url"], textarea, .form-input, .rate-input {
+        font-size: 16px;
+      }
+      .nav-icon-btn, .nav-hamburger { width: 44px; height: 44px; }
+      .nav-lang { height: 44px; min-height: 44px; }
+    }
+  </style>
+  <script src="/i18n.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://alreadykit.com/ch/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculator",
+        "item": "https://alreadykit.com/ch/calculator/"
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": [
+      "SoftwareApplication",
+      "WebApplication"
+    ],
+    "name": "Already CH \u2014 Time Saved Calculator",
+    "description": "Estimate how many days and Swiss francs Already CH saves you compared to building the 16 modules from scratch. Move sliders, see the cost at your hourly rate.",
+    "url": "https://alreadykit.com/ch/calculator/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CHF"
+    },
+    "creator": {
+      "@type": "Organization",
+      "@id": "https://alreadykit.com/ch/#organization"
+    },
+    "inLanguage": [
+      "en",
+      "de",
+      "fr",
+      "it",
+      "rm"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to estimate the build cost of a Swiss-sovereign SaaS",
+    "description": "Use the Already CH time-saved calculator to compare buying the kit (CHF 199 / 399) against building each of the 16 modules from scratch.",
+    "totalTime": "PT2M",
+    "estimatedCost": {
+      "@type": "MonetaryAmount",
+      "currency": "CHF",
+      "value": "199"
+    },
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Set your hourly rate",
+        "text": "Enter your CHF hourly rate. The Swiss-market default is CHF 130/hour."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review the 12 modules",
+        "text": "Each module shows a low-end and high-end estimate in developer-days. Auth alone is 3\u20136 days."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "See the total in CHF",
+        "text": "The calculator multiplies days \u00d7 8h \u00d7 your rate. Compare it to Already CH's CHF 199 (Solo) or CHF 399 (Team) one-time price."
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="/" class="nav-brand">Already CH 🇨🇭</a>
+        <div class="nav-links">
+          <a href="/docs" class="nav-link" data-i18n="nav.docs">Docs</a>
+          <a href="/guide" class="nav-link" data-i18n="nav.handbook">Handbook</a>
+          <a href="/checklist" class="nav-link" data-i18n="nav.checklist">Checklist</a>
+          <a href="/calculator" class="nav-link active" data-i18n="nav.calculator">Calculator</a>
+        </div>
+        <div class="nav-controls">
+          <button class="nav-icon-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Toggle dark mode">◐</button>
+          <select class="lang-select nav-lang" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+          <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-cta" rel="noopener" data-i18n="nav.cta_buy">Buy — CHF 199 →</a>
+          <button class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-mobile" id="mobileMenu">
+      <a href="/docs" class="nav-mobile-link" data-i18n="nav.docs">Docs</a>
+      <a href="/guide" class="nav-mobile-link" data-i18n="nav.handbook">Handbook</a>
+      <a href="/checklist" class="nav-mobile-link" data-i18n="nav.checklist">Checklist</a>
+      <a href="/calculator" class="nav-mobile-link" data-i18n="nav.calculator">Calculator</a>
+      <div class="nav-mobile-footer">
+        <button onclick="toggleTheme()" id="themeBtnMobile">◐ Theme</button>
+        <select class="lang-select" onchange="window.__alSetLang(this.value)" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="fr">FR</option><option value="it">IT</option><option value="rm">RM</option></select>
+      </div>
+      <a href="https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r" class="nav-mobile-cta" rel="noopener" data-i18n="nav.cta_buy_mobile">Buy Already CH — CHF 199 →</a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="page-eyebrow">ROI calculator 🇨🇭</div>
+    <h1 class="page-title">How much time does Already CH save you?</h1>
+    <p class="page-sub">Select the features you'd build from scratch. Estimates are conservative — based on building production-grade code, not a weekend prototype. Default rate is CHF 130/hr (Swiss developer market).</p>
+
+    <div class="calc-layout">
+
+      <!-- Feature checklist -->
+      <div>
+        <div class="features-header">
+          <span class="features-label">Features — check what you'd build</span>
+          <button class="toggle-all" id="toggleAll">Deselect all</button>
+        </div>
+        <div id="featureList"></div>
+        <p class="footnote">
+          Estimates reflect a solo developer building production-quality code: secure, tested, documented.
+          Range = best case (you've done it before, no edge cases) to realistic case (integrations, debugging, polish).
+          Does not include ongoing maintenance. Already CH is CHF 199 once.
+        </p>
+      </div>
+
+      <!-- Result panel -->
+      <div class="result-panel">
+        <div class="result-card">
+          <div class="result-eyebrow">Your estimate</div>
+
+          <div class="result-primary">
+            <div class="result-big" id="daysOutput">—</div>
+            <div class="result-label">days of build time saved</div>
+          </div>
+
+          <div class="result-secondary">
+            <div class="result-price" id="chfOutput">—</div>
+            <div class="result-price-label">developer cost at your rate</div>
+          </div>
+
+          <div class="rate-row">
+            <span class="rate-label">Your rate:</span>
+            <input class="rate-input" type="number" id="rateInput" value="130" min="10" max="999" step="10">
+            <span class="rate-unit">CHF/hr</span>
+          </div>
+
+          <div class="result-breakdown" id="breakdown"></div>
+
+          <div class="result-cta">
+            <a href="/#pricing" class="btn-buy" rel="noopener">
+              Get Already CH — CHF 199 →
+            </a>
+            <p class="btn-buy-sub">Already CH is CHF 199. One time. Everything included.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var FEATURES = [
+      { id: 'auth',       name: 'Auth',                desc: 'Email + password, TOTP, passkeys, sessions, audit log',         low: 3,   high: 6  },
+      { id: 'billing',    name: 'Billing (Payrexx)',   desc: 'Payrexx + TWINT + PostFinance, webhooks, idempotency, dead letter', low: 4,   high: 8  },
+      { id: 'orgs',       name: 'Multi-tenant orgs',   desc: 'RLS isolation, invitations, roles, per-org audit log',           low: 5,   high: 10 },
+      { id: 'admin',      name: 'Admin dashboard',     desc: 'User management, org overview, impersonation, audit trail',      low: 3,   high: 5  },
+      { id: 'email',      name: 'Email & messaging',   desc: 'Transactional email (Infomaniak SMTP + React Email) + in-app realtime', low: 1,   high: 2  },
+      { id: 'i18n',       name: 'i18n (5 locales)',    desc: 'next-intl, EN/DE/FR/IT/RM, cookie-based locale switching',       low: 2,   high: 4  },
+      { id: 'ai',         name: 'AI module (Mistral)', desc: 'Mistral AI primary + optional fallbacks + credits ledger',       low: 2,   high: 4  },
+      { id: 'security',   name: 'Security & rate limiting', desc: 'Friendly Captcha, ioredis rate limiting, nFADP endpoints',  low: 2,   high: 4  },
+      { id: 'jobs',       name: 'Background jobs',     desc: 'Supercronic + Postgres queue + handler pattern',                 low: 1,   high: 2  },
+      { id: 'apikeys',    name: 'API keys',            desc: 'Hashed at rest, scoped permissions, rotation reminders',         low: 1,   high: 2  },
+      { id: 'flags',      name: 'Feature flags',       desc: 'Unleash (self-hosted) + env-var fallback, server + client',      low: 0.5, high: 1  },
+      { id: 'nfadp',      name: 'nFADP data register', desc: 'Art. 12 processing activities, admin UI at /admin/data-register', low: 1,   high: 3  },
+    ];
+
+    var HOURS_PER_DAY = 8;
+    var checked = {};
+    FEATURES.forEach(function(f) { checked[f.id] = true; });
+
+    function fmt(n) {
+      return n.toLocaleString('de-CH', { maximumFractionDigits: 0 });
+    }
+    function fmtDays(n) {
+      if (n < 1) return Math.round(n * HOURS_PER_DAY) + 'h';
+      if (Number.isInteger(n)) return n + 'd';
+      return n.toFixed(1).replace(/\.0$/, '') + 'd';
+    }
+
+    function getRate() {
+      var v = parseInt(document.getElementById('rateInput').value, 10);
+      return isNaN(v) || v < 10 ? 130 : v;
+    }
+
+    function update() {
+      var lowDays = 0, highDays = 0;
+      var selected = FEATURES.filter(function(f) { return checked[f.id]; });
+
+      selected.forEach(function(f) {
+        lowDays  += f.low;
+        highDays += f.high;
+      });
+
+      var rate = getRate();
+      var lowChf  = Math.round(lowDays  * HOURS_PER_DAY * rate);
+      var highChf = Math.round(highDays * HOURS_PER_DAY * rate);
+
+      var daysEl = document.getElementById('daysOutput');
+      var chfEl  = document.getElementById('chfOutput');
+      var bkEl   = document.getElementById('breakdown');
+
+      if (selected.length === 0) {
+        daysEl.textContent = '0d';
+        chfEl.textContent  = 'CHF 0';
+        bkEl.innerHTML = '<p class="breakdown-none">Select features above to see your estimate.</p>';
+        return;
+      }
+
+      daysEl.innerHTML = fmtDays(lowDays) + '<span> – ' + fmtDays(highDays) + '</span>';
+      chfEl.textContent = 'CHF ' + fmt(lowChf) + ' – CHF ' + fmt(highChf);
+
+      var rows = selected.map(function(f) {
+        return '<div class="breakdown-row"><span class="breakdown-label">' + f.name + '</span><span class="breakdown-val">' + fmtDays(f.low) + '–' + fmtDays(f.high) + '</span></div>';
+      }).join('');
+      bkEl.innerHTML = rows;
+    }
+
+    function renderList() {
+      var container = document.getElementById('featureList');
+      container.innerHTML = FEATURES.map(function(f) {
+        var isChecked = checked[f.id];
+        return '<div class="feature-row' + (isChecked ? ' checked' : '') + '" data-id="' + f.id + '">' +
+          '<div class="feature-check"></div>' +
+          '<div class="feature-info"><div class="feature-name">' + f.name + '</div><div class="feature-desc">' + f.desc + '</div></div>' +
+          '<div class="feature-time"><div class="feature-days">' + fmtDays(f.low) + '–' + fmtDays(f.high) + '</div></div>' +
+          '</div>';
+      }).join('');
+
+      container.querySelectorAll('.feature-row').forEach(function(row) {
+        row.addEventListener('click', function() {
+          var id = row.dataset.id;
+          checked[id] = !checked[id];
+          row.classList.toggle('checked', checked[id]);
+          update();
+          updateToggleBtn();
+        });
+      });
+    }
+
+    function updateToggleBtn() {
+      var allChecked = FEATURES.every(function(f) { return checked[f.id]; });
+      document.getElementById('toggleAll').textContent = allChecked ? 'Deselect all' : 'Select all';
+    }
+
+    document.getElementById('toggleAll').addEventListener('click', function() {
+      var allChecked = FEATURES.every(function(f) { return checked[f.id]; });
+      FEATURES.forEach(function(f) { checked[f.id] = !allChecked; });
+      renderList();
+      update();
+      updateToggleBtn();
+    });
+
+    document.getElementById('rateInput').addEventListener('input', update);
+
+    renderList();
+    update();
+  })();
+  </script>
+
+  <script>
+  (function(){
+    var D=document,html=D.documentElement;
+    window.toggleTheme=function(){
+      var next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+      html.setAttribute('data-theme',next);
+      localStorage.setItem('al-th',next);
+      _syncThemeBtn();
+    };
+    function _syncThemeBtn(){
+      var dark=html.getAttribute('data-theme')==='dark';
+      var b=D.getElementById('themeBtn'),bm=D.getElementById('themeBtnMobile');
+      if(b){b.textContent=dark?'○':'◐';b.title=dark?'Switch to light':'Switch to dark';}
+      if(bm){bm.textContent=(dark?'○':'◐')+' Theme';}
+    }
+    window.toggleMobileNav=function(){
+      var m=D.getElementById('mobileMenu'),h=D.getElementById('hamburger');
+      if(!m)return;
+      var open=m.classList.toggle('open');
+      if(h){
+        h.setAttribute('aria-expanded',String(open));
+        var sp=h.querySelectorAll('span');
+        if(open){if(sp[0])sp[0].style.transform='rotate(45deg) translate(3.5px,3.5px)';if(sp[1])sp[1].style.opacity='0';if(sp[2])sp[2].style.transform='rotate(-45deg) translate(3.5px,-3.5px)';}
+        else{if(sp[0])sp[0].style.transform='';if(sp[1])sp[1].style.opacity='';if(sp[2])sp[2].style.transform='';}
+      }
+    };
+    if(window.matchMedia){matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){if(!localStorage.getItem('al-th')){html.setAttribute('data-theme',e.matches?'dark':'light');_syncThemeBtn();}});}
+    _syncThemeBtn();
+  })();
+  </script>
+
+  <footer class="site-footer">
+    <div class="footer-wrap">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <a href="/" class="footer-logo">Already CH</a>
+          <p class="footer-tagline">Swiss-sovereign Next.js SaaS starter. 16 modules. Data stays in Switzerland. Buy once, own the code.</p>
+          <div class="footer-chips">
+            <span class="footer-chip-ch"><span class="ch-flag" aria-hidden="true">🇨🇭</span> Hosted in Switzerland</span>
+            <span>Next.js 15</span>
+            <span>Supabase</span>
+            <span>Payrexx</span>
+            <span>Exoscale</span>
+            <span>Matomo</span>
+            <span>nFADP</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.product">Product</div>
+          <a href="/docs">Docs</a>
+          <a href="/guide">Handbook</a>
+          <a href="/checklist">Checklist</a>
+          <a href="/calculator">Calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
+          <a href="/vs/shipfast">vs ShipFast</a>
+          <a href="/vs/supastarter">vs Supastarter</a>
+          <a href="/vs/makerkit">vs Makerkit</a>
+          <a href="/vs/nextjs-saas-starter">vs Next.js SaaS Starter</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.migrate">Migrate</div>
+          <a href="/migrate/lovable" data-i18n="footer.from_lovable">From Lovable</a>
+          <a href="/migrate/base44" data-i18n="footer.from_base44">From Base44</a>
+          <a href="/migrate/bolt" data-i18n="footer.from_bolt">From Bolt</a>
+          <a href="/migrate/v0" data-i18n="footer.from_v0">From v0</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label" data-i18n="footer.legal">Legal</div>
+          <a href="/legal/privacy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
+          <a href="mailto:already-ch@wait-what.shop" data-i18n="footer.support">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <a href="https://www.wait-what.shop/" rel="noopener" class="footer-bottom-brand">wait, what. · 2026 · Made in Switzerland 🇨🇭</a>
+        <span class="footer-bottom-mor">Sold via <a href="https://polar.sh" rel="noopener">Polar.sh</a> · Merchant of Record · global tax handled</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
