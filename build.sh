@@ -18,26 +18,30 @@ rm -rf "$DIST"
 mkdir -p "$DIST"
 
 echo "→ Copying files"
-rsync -a \
-  --exclude='dist/' \
-  --exclude='node_modules/' \
-  --exclude='.git/' \
-  --exclude='.claude/' \
-  --exclude='.gstack/' \
-  --exclude='.vscode/' \
-  --exclude='.idea/' \
-  --exclude='.next/' \
-  --exclude='.turbo/' \
-  --exclude='*.md' \
-  --exclude='build.sh' \
-  --exclude='package.json' \
-  --exclude='package-lock.json' \
-  --exclude='pnpm-lock.yaml' \
-  --exclude='bun.lockb' \
-  --exclude='.DS_Store' \
-  --exclude='*.swp' \
-  --exclude='*.bak' \
-  ./ "$DIST/"
+# Copy each top-level item individually (avoids cp circular-directory error)
+find . -maxdepth 1 \
+  ! -name '.' \
+  ! -name 'dist' \
+  ! -name 'node_modules' \
+  ! -name '.git' \
+  ! -name '.claude' \
+  ! -name '.gstack' \
+  ! -name '.vscode' \
+  ! -name '.idea' \
+  ! -name '.next' \
+  ! -name '.turbo' \
+  ! -name 'build.sh' \
+  ! -name 'package.json' \
+  ! -name 'package-lock.json' \
+  ! -name 'pnpm-lock.yaml' \
+  ! -name 'bun.lockb' \
+  ! -name '*.swp' \
+  ! -name '*.bak' \
+  -exec cp -r {} "$DIST/" \;
+
+# Remove any markdown files that snuck in
+find "$DIST" -name "*.md" -delete 2>/dev/null || true
+find "$DIST" -name ".DS_Store" -delete 2>/dev/null || true
 
 FILE_COUNT=$(find "$DIST" -type f | wc -l | tr -d ' ')
 TOTAL_SIZE=$(du -sh "$DIST" | cut -f1)
