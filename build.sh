@@ -18,29 +18,26 @@ rm -rf "$DIST"
 mkdir -p "$DIST"
 
 echo "→ Copying files"
-# Copy everything, then remove internal-only items from dist
-cp -r . "$DIST/"
-
-# Remove internal files from dist
-rm -rf \
-  "$DIST/dist" \
-  "$DIST/node_modules" \
-  "$DIST/.git" \
-  "$DIST/.claude" \
-  "$DIST/.gstack" \
-  "$DIST/.vscode" \
-  "$DIST/.idea" \
-  "$DIST/.next" \
-  "$DIST/.turbo" \
-  "$DIST/build.sh" \
-  "$DIST/package.json" \
-  "$DIST/package-lock.json" \
-  "$DIST/pnpm-lock.yaml"
-
-# Remove markdown / internal docs
-find "$DIST" -name "*.md" -delete 2>/dev/null || true
-find "$DIST" -name ".DS_Store" -delete 2>/dev/null || true
-find "$DIST" -name "*.swp" -delete 2>/dev/null || true
+rsync -a \
+  --exclude='dist/' \
+  --exclude='node_modules/' \
+  --exclude='.git/' \
+  --exclude='.claude/' \
+  --exclude='.gstack/' \
+  --exclude='.vscode/' \
+  --exclude='.idea/' \
+  --exclude='.next/' \
+  --exclude='.turbo/' \
+  --exclude='*.md' \
+  --exclude='build.sh' \
+  --exclude='package.json' \
+  --exclude='package-lock.json' \
+  --exclude='pnpm-lock.yaml' \
+  --exclude='bun.lockb' \
+  --exclude='.DS_Store' \
+  --exclude='*.swp' \
+  --exclude='*.bak' \
+  ./ "$DIST/"
 
 FILE_COUNT=$(find "$DIST" -type f | wc -l | tr -d ' ')
 TOTAL_SIZE=$(du -sh "$DIST" | cut -f1)
