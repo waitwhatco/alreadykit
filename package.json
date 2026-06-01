@@ -1,0 +1,6 @@
+{
+	"devDependencies": {
+		"wrangler": "^3",
+		"puppeteer": "^25.1.0"
+	}
+}
