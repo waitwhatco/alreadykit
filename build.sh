@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # build.sh — assemble the marketing site for alreadykit.com
 # Output: ./dist/
-# Excludes: internal docs (PRD/MODULE/CLAUDE), deps, caches.
 #
 # Usage:
 #   ./build.sh           # build only
@@ -18,58 +17,50 @@ echo "→ Cleaning $DIST/"
 rm -rf "$DIST"
 mkdir -p "$DIST"
 
-echo "→ Copying marketing files"
-rsync -a \
-  --exclude='dist/' \
-  --exclude='node_modules/' \
-  --exclude='.next/' \
-  --exclude='.turbo/' \
-  --exclude='.git/' \
-  --exclude='.claude/' \
-  --exclude='.gstack/' \
-  --exclude='.vscode/' \
-  --exclude='.idea/' \
-  --exclude='*.md' \
-  --exclude='PRD-*' \
-  --exclude='MODULE-*' \
-  --exclude='build.sh' \
-  --exclude='.DS_Store' \
-  --exclude='*.swp' \
-  --exclude='*.bak' \
-  ./ "$DIST/"
+echo "→ Copying files"
+# Copy everything, then remove internal-only items from dist
+cp -r . "$DIST/"
 
-# Size and file-count summary
-TOTAL_SIZE=$(du -sh "$DIST" | cut -f1)
+# Remove internal files from dist
+rm -rf \
+  "$DIST/dist" \
+  "$DIST/node_modules" \
+  "$DIST/.git" \
+  "$DIST/.claude" \
+  "$DIST/.gstack" \
+  "$DIST/.vscode" \
+  "$DIST/.idea" \
+  "$DIST/.next" \
+  "$DIST/.turbo" \
+  "$DIST/build.sh" \
+  "$DIST/package.json" \
+  "$DIST/package-lock.json" \
+  "$DIST/pnpm-lock.yaml"
+
+# Remove markdown / internal docs
+find "$DIST" -name "*.md" -delete 2>/dev/null || true
+find "$DIST" -name ".DS_Store" -delete 2>/dev/null || true
+find "$DIST" -name "*.swp" -delete 2>/dev/null || true
+
 FILE_COUNT=$(find "$DIST" -type f | wc -l | tr -d ' ')
-LARGEST=$(find "$DIST" -type f -exec du -k {} + | sort -rn | head -3 | awk '{printf "  %s KB  %s\n", $1, $2}')
+TOTAL_SIZE=$(du -sh "$DIST" | cut -f1)
 
 echo ""
-echo "✓ Build complete"
-echo "  Output:     $DIST/"
-echo "  Files:      $FILE_COUNT"
-echo "  Total size: $TOTAL_SIZE"
-echo ""
-echo "Largest files:"
-echo "$LARGEST"
-echo ""
+echo "✓ Build complete — $FILE_COUNT files, $TOTAL_SIZE"
 
 # Verify no file exceeds Cloudflare Pages' 25 MiB limit
 OVERSIZED=$(find "$DIST" -type f -size +25M)
 if [ -n "$OVERSIZED" ]; then
   echo "✗ ERROR — files exceed Cloudflare Pages 25 MiB limit:"
-  echo "$OVERSIZED" | while read -r f; do
-    SIZE=$(du -h "$f" | cut -f1)
-    echo "    $SIZE  $f"
-  done
+  echo "$OVERSIZED"
   exit 1
 fi
 
-# Optional: deploy
+# Optional: deploy locally
 if [ "${1:-}" = "--deploy" ]; then
   echo "→ Deploying to Cloudflare Pages…"
   npx wrangler pages deploy "$DIST" --project-name alreadykit --commit-dirty=true
 
-  # Push URL changes to IndexNow (Bing/Yandex/ChatGPT-Search)
   if [ -x "$SCRIPT_DIR/scripts/indexnow.sh" ]; then
     echo ""
     "$SCRIPT_DIR/scripts/indexnow.sh"
