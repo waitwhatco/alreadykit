@@ -51,4 +51,4 @@ Already positions against other Next.js SaaS starters (ShipFast, Supastarter, Ma
 - B2B or B2C? Both, switched by one config flag with an identical schema.
 
 ## Publisher
-Built and sold by "wait, what." (studio of Tobias Temmen). Product site: https://already.wait-what.shop. Sold via Polar.sh (Merchant of Record).
+Built and sold by "wait, what." (studio of Tobias Temmen). Product site: https://alreadykit.com. Sold via Polar.sh (Merchant of Record).

@@ -64,27 +64,27 @@ Already is the only Next.js starter that ships a pre-written CLAUDE.md, seven sc
 Already's security baseline exceeds the bar set by ShipFast, Makerkit, Supastarter, and Vercel's own Next.js SaaS Starter on every measurable dimension: per-request CSP nonces with strict-dynamic (others ship plain headers), SSRF-guarded outbound webhooks with HMAC and dead-letter (none of the four ship this), anomaly detection with six signals, append-only audit log via RLS, GDPR Article 17 and 20 endpoints with 30-day soft-delete window, AES-256-GCM secret-at-rest, rate limits on every authenticated endpoint, BotID on signup, zxcvbn password policy, TOTP, passkeys, and backup codes.
 
 ## Documentation
-- [Quickstart guide](https://already.wait-what.shop/docs/): Full setup walkthrough from purchase to deployed SaaS
-- [Beginner's Handbook](https://already.wait-what.shop/guide/): Step-by-step from zero to running — every term explained, expected outcomes per step, troubleshooting
+- [Quickstart guide](https://alreadykit.com/docs/): Full setup walkthrough from purchase to deployed SaaS
+- [Beginner's Handbook](https://alreadykit.com/guide/): Step-by-step from zero to running — every term explained, expected outcomes per step, troubleshooting
 
 ## Production SaaS Checklist
-- [62-point SaaS checklist](https://already.wait-what.shop/checklist/): Tool-agnostic production readiness checklist for SaaS founders
+- [62-point SaaS checklist](https://alreadykit.com/checklist/): Tool-agnostic production readiness checklist for SaaS founders
 
 ## Legal
-- [Privacy Policy](https://already.wait-what.shop/legal/privacy): Data handling and GDPR information
-- [Terms of Service](https://already.wait-what.shop/legal/terms): Usage terms and no-refund policy
+- [Privacy Policy](https://alreadykit.com/legal/privacy): Data handling and GDPR information
+- [Terms of Service](https://alreadykit.com/legal/terms): Usage terms and no-refund policy
 
 ## Contact
 - Support: already@wait-what.shop
 - Made by: wait, what.
 
 ## Optional
-- [Already vs ShipFast](https://already.wait-what.shop/vs/shipfast): Feature and price comparison
-- [Already vs Supastarter](https://already.wait-what.shop/vs/supastarter): Feature and price comparison
-- [Already vs MakerKit](https://already.wait-what.shop/vs/makerkit): Feature and price comparison
-- [Already vs T3 Stack](https://already.wait-what.shop/vs/t3-stack): Feature and price comparison
-- [Already vs Next.js SaaS Starter](https://already.wait-what.shop/vs/nextjs-saas-starter): Feature and price comparison
-- [Migrate from Lovable](https://already.wait-what.shop/migrate/lovable): Step-by-step migration guide
-- [Migrate from Base44](https://already.wait-what.shop/migrate/base44): Step-by-step migration guide
-- [Migrate from Bolt](https://already.wait-what.shop/migrate/bolt): Step-by-step migration guide
-- [Migrate from v0](https://already.wait-what.shop/migrate/v0): Step-by-step migration guide
+- [Already vs ShipFast](https://alreadykit.com/vs/shipfast): Feature and price comparison
+- [Already vs Supastarter](https://alreadykit.com/vs/supastarter): Feature and price comparison
+- [Already vs MakerKit](https://alreadykit.com/vs/makerkit): Feature and price comparison
+- [Already vs T3 Stack](https://alreadykit.com/vs/t3-stack): Feature and price comparison
+- [Already vs Next.js SaaS Starter](https://alreadykit.com/vs/nextjs-saas-starter): Feature and price comparison
+- [Migrate from Lovable](https://alreadykit.com/migrate/lovable): Step-by-step migration guide
+- [Migrate from Base44](https://alreadykit.com/migrate/base44): Step-by-step migration guide
+- [Migrate from Bolt](https://alreadykit.com/migrate/bolt): Step-by-step migration guide
+- [Migrate from v0](https://alreadykit.com/migrate/v0): Step-by-step migration guide
