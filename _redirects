@@ -16,6 +16,4 @@
 # Removed pages
 /changelog             /                   301
 /changelog/            /                   301
-
-# Catch-all 404
-/*                     /404.html           404
+# 404s handled natively via not_found_handling = "404-page" in wrangler.toml

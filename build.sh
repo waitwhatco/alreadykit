@@ -35,6 +35,8 @@ find . -maxdepth 1 \
   ! -name 'package-lock.json' \
   ! -name 'pnpm-lock.yaml' \
   ! -name 'bun.lockb' \
+  ! -name 'bun.lock' \
+  ! -name 'wrangler.toml' \
   ! -name '*.swp' \
   ! -name '*.bak' \
   -exec cp -r {} "$DIST/" \;
