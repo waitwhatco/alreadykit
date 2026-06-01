@@ -106,8 +106,8 @@
       <div class="card-eyebrow">Student discount</div>
       <h1 class="card-title">50% off with a .edu email</h1>
       <p class="card-body">
-        Enter your institutional email. We'll send a one-click verification link.
-        No account needed — just click the link and you'll land directly at checkout with the discount applied.
+        Enter your institutional email and you'll land directly at checkout with the
+        50% student discount applied. No account, no waiting.
       </p>
 
       <form id="verifyForm" novalidate>
@@ -120,7 +120,7 @@
           <input class="form-input" type="email" id="email" name="email" placeholder="ada@university.edu" autocomplete="email" required>
         </div>
         <button class="btn-submit" type="submit" id="submitBtn">
-          Send verification link
+          Get 50% off →
         </button>
       </form>
 
@@ -135,17 +135,10 @@
 
   <script>
   (function() {
-    var params = new URLSearchParams(window.location.search);
-    var error  = params.get('error');
-    if (error) {
-      var msg = document.getElementById('message');
-      msg.textContent = error === 'expired'
-        ? 'This verification link has expired. Please submit the form again.'
-        : 'Invalid verification link. Please submit the form again.';
-      msg.className = 'message error visible';
-    }
+    var CHECKOUT = 'https://buy.polar.sh/polar_cl_1kKNS0yUWB0o5pqucYfgOb8bxNdhLs6IxUHso4frKkG';
+    var DISCOUNT = 'ALREADYSTUDENT';
 
-    document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+    document.getElementById('verifyForm').addEventListener('submit', function(e) {
       e.preventDefault();
       var btn   = document.getElementById('submitBtn');
       var msg   = document.getElementById('message');
@@ -160,43 +153,23 @@
         msg.className = 'message error visible';
         return;
       }
-      if (!email.endsWith('.edu')) {
-        msg.textContent = 'Please use a .edu email address.';
+      if (!/@[^@\s]+\.edu$/.test(email)) {
+        msg.textContent = 'Please use a valid .edu email address.';
         msg.className = 'message error visible';
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Sending…';
+      btn.textContent = 'Redirecting…';
 
-      try {
-        var res  = await fetch('/api/student-verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name, email: email }),
-        });
-        var data = await res.json();
-        if (data.ok) {
-          document.getElementById('verifyForm').style.display = 'none';
-          msg.innerHTML = '<strong>Check your inbox.</strong> We sent a verification link to <strong>' + escapeHtml(email) + '</strong>. Click it to unlock your discount. The link expires in 24 hours.';
-          msg.className = 'message success visible';
-        } else {
-          msg.textContent = data.error || 'Something went wrong. Please try again.';
-          msg.className = 'message error visible';
-          btn.disabled = false;
-          btn.textContent = 'Send verification link';
-        }
-      } catch (err) {
-        msg.textContent = 'Network error. Please try again.';
-        msg.className = 'message error visible';
-        btn.disabled = false;
-        btn.textContent = 'Send verification link';
+      var url = CHECKOUT + '?discount_code=' + DISCOUNT;
+      if (window.affonso_referral) {
+        url += '&reference_id=' + window.affonso_referral;
       }
+      msg.innerHTML = '<strong>Discount applied.</strong> Taking you to checkout…';
+      msg.className = 'message success visible';
+      window.location.href = url;
     });
-
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
   })();
   </script>
   <script src="/i18n.js" defer></script>
