@@ -8,8 +8,8 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FCFCFA" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0F0F0E" media="(prefers-color-scheme: dark)">
-  <title>Student discount — Already CH 🇨🇭 CHF 149</title>
-  <meta name="description" content="Already CH is 25% off (CHF 149) for students at Swiss universities. Verify your institutional email to unlock the discount.">
+  <title>Student discount — Already CH 🇨🇭 CHF 99.50</title>
+  <meta name="description" content="Already CH is 50% off (CHF 99.50) for students at Swiss universities. Enter your institutional email to unlock the discount at checkout.">
   <link rel="canonical" href="https://alreadykit.com/ch/student/">
   <link rel="alternate" hreflang="en" href="https://alreadykit.com/ch/student/">
   <link rel="alternate" hreflang="de" href="https://alreadykit.com/ch/student/">
@@ -18,7 +18,7 @@
   <link rel="alternate" hreflang="rm" href="https://alreadykit.com/ch/student/">
   <link rel="alternate" hreflang="x-default" href="https://alreadykit.com/ch/student/">
   <meta name="robots" content="noindex">
-  <meta property="og:title" content="Student discount — Already CH — CHF 149">
+  <meta property="og:title" content="Student discount — Already CH — CHF 99.50">
   <meta property="og:url" content="https://alreadykit.com/ch/student/">
   <meta property="og:site_name" content="Already">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -142,15 +142,15 @@
     <div class="card" id="formCard">
       <div class="card-flag">🇨🇭🎓</div>
       <div class="card-eyebrow" data-i18n="student.eyebrow">Student discount</div>
-      <h1 class="card-title">Already CH for <em>CHF 149</em></h1>
+      <h1 class="card-title">Already CH for <em>CHF 99.50</em></h1>
       <p class="card-body" data-i18n="student.body" data-i18n-html>
-        25% off for students at Swiss universities and Fachhochschulen. Enter your institutional email — we send a verification link. Click it and land at checkout with the discount applied. <strong>One licence per student.</strong>
+        50% off for students at Swiss universities and Fachhochschulen. Enter your institutional email and land directly at checkout with the discount applied. <strong>One licence per student.</strong>
       </p>
 
       <div class="price-strip">
-        <span class="price-new">CHF 149</span>
+        <span class="price-new">CHF 99.50</span>
         <span class="price-old">CHF 199</span>
-        <span class="price-tag">−25%</span>
+        <span class="price-tag">−50%</span>
       </div>
 
       <form id="verifyForm" novalidate>
@@ -164,7 +164,7 @@
           <div class="form-hint">Accepted: .ch / .edu / .ac.uk / .ac.at / .edu.de · institutional only</div>
         </div>
         <button class="btn-submit" type="submit" id="submitBtn" data-i18n="student.cta_send">
-          Send verification link
+          Get 50% off →
         </button>
       </form>
 
@@ -192,16 +192,6 @@
     window.toggleTheme=function(){var n=html.getAttribute('data-theme')==='dark'?'light':'dark';html.setAttribute('data-theme',n);localStorage.setItem('al-th',n);_s();};
     function _s(){var d=html.getAttribute('data-theme')==='dark';var b=D.getElementById('themeBtn');if(b){b.textContent=d?'○':'◐';}}
     _s();
-
-    var params = new URLSearchParams(window.location.search);
-    var error  = params.get('error');
-    if (error) {
-      var msg = document.getElementById('message');
-      msg.textContent = error === 'expired'
-        ? 'This verification link has expired. Please submit the form again.'
-        : 'Invalid verification link. Please submit the form again.';
-      msg.className = 'message error visible';
-    }
 
     var ACCEPTED = ['.ch','.edu','.ac.uk','.ac.at','.edu.de','.unisg.ch','.uzh.ch','.ethz.ch','.epfl.ch','.unibas.ch','.unibe.ch','.unige.ch','.unil.ch','.unifr.ch','.unilu.ch','.unine.ch','.usi.ch','.zhaw.ch','.bfh.ch','.fhnw.ch','.hslu.ch','.hes-so.ch','.supsi.ch','.ost.ch'];
 
@@ -232,16 +222,17 @@
         return;
       }
 
-      // Client-side .edu validation, then send to the Polar Student checkout.
-      // Polar requires the academic email at checkout — we pre-fill it via the
-      // customer_email param. We re-verify the .edu on the GitHub-invite side
-      // after purchase; abuse risk is low (one-time CHF 149 product).
-      var checkoutUrl = 'https://buy.polar.sh/polar_cl_TSexUoBf0X1lc4U6sfF0NgyP2wy6trBIeQSir0KEZ1c'
-        + '?customer_email=' + encodeURIComponent(email)
+      // Client-side academic-email check, then straight to the CH Solo checkout
+      // with the 50% student discount pre-applied. Abuse risk is low for a
+      // one-time product; the GitHub invite goes to the buyer's connected account.
+      var checkoutUrl = 'https://buy.polar.sh/polar_cl_lsTDF7dMaGeZADIRzS0W58Oo3TdApbWv6P5e214mM1r'
+        + '?discount_code=ALREADYSTUDENT'
+        + '&customer_email=' + encodeURIComponent(email)
         + '&customer_name=' + encodeURIComponent(name);
+      if (window.affonso_referral) { checkoutUrl += '&reference_id=' + window.affonso_referral; }
 
       document.getElementById('verifyForm').style.display = 'none';
-      msg.innerHTML = '<strong>Looks good.</strong> Continuing to the secure Polar checkout for <strong>' + escapeHtml(email) + '</strong> — CHF 149, one-time, Merchant of Record handles your VAT.<br><br><a href="' + checkoutUrl + '" class="continue-link" target="_blank" rel="noopener">Continue to checkout →</a>';
+      msg.innerHTML = '<strong>Discount applied.</strong> Continuing to the secure Polar checkout for <strong>' + escapeHtml(email) + '</strong> — CHF 99.50, one-time, Merchant of Record handles your VAT.<br><br><a href="' + checkoutUrl + '" class="continue-link" target="_blank" rel="noopener">Continue to checkout →</a>';
       msg.className = 'message success visible';
 
       window.location.href = checkoutUrl;
