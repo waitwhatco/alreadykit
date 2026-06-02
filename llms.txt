@@ -11,6 +11,12 @@ Already is a Next.js 15 SaaS starter kit sold by wait, what. It includes 16 prod
 - All sales are final. Source code is delivered immediately on purchase.
 - Sold via Polar.sh (Merchant of Record — global tax handled).
 
+## Regional editions
+Already ships in three editions with identical features but different data-residency stacks:
+- Already (default): US-hosted stack — Supabase, Stripe, Resend, multi-provider AI (Anthropic/OpenAI/Google). https://alreadykit.com
+- Already EU: every service EU-hosted with zero US sub-processors — Supabase Frankfurt, Mollie (NL), Brevo (FR), Mistral AI (FR). GDPR DPA template listing every sub-processor included; no data crosses the Atlantic on the default stack. https://alreadykit.com/eu/
+- Already CH: Swiss-sovereign stack — Exoscale, Payrexx, TWINT, Infomaniak. nFADP-compliant; data stays in Switzerland. https://alreadykit.com/ch/
+
 ## 16 modules
 1. Auth — Supabase Auth with email/password, Google OAuth, magic links, TOTP (authenticator app), passkeys (WebAuthn), and an owner-only org setting that mandates MFA for every member
 2. Messaging — Unified notify() API across email (Resend + React Email) and in-app (Supabase Realtime)
@@ -75,7 +81,7 @@ Already's security baseline exceeds the bar set by ShipFast, Makerkit, Supastart
 - [Terms of Service](https://alreadykit.com/legal/terms): Usage terms and no-refund policy
 
 ## Contact
-- Support: already@wait-what.shop
+- Support: hi@alreadykit.com
 - Made by: wait, what.
 
 ## Optional

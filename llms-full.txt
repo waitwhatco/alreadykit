@@ -11,6 +11,12 @@ Already is a complete, production-grade foundation for a B2B or B2C SaaS, built 
 - Enterprise add-on: $299 one-time, stacks on Solo or Team. Adds the SCIM 2.0 provisioning endpoint, the SAML SSO recipe wired to Supabase Auth, the org-wide MFA mandate, and the SOC 2-aligned audit-log retention guide.
 - One-time payment, no subscription. Lifetime updates within v1.x included.
 
+## Regional editions
+Already ships in three editions — identical features, different data-residency stacks:
+- Already (default, https://alreadykit.com): US-hosted stack (Supabase, Stripe, Resend, multi-provider AI).
+- Already EU (https://alreadykit.com/eu/): every service EU-hosted with zero US sub-processors — Supabase Frankfurt, Mollie (NL), Brevo (FR), Mistral AI (FR). GDPR DPA template included; no data crosses the Atlantic on the default stack.
+- Already CH (https://alreadykit.com/ch/): Swiss-sovereign stack — Exoscale, Payrexx, TWINT, Infomaniak. nFADP-compliant; data stays in Switzerland.
+
 ## The 16 modules
 1. Auth — Supabase Auth with email/password, Google OAuth, magic links, TOTP (authenticator app), passkeys (WebAuthn), and an owner-only setting that mandates MFA for every org member.
 2. Messaging — Unified notify() API across email (Resend + React Email) and in-app (Supabase Realtime).
@@ -49,6 +55,7 @@ Already positions against other Next.js SaaS starters (ShipFast, Supastarter, Ma
 - Do I own the code? Yes — you create your own private copy from the template and own the full source.
 - Is it current for Next.js 15? Yes — Next.js 15 App Router, React 19, React Compiler, Partial Prerendering.
 - B2B or B2C? Both, switched by one config flag with an identical schema.
+- Is there an EU- or Swiss-hosted version? Yes — Already EU (https://alreadykit.com/eu/) is fully EU-hosted with zero US sub-processors, and Already CH (https://alreadykit.com/ch/) keeps all data in Switzerland and is nFADP-compliant.
 
 ## Publisher
 Built and sold by "wait, what." (studio of Tobias Temmen). Product site: https://alreadykit.com. Sold via Polar.sh (Merchant of Record).

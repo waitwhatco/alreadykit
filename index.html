@@ -88,7 +88,7 @@
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "already@wait-what.shop",
+      "email": "hi@alreadykit.com",
       "contactType": "customer support"
     }
   }
@@ -1512,6 +1512,17 @@
       line-height: 1.5;
     }
 
+    /* ─── Regional editions banner ─────────────────────── */
+    .region-banner { border-bottom: 1px solid var(--rule); padding: 40px 0; }
+    .region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 760px) { .region-grid { grid-template-columns: 1fr; } }
+    .region-card { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--rule); padding: 22px 24px; text-decoration: none; transition: border-color 0.12s, background 0.12s; }
+    .region-card:hover { border-color: var(--ink); background: var(--paper-subtle); }
+    .region-card-flag { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); }
+    .region-card-title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+    .region-card-desc { font-size: 13px; line-height: 1.6; color: var(--ink-secondary); }
+    .region-card-cta { font-family: var(--mono); font-size: 12px; color: var(--ink); margin-top: 4px; }
+
     /* ─── Site Footer ──────────────────────────────────── */
     .site-footer { border-top: 1px solid var(--rule); background: var(--paper-subtle); padding: 56px 0 0; }
     .footer-wrap { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
@@ -2023,6 +2034,14 @@
           <div class="faq-q">Is this a subscription or one-time?</div>
           <div class="faq-a"><strong>One-time payment.</strong> No recurring fees, no seat licence renewals. Updates are included.</div>
         </div>
+        <div class="faq-item">
+          <div class="faq-q">Is Already GDPR-compliant?</div>
+          <div class="faq-a">Already is built to make GDPR compliance straightforward. Supabase can be configured to store data in the EU (Frankfurt region), the anomaly detection and audit log modules use append-only tables with no undocumented data collection, and Resend is GDPR-compliant. Already ships a <a href="/checklist">GDPR checklist</a> covering data register, DPA templates, and consent handling. If you need every service EU-hosted by default, <strong><a href="/eu/">Already EU</a></strong> ships a stack with zero US sub-processors.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is there a version of Already with all data hosted in the EU or Switzerland?</div>
+          <div class="faq-a"><strong>Yes.</strong> <a href="/eu/">Already EU</a> replaces every US-hosted service with an EU equivalent — Supabase Frankfurt, Mollie (NL), Brevo (FR), Mistral AI (FR) — so no data crosses the Atlantic on the default stack, with a DPA template listing every sub-processor. For Swiss data residency, <a href="/ch/">Already CH</a> uses Exoscale, Payrexx, TWINT, and Infomaniak — nFADP-compliant, data stays in Switzerland.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -2039,7 +2058,7 @@
             Every support email gets a response. If something is broken or missing, we want to know.
           </div>
           <div class="author-links">
-            <a href="mailto:already@wait-what.shop" class="author-link">already@wait-what.shop</a>
+            <a href="mailto:hi@alreadykit.com" class="author-link">hi@alreadykit.com</a>
             <a href="https://cal.com/wait-what/already-installation" class="author-link" rel="noopener">Setup call — $49 →</a>
           </div>
         </div>
@@ -2057,7 +2076,7 @@
             </div>
           </div>
           <div class="guarantee-fine" data-i18n="home.discount_fine" data-i18n-html>
-            <a href="mailto:already@wait-what.shop?subject=discount&body=Hi%2C%20I%27d%20like%20to%20apply%20for%20the%2030%25%20discount.%0A%0A%5BPlease%20attach%20proof%3A%20.edu%20address%2C%20student%20ID%2C%20or%20DD-214%2Fmilitary%20ID%5D">already@wait-what.shop · subject "discount"</a><br>
+            <a href="mailto:hi@alreadykit.com?subject=discount&body=Hi%2C%20I%27d%20like%20to%20apply%20for%20the%2030%25%20discount.%0A%0A%5BPlease%20attach%20proof%3A%20.edu%20address%2C%20student%20ID%2C%20or%20DD-214%2Fmilitary%20ID%5D">hi@alreadykit.com · subject "discount"</a><br>
             Discount applied manually; a custom checkout link is sent within 24h.
           </div>
         </div>
@@ -2192,6 +2211,27 @@ AGENTS.md       → vendor-neutral</div>
     </div>
   </section>
 
+  <!-- Regional editions -->
+  <section class="region-banner">
+    <div class="container">
+      <div class="section-label" data-i18n="home.region_label">Data residency</div>
+      <div class="region-grid">
+        <a href="/eu/" class="region-card">
+          <span class="region-card-flag">🇪🇺 Already EU</span>
+          <span class="region-card-title" data-i18n="home.region_eu_title">Need every service EU-hosted?</span>
+          <span class="region-card-desc" data-i18n="home.region_eu_desc">Same 16 modules, zero US sub-processors: Supabase Frankfurt, Mollie, Brevo, Mistral AI. GDPR DPA template included.</span>
+          <span class="region-card-cta" data-i18n="home.region_eu_cta">Explore Already EU →</span>
+        </a>
+        <a href="/ch/" class="region-card">
+          <span class="region-card-flag">🇨🇭 Already CH</span>
+          <span class="region-card-title" data-i18n="home.region_ch_title">Need Swiss data sovereignty?</span>
+          <span class="region-card-desc" data-i18n="home.region_ch_desc">Data stays in Switzerland: Exoscale, Payrexx, TWINT, Infomaniak. nFADP-compliant out of the box.</span>
+          <span class="region-card-cta" data-i18n="home.region_ch_cta">Explore Already CH →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-wrap">
@@ -2214,6 +2254,10 @@ AGENTS.md       → vendor-neutral</div>
           <a href="/guide">Handbook</a>
           <a href="/checklist">Checklist</a>
           <a href="/calculator">Calculator</a>
+          <div class="footer-col-spacer"></div>
+          <div class="footer-col-label" data-i18n="footer.editions">Editions</div>
+          <a href="/eu/" data-i18n="footer.edition_eu">Already EU — EU-hosted</a>
+          <a href="/ch/" data-i18n="footer.edition_ch">Already CH — Swiss-sovereign</a>
         </div>
         <div class="footer-col">
           <div class="footer-col-label" data-i18n="footer.compare">Compare</div>
@@ -2235,7 +2279,7 @@ AGENTS.md       → vendor-neutral</div>
           <a href="/legal/terms" data-i18n="footer.terms">Terms of Service</a>
           <div class="footer-col-spacer"></div>
           <div class="footer-col-label" data-i18n="footer.contact">Contact</div>
-          <a href="mailto:already@wait-what.shop" data-i18n="footer.support">Support</a>
+          <a href="mailto:hi@alreadykit.com" data-i18n="footer.support">Support</a>
           <a href="https://waitwhatshop.affonso.io" rel="noopener" target="_blank">Affiliates</a>
         </div>
       </div>
