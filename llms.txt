@@ -4,8 +4,8 @@
 Already is a Next.js 15 SaaS starter kit sold by wait, what. It includes 16 production-ready modules covering every layer of a modern SaaS: authentication, billing, multi-tenant organizations, AI integration, background jobs, feature flags, security, and more. Sold as a one-time license via Polar.sh. Buyers receive an automated GitHub invite to a private repository on purchase, then click "Use this template" to create their own private copy with full source ownership. Polar acts as Merchant of Record and handles tax compliance globally. All sales are final.
 
 ## Pricing
-- Solo: $199 early-bird (1 developer seat) — standard $249 after June 24, 2026
-- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 24, 2026
+- Solo: $199 early-bird (1 developer seat) — standard $249 after June 15, 2026
+- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 15, 2026
 - Enterprise add-on: $299 one-time, stacks on Solo or Team. Adds the SCIM 2.0 provisioning endpoint, the SAML SSO recipe wired to Supabase Auth, the org-wide MFA mandate, and the SOC 2-aligned audit log retention guide.
 - One-time payment. No subscription. Lifetime updates within v1.x included.
 - All sales are final. Source code is delivered immediately on purchase.

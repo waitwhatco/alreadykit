@@ -6,8 +6,8 @@
 Already is a complete, production-grade foundation for a B2B or B2C SaaS, built on Next.js 15 (App Router, React 19, React Compiler), Supabase (Postgres, Auth, Storage, Realtime), Drizzle ORM, Stripe, Resend, shadcn/ui, and Tailwind CSS v4, deployed on Vercel. A single config flag (`config/app.ts`) switches the kit between B2B mode (organizations, org switcher, invitations) and B2C mode (one personal workspace per user) — the database schema is identical in both. Buyers receive an automated GitHub invite to a private repository on purchase, click "Use this template" to create their own private copy, and own the full source. Sold via Polar.sh, which acts as Merchant of Record and handles global tax. All sales are final; source is delivered immediately.
 
 ## Pricing
-- Solo: $199 early-bird (1 developer seat) — standard $249 after June 24, 2026.
-- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 24, 2026.
+- Solo: $199 early-bird (1 developer seat) — standard $249 after June 15, 2026.
+- Team: $399 early-bird (up to 5 developer seats) — standard $499 after June 15, 2026.
 - Enterprise add-on: $299 one-time, stacks on Solo or Team. Adds the SCIM 2.0 provisioning endpoint, the SAML SSO recipe wired to Supabase Auth, the org-wide MFA mandate, and the SOC 2-aligned audit-log retention guide.
 - One-time payment, no subscription. Lifetime updates within v1.x included.
 
