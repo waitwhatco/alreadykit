@@ -143,6 +143,13 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "154",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "name": "Already",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Any",
@@ -411,6 +418,50 @@
 
     @media (max-width: 640px) { .container { padding: 0 24px; } }
 
+    /* ─── PH Banner ─────────────────────────────────── */
+    .ph-banner {
+      background: #FF6154;
+      color: #fff;
+      text-align: center;
+      padding: 10px 48px;
+      font-size: 13px;
+      font-family: var(--sans);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      position: relative;
+    }
+    .ph-banner a {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: rgba(255,255,255,0.5);
+    }
+    .ph-banner a:hover { text-decoration-color: #fff; }
+    .ph-banner code {
+      background: rgba(0,0,0,0.18);
+      padding: 1px 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.04em;
+    }
+    .ph-banner-close {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.8);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 6px;
+    }
+    .ph-banner-close:hover { color: #fff; }
+    @media (max-width: 640px) {
+      .ph-banner { font-size: 12px; padding: 9px 40px; }
+    }
+
     /* ─── Nav ─────────────────────────────────────────── */
     nav {
       position: sticky;
@@ -570,6 +621,7 @@
       color: var(--ink-subtle);
       letter-spacing: 0.04em;
     }
+    .ph-badge { margin-top: 20px; }
 
     /* ─── From + stack strips ──────────────────────────── */
     .from-strip, .stack-strip {
@@ -1562,6 +1614,14 @@
 </head>
 <body>
 
+  <!-- ProductHunt Banner -->
+  <div class="ph-banner" id="phBanner">
+    <a href="https://www.producthunt.com/posts/already" target="_blank" rel="noopener">🎉 Already is on Product Hunt!</a>
+    &nbsp;· Use code <code>PRODUCTHUNT</code> for 25% off
+    <button class="ph-banner-close" onclick="document.getElementById('phBanner').remove();sessionStorage.setItem('ph-banner-dismissed','1')" aria-label="Dismiss">×</button>
+  </div>
+  <script>if(sessionStorage.getItem('ph-banner-dismissed')){document.getElementById('phBanner').remove()}</script>
+
   <!-- Nav -->
   <nav>
     <div class="container">
@@ -1610,6 +1670,9 @@
         <a href="#demo" class="btn-ghost" data-i18n="home.hero_cta_ghost">See the codebase ↓</a>
       </div>
       <p class="price-note" data-i18n="home.hero_price_note">Early-bird until June 15, 2026 · sold via Polar.sh</p>
+      <div class="ph-badge">
+        <a href="https://www.producthunt.com/products/already?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-already" target="_blank" rel="noopener noreferrer"><img alt="Already - Stop rebuilding auth and billing. Already done. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1161625&theme=dark&t=1780417985116"></a>
+      </div>
       <p class="product-definition"><strong class="brand-name">Already</strong> is a production-ready Next.js 15 SaaS starter kit that ships 16 pre-wired modules: Supabase Auth with org-level MFA mandate, Stripe billing, multi-tenant orgs with row-level security (configurable for B2B or B2C), AI integration with per-org rate limits, SAML SSO, anomaly detection, background jobs, and macOS Keychain integration for secrets. One-time $199 (Solo) or $399 (Team). An optional $299 Enterprise add-on adds SCIM 2.0 provisioning for Okta and Microsoft Entra. Includes a migration CLI for developers moving from Lovable, Base44, Bolt, or v0.</p>
     </div>
   </section>

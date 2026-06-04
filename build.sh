@@ -45,6 +45,9 @@ find . -maxdepth 1 \
 find "$DIST" -name "*.md" -delete 2>/dev/null || true
 find "$DIST" -name ".DS_Store" -delete 2>/dev/null || true
 
+echo "→ Normalizing SEO (hreflang, canonical, social tags, sitemap)"
+node scripts/seo-normalize.mjs "$DIST"
+
 FILE_COUNT=$(find "$DIST" -type f | wc -l | tr -d ' ')
 TOTAL_SIZE=$(du -sh "$DIST" | cut -f1)
 
@@ -59,10 +62,11 @@ if [ -n "$OVERSIZED" ]; then
   exit 1
 fi
 
-# Optional: deploy locally
+# Optional: deploy. alreadykit.com is a Cloudflare Worker (static-assets
+# binding in wrangler.toml), not Pages — deploy with `wrangler deploy`.
 if [ "${1:-}" = "--deploy" ]; then
-  echo "→ Deploying to Cloudflare Pages…"
-  npx wrangler pages deploy "$DIST" --project-name alreadykit --commit-dirty=true
+  echo "→ Deploying Worker to alreadykit.com…"
+  npx wrangler deploy
 
   if [ -x "$SCRIPT_DIR/scripts/indexnow.sh" ]; then
     echo ""
