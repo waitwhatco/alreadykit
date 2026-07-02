@@ -30,6 +30,8 @@ find . -maxdepth 1 \
   ! -name '.idea' \
   ! -name '.next' \
   ! -name '.turbo' \
+  ! -name 'graphify-out' \
+  ! -name '.DS_Store' \
   ! -name 'build.sh' \
   ! -name 'package.json' \
   ! -name 'package-lock.json' \
