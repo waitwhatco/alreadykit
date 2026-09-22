@@ -34,4 +34,6 @@ Allow: /
 Content-Signal: ai-train=yes, search=yes, ai-personalization=no, ai-retrieval=yes
 
 Sitemap: https://alreadykit.com/sitemap.xml
+Sitemap: https://alreadykit.com/eu/sitemap.xml
+Sitemap: https://alreadykit.com/ch/sitemap.xml
 Llms-txt: https://alreadykit.com/llms.txt
